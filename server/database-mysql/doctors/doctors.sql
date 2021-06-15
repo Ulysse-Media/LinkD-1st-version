@@ -1,0 +1,1 @@
+Create Table doctors(doctor_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, doctor_fname VARCHAR(20), doctor_lname VARCHAR(20), doctor_age INT NOT NULL, doctor_field VARCHAR(20));
