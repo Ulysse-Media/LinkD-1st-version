@@ -34,7 +34,6 @@ const getLastDoctor = async () => {
     }
   }
 
-
 module.exports = {
     addDoctor,
     getDoctors,
