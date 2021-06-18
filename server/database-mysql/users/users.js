@@ -31,9 +31,6 @@ const getClient = async (email) => {
     }
 }
 
-
-
-
 module.exports = {
     signupClient,
     getClients,
