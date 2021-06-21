@@ -5,10 +5,11 @@ const actionsRoute = require('./routes/actions');
 const doctorsRoute = require('./routes/doctors');
 const localisationRoute = require('./routes/localisation');
 const PORT = process.env.PORT || 5000;
+const fileUpload = require('express-fileupload');
 
 const app = express();
-
 app.use(express.json());
+app.use(fileUpload());
 
 // parse urlencoded request bodies into req.body
 app.use(express.urlencoded({
