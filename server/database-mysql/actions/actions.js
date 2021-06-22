@@ -3,7 +3,9 @@ const { sql } = require("../config/db");
 
 // Database function to insert new action  //
 const addAction = async (req) => {
-  var query = `INSERT IGNORE INTO actions (action_type, other_stuff, start_action, end_action, schedule, action_town, action_location, other_location, product, speaker, speaker_suggestion, speaker_transfer, speaker_accommodation, meeting_theme, pax_number, action_field, invited_doctors, other_doctors, comments) values ('${req.action_type}', '${req.other_stuff}', '${req.start_action}', '${req.end_action}', '${req.schedule}', '${req.action_town}', '${req.action_location}', '${req.other_location}', '${req.product}', '${req.speaker}', '${req.speaker_suggestion || null}', '${req.speaker_transfer || 0}', '${req.speaker_accommodation || 0}', '${req.meeting_theme}', '${req.pax_number}', '${req.action_field}', '${req.invited_doctors}', '${req.other_doctors}', '${req.comments}')`;
+  console.log("request",req)
+  var values = req
+  var query = `INSERT INTO actions (action_type, other_stuff, start_action, end_action, schedule, action_town, action_location, other_location, product, speaker, speaker_suggestion, speaker_transfer, speaker_accommodation, meeting_agenda, meeting_theme, pax_number, action_field, invited_doctors, other_doctors, comments) values ('${values.action_type}', '${values.other_stuff}', '${values.start_action}', '${values.end_action}', '${values.schedule}', '${values.action_town}', '${values.action_location}', '${values.other_location}', '${values.product}', '${values.speaker}', '${values.speaker_suggestion || null}', '${values.speaker_transfer || 0}', '${values.speaker_accommodation || 0}', '${values.meeting_agenda || null}', '${values.meeting_theme}', '${values.pax_number}', '${values.action_field}', '${values.invited_doctors}', '${values.other_doctors}', '${values.comments}')`;
   try {
     let action = await sql(query);
     return action;
@@ -45,22 +47,10 @@ const getActionById = async (req) => {
   }
 }
 
-// Database function to insert file upload  //
-const insertFileUpload = async (req) => {
-  console.log("my unique file",req)
-  var query = `INSERT IGNORE INTO actions (meeting_agenda) values ('${req}')`;
-  try {
-    let files = await sql(query);
-    return files;
-  } catch(err) {
-      console.log(err)
-  }
-}
 
 module.exports = {
   addAction,
   getActions,
   getActionById,
   getLastAction,
-  insertFileUpload,
 }
