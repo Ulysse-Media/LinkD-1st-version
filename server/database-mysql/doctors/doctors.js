@@ -3,7 +3,7 @@ const { sql } = require("../config/db");
 
 // Database function to insert new doctor  //
 const addDoctor = async (req) => {
-  var query = `INSERT INTO doctors (doctor_fname, doctor_lname, doctor_age, doctor_field) values ('${req.doctor_fname}', '${req.doctor_lname}', '${req.doctor_age}', '${req.doctor_field}')`;
+  var query = `INSERT INTO doctors (doctor_fname, doctor_lname, doctor_age, doctor_field, doctor_potential) values ('${req.doctor_fname}', '${req.doctor_lname}', '${req.doctor_age}', '${req.doctor_field}', '${req.doctor_potential}')`;
   try {
     let doctor = await sql(query);
     return doctor;
