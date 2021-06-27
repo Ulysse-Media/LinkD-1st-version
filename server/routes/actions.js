@@ -12,19 +12,19 @@ router.post('/', function (req, res, next) {
     var file = req.files.file;
     if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
         file.mv(`${_DIR}/calendar/${file.name}`);
-        var imgURL = `calendar/${file.name}`;
+        var imgURL = `/calendar/${file.name}`;
         body.meeting_agenda = imgURL;
+        Actions.addAction(body).then(result => {
+            try {
+                return res.json(result);
+            } catch (err) {
+                console.log(err);
+            }
+        })
     } else {
         var message = "Please upload your file";
         return res.json({ message })
     }
-    Actions.addAction(body).then(result => {
-        try {
-            return res.json(result);
-        } catch (err) {
-            console.log(err);
-        }
-    })
 });
 
 router.get('/', function (req, res, next) {
