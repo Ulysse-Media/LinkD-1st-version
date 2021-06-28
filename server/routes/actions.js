@@ -14,6 +14,7 @@ router.post('/', function (req, res, next) {
         file.mv(`${_DIR}/calendar/${file.name}`);
         var imgURL = `/calendar/${file.name}`;
         body.meeting_agenda = imgURL;
+        console.log("route",body);
         Actions.addAction(body).then(result => {
             try {
                 return res.json(result);
