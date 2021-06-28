@@ -8,18 +8,7 @@ router.post('/', function (req, res, next) {
     var body = JSON.parse(req.body.values);
     var message = "";
     if (req.method == "POST") {
-        if (!req.files) {
-            // return res.status(400).send("No files were uploaded.");
-            var imgURL = `https://www.monteirolobato.edu.br/public/assets/admin/images/avatars/avatar1_big.png`;
-            body.meeting_agenda = imgURL;
-            Actions.addAction(body).then(result => {
-                try {
-                    return res.json(result);
-                } catch (err) {
-                    console.log(err);
-                }
-            })
-        } else {
+        if (req.files) {
             var file = req.files.file;
             if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
                 file.mv(`${_DIR}/calendar/${file.name}`);
@@ -36,7 +25,19 @@ router.post('/', function (req, res, next) {
                 message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
                 return res.json({ message })
             }
-        } 
+        }
+        else {
+            var imgURL = `https://www.monteirolobato.edu.br/public/assets/admin/images/avatars/avatar1_big.png`;
+            body.meeting_agenda = imgURL;
+            Actions.addAction(body).then(result => {
+                try {
+                    return res.json(result);
+                } catch (err) {
+                    console.log(err);
+                }
+            })
+
+        }
     }
 });
 
