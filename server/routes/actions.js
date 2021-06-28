@@ -6,25 +6,37 @@ const { sql } = require("../database-mysql/config/db");
 
 router.post('/', function (req, res, next) {
     var body = JSON.parse(req.body.values);
-    if (!req.files) {
-        return res.status(400).send("No files were uploaded.");
-    }
-    var file = req.files.file;
-    if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-        file.mv(`${_DIR}/calendar/${file.name}`);
-        var imgURL = `/calendar/${file.name}`;
-        body.meeting_agenda = imgURL;
-        console.log("route",body);
-        Actions.addAction(body).then(result => {
-            try {
-                return res.json(result);
-            } catch (err) {
-                console.log(err);
+    var message = "";
+    if (req.method == "POST") {
+        if (!req.files) {
+            // return res.status(400).send("No files were uploaded.");
+            var imgURL = `https://www.monteirolobato.edu.br/public/assets/admin/images/avatars/avatar1_big.png`;
+            body.meeting_agenda = imgURL;
+            Actions.addAction(body).then(result => {
+                try {
+                    return res.json(result);
+                } catch (err) {
+                    console.log(err);
+                }
+            })
+        } else {
+            var file = req.files.file;
+            if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
+                file.mv(`${_DIR}/calendar/${file.name}`);
+                var imgURL = `/calendar/${file.name}`;
+                body.meeting_agenda = imgURL;
+                Actions.addAction(body).then(result => {
+                    try {
+                        return res.json(result);
+                    } catch (err) {
+                        console.log(err);
+                    }
+                })
+            } else {
+                message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
+                return res.json({ message })
             }
-        })
-    } else {
-        var message = "Please upload your file";
-        return res.json({ message })
+        } 
     }
 });
 
@@ -82,24 +94,24 @@ router.post('/:id', async function (req, res, next) {
   invited_doctors='${body.invited_doctors}', 
   other_doctors='${body.other_doctors}', 
   comments='${body.comments}' WHERE action_id='${req.query.action_id}'`;
-  if (!req.files) {
-    return res.status(400).send("No files were uploaded.");
-}
-var file = req.files.file;
-if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-    file.mv(`${_DIR}/calendar/${file.name}`);
-    var imgURL = `calendar/${file.name}`;
-    body.meeting_agenda = imgURL;
-} else {
-    var message = "Please upload your file";
-    return res.json({ message })
-}
-  try {
-    let action = await sql(query);
-    return res.json(action);
-  } catch (err) {
-    console.log(err)
-  } 
+    if (!req.files) {
+        return res.status(400).send("No files were uploaded.");
+    }
+    var file = req.files.file;
+    if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
+        file.mv(`${_DIR}/calendar/${file.name}`);
+        var imgURL = `calendar/${file.name}`;
+        body.meeting_agenda = imgURL;
+    } else {
+        var message = "Please upload your file";
+        return res.json({ message })
+    }
+    try {
+        let action = await sql(query);
+        return res.json(action);
+    } catch (err) {
+        console.log(err)
+    }
 });
 
 router.delete('/:id', function (req, res, next) {
