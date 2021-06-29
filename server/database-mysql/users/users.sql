@@ -1,0 +1,1 @@
+Create Table users(user_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, user_email VARCHAR(20) UNIQUE, user_password VARCHAR(200));

@@ -47,6 +47,7 @@ const getActionById = async (req) => {
 
 // Database function to update action by ID  //
 const updateActionById = async (req) => {
+  console.log("request",req)
   var query = `UPDATE actions SET 
   action_type='${req.action_type}', 
   other_stuff='${req.other_stuff}', 

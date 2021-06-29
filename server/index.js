@@ -20,7 +20,7 @@ app.use(express.static(_DIR));
 app.use(express.urlencoded({ extended: true }));
 
 // routes //
-app.use('/api/users', usersRoute);
+app.use('/auth', usersRoute);
 app.use('/api/actions', actionsRoute);
 app.use('/api/doctors', doctorsRoute);
 app.use('/api/localisations', localisationRoute);
