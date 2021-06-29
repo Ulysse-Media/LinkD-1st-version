@@ -17,9 +17,10 @@ router.post('/login', function (req, res, next) {
     Users.loginClient(req.body).then(result => {
         var user = result[0];
         let token = jwt.sign({ user_id: user.user_id }, "Secret key"); // JWT Token 
-        return res.json({user, token})
+        return res.json({ user, token })
     })
 });
+
 
 router.get('/', (req, res, next) => {
     Users.getClients(req.body).then(result => {
@@ -33,6 +34,9 @@ router.post('/user', function (req, res, next) {
     })
 });
 
-
+router.get('/logout', function (req, res, next) {
+    delete req.headers.authorization;
+    return res.json({ message : 'Logged out successfully' });
+});
 
 module.exports = router;
