@@ -16,8 +16,13 @@ router.post('/signup', function (req, res, next) {
 router.post('/login', function (req, res, next) {
     Users.loginClient(req.body).then(result => {
         var user = result[0];
-        let token = jwt.sign({ user_id: user.user_id }, "Secret key"); // JWT Token 
-        return res.json({ user, token })
+        if(user) {
+            delete user.user_password;
+            let token = jwt.sign({ user_id: user.user_id }, "Secret key"); // JWT Token 
+            return res.json({ user, token })
+        } else {
+            res.json(result.alert)
+        }
     })
 });
 
