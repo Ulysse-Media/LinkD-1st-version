@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Doctors = require("../database-mysql/doctors/doctors");
 
+// Api to post new doctor to database
 router.post('/', function (req, res, next) {
     Doctors.addDoctor(req.body).then(result => {
         try {
@@ -12,6 +13,7 @@ router.post('/', function (req, res, next) {
     })
 });
 
+// Api to retrieve all doctors from database
 router.get('/', function (req, res, next) {
     Doctors.getDoctors().then(result => {
         try {
