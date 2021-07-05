@@ -76,6 +76,19 @@ router.get('/:id', function (req, res, next) {
     })
 });
 
+// Api to retrieve action by user ID
+router.get('/:user', function (req, res, next) {
+    console.log(req)
+    Actions.getActionByUserId(req.query.user_id).then(result => {
+        console.log(result)
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
 // Api to update action by ID
 router.post('/:id', async function (req, res, next) {
     var body = JSON.parse(req.body.values);
