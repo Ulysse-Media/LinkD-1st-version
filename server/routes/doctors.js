@@ -24,6 +24,7 @@ router.get('/', function (req, res, next) {
     })
 });
 
+// Api to retrieve last doctor from database
 router.get('/last', function (req, res, next) {
     Doctors.getLastDoctor().then(result => {
         try {

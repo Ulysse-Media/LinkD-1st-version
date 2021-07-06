@@ -3,6 +3,7 @@ require('dotenv').config();
 const usersRoute = require('./routes/users');
 const actionsRoute = require('./routes/actions');
 const doctorsRoute = require('./routes/doctors');
+const actionsUserRoute = require('./routes/actionsUser');
 const localisationRoute = require('./routes/localisation');
 const PORT = process.env.PORT || 5000;
 const fileUpload = require('express-fileupload');
@@ -29,6 +30,7 @@ app.use(flash());
 // routes //
 app.use('/auth', usersRoute);
 app.use('/api/actions', actionsRoute);
+app.use('/api/actions/user', actionsUserRoute);
 app.use('/api/doctors', doctorsRoute);
 app.use('/api/localisations', localisationRoute);
 

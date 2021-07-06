@@ -47,7 +47,6 @@ const getActionById = async (req) => {
 
 // Database function to retrieve action by ID  //
 const getActionByUserId = async (req) => {
-  console.log(req)
   var query = `Select * from actions where user_id='${req}'`;
   try {
     let actions = await sql(query);
@@ -59,7 +58,7 @@ const getActionByUserId = async (req) => {
 
 // Database function to update action by ID  //
 const updateActionById = async (req) => {
-  console.log("request",req)
+  console.log("request", req)
   var query = `UPDATE actions SET 
   action_type='${req.action_type}', 
   other_stuff='${req.other_stuff}', 
@@ -84,8 +83,19 @@ const updateActionById = async (req) => {
   try {
     let action = await sql(query);
     return action;
-  } catch(err) {
-      console.log(err)
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to update status of action by ID  //
+const validateActionById = async (req) => {
+  var query = `UPDATE actions SET status='validé' WHERE action_id='${req}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
   }
 }
 
@@ -108,5 +118,6 @@ module.exports = {
   getActionByUserId,
   getLastAction,
   updateActionById,
+  validateActionById,
   deleteActionById,
 }
