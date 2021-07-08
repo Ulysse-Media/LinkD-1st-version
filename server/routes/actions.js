@@ -76,16 +76,7 @@ router.get('/:id', function (req, res, next) {
     })
 });
 
-router.get('/:user_id', function (req, res, next) {
-    Actions.getActionByUserId(req.query.user_id).then(result => {
-        console.log(result)
-        try {
-            return res.json(result);
-        } catch (err) {
-            console.log(err)
-        }
-    })
-});
+
 
 // Api to update action by ID
 router.post('/:id', async function (req, res, next) {

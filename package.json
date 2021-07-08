@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js"
+    "start": "nodemon server/index.js"
   },
   "author": "Yassine Knaizia",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
-    "nodemailer": "^6.6.2"
+    "nodemailer": "^6.6.2",
+    "nodemon": "^2.0.9"
   }
 }

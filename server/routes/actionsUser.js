@@ -13,9 +13,20 @@ router.get('/:user_id', function (req, res, next) {
     })
 });
 
-// Api to Login user
-router.post('/status', function (req, res, next) {
+// Api to validate action by ID
+router.post('/validated', function (req, res, next) {
     Actions.validateActionById(req.query.action_id).then((result, error) => {
+        if (result) {
+            return res.json(result);
+        } else {
+            console.log("error", error)
+        }
+    })
+});
+
+// Api to validate action by ID
+router.post('/denied', function (req, res, next) {
+    Actions.denyActionById(req.query.action_id).then((result, error) => {
         if (result) {
             return res.json(result);
         } else {

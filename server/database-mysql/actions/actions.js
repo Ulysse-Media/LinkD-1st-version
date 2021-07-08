@@ -89,8 +89,19 @@ const updateActionById = async (req) => {
 }
 
 // Database function to update status of action by ID  //
+const denyActionById = async (req) => {
+  var query = `UPDATE actions SET status='Refusé' WHERE action_id='${req}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to update status of action by ID  //
 const validateActionById = async (req) => {
-  var query = `UPDATE actions SET status='validé' WHERE action_id='${req}'`;
+  var query = `UPDATE actions SET status='Validé' WHERE action_id='${req}'`;
   try {
     let action = await sql(query);
     return action;
@@ -119,5 +130,6 @@ module.exports = {
   getLastAction,
   updateActionById,
   validateActionById,
+  denyActionById,
   deleteActionById,
 }
