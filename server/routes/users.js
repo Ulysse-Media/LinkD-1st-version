@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const async = require('async');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const { connection } = require("../database-mysql/config/connect");
 
 // Api to register user
 router.post('/signup', function (req, res, next) {
