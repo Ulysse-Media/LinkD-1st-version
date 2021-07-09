@@ -77,6 +77,17 @@ const getClientByEmail = async (req) => {
     }
 }
 
+// Database function to retrieve client by it's Email adress  //
+const getClientByMail = async (req) => {
+    var query = `Select * from users where user_email='${req}'`;
+    try {
+        let user = await sql(query);
+        return user;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 // Database function to save client forgot password crendentials  //
 const saveClientResetCredentials = async (req) => {
     var query = `UPDATE users Set resetPasswordToken='${req.resetPasswordToken}', resetPasswordExpires='${req.resetPasswordExpires}' WHERE user_email='${req.user_email}'`;
@@ -118,6 +129,7 @@ module.exports = {
     getClients,
     getClient,
     getClientByEmail,
+    getClientByMail,
     getClientByResetPasswordToken,
     saveClientResetCredentials,
     updateClientPassword
