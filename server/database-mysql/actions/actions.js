@@ -3,7 +3,7 @@ const { sql } = require("../config/db");
 
 // Database function to insert new action  //
 const addAction = async (req) => {
-  var query = `INSERT INTO actions (user_id, action_type, other_stuff, start_action, end_action, schedule, action_town, action_location, other_location, product, speaker, speaker_suggestion, speaker_transfer, speaker_accommodation, meeting_agenda, meeting_theme, pax_number, action_field, invited_doctors, other_doctors, comments) values ('${req.user_id}', '${req.action_type}', '${req.other_stuff}', '${req.start_action}', '${req.end_action}', '${req.schedule}', '${req.action_town}', '${req.action_location}', '${req.other_location}', '${req.product}', '${req.speaker}', '${req.speaker_suggestion || null}', '${req.speaker_transfer || 0}', '${req.speaker_accommodation || 0}', '${req.meeting_agenda || null}', '${req.meeting_theme}', '${req.pax_number}', '${req.action_field}', '${req.invited_doctors}', '${req.other_doctors}', '${req.comments}')`;
+  var query = `INSERT INTO actions (user_id, user_position, user_email, action_type, other_stuff, start_action, end_action, schedule, action_town, action_location, other_location, product, speaker, speaker_suggestion, speaker_transfer, speaker_accommodation, meeting_agenda, meeting_theme, pax_number, action_field, invited_doctors, other_doctors, comments) values ('${req.user_id}', '${req.user_position}', '${req.user_email}', '${req.action_type}', '${req.other_stuff}', '${req.start_action}', '${req.end_action}', '${req.schedule}', '${req.action_town}', '${req.action_location}', '${req.other_location}', '${req.product}', '${req.speaker}', '${req.speaker_suggestion || null}', '${req.speaker_transfer || 0}', '${req.speaker_accommodation || 0}', '${req.meeting_agenda || null}', '${req.meeting_theme}', '${req.pax_number}', '${req.action_field}', '${req.invited_doctors}', '${req.other_doctors}', '${req.comments}')`;
   try {
     let action = await sql(query);
     return action;
@@ -56,6 +56,29 @@ const getActionByUserId = async (req) => {
   }
 }
 
+// Database function to retrieve action by ID  //
+const getActionByUserPosition = async (req) => {
+  var query = `Select * from actions where user_position=${req}`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to retrieve action by ID  //
+const getActionByStatus = async (req) => {
+  var query = `Select * from actions where status='${req}'`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+
 // Database function to update action by ID  //
 const updateActionById = async (req) => {
   var query = `UPDATE actions SET 
@@ -87,9 +110,10 @@ const updateActionById = async (req) => {
   }
 }
 
+
 // Database function to update status of action by ID  //
-const denyActionById = async (req) => {
-  var query = `UPDATE actions SET status='Refusé' WHERE action_id='${req}'`;
+const validateVMActionById = async (req) => {
+  var query = `UPDATE actions SET status='En attente de validation DSM' WHERE action_id='${req}'`;
   try {
     let action = await sql(query);
     return action;
@@ -99,8 +123,31 @@ const denyActionById = async (req) => {
 }
 
 // Database function to update status of action by ID  //
-const validateActionById = async (req) => {
+const validateDSMActionById = async (req) => {
+  var query = `UPDATE actions SET status='En attente de validation CDP' WHERE action_id='${req}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+
+// Database function to update status of action by ID  //
+const validateCDPActionById = async (req) => {
   var query = `UPDATE actions SET status='Validé' WHERE action_id='${req}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to update status of action by ID  //
+const denyActionById = async (req) => {
+  var query = `UPDATE actions SET status='Refusé' WHERE action_id='${req}'`;
   try {
     let action = await sql(query);
     return action;
@@ -127,8 +174,12 @@ module.exports = {
   getActionById,
   getActionByUserId,
   getLastAction,
+  getActionByUserPosition,
+  getActionByStatus,
   updateActionById,
-  validateActionById,
+  validateDSMActionById,
+  validateVMActionById,
+  validateCDPActionById,
   denyActionById,
   deleteActionById,
 }

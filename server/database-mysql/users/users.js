@@ -101,7 +101,8 @@ const saveClientResetCredentials = async (req) => {
 
 // Database function to update client password   //
 const updateClientPassword = async (req) => {
-    var hash = bcrypt.hashSync(req.user_password, salt);
+    const password = req.user_password;
+    var hash = await bcrypt.hashSync(password, salt);
     var query = `UPDATE users Set user_password='${hash}', resetPasswordToken='${req.resetPasswordToken}', resetPasswordExpires='${req.resetPasswordExpires}' WHERE user_email='${req.user_email}'`;
     try {
         let user = await sql(query);
@@ -123,6 +124,7 @@ const getClientByResetPasswordToken = async (req) => {
 }
 
 
+
 module.exports = {
     signupClient,
     loginClient,
@@ -132,5 +134,5 @@ module.exports = {
     getClientByMail,
     getClientByResetPasswordToken,
     saveClientResetCredentials,
-    updateClientPassword
+    updateClientPassword,
 }

@@ -39,7 +39,7 @@ router.get('/', (req, res, next) => {
 });
 
 // Api to retrive user by it's ID
-router.post('/user', function (req, res, next) {
+router.post('/:user_id', function (req, res, next) {
     Users.getClient(req.query.user_id).then(result => {
         return res.json(result);
     })
@@ -71,9 +71,10 @@ router.post('/forgot', function (req, res, next) {
                     req.body.resetPasswordToken = token
                     req.body.resetPasswordExpires = Date.now() + 3600000; // 1 hour
                     Users.saveClientResetCredentials(req.body).then((result, err) => {
-                        if(result) {
+                        if (result) {
                             Users.getClientByEmail(req.body).then((usr, error) => {
-                                if(usr[0]) {
+                                if (usr[0]) {
+                                    delete usr[0].user_password
                                     done(err, token, usr);
                                     return res.json(usr[0])
                                 } else {
@@ -129,8 +130,6 @@ router.post('/reset/:token', function (req, res) {
                     return res.redirect('/forgot');
                 }
                 req.body.user_email = user[0].user_email;
-                req.body.resetPasswordToken = undefined;
-                req.body.resetPasswordExpires = undefined;
                 Users.updateClientPassword(req.body).then((user, err, next) => {
                     if (err) {
                         console.log(err);
@@ -139,7 +138,9 @@ router.post('/reset/:token', function (req, res) {
                         Users.loginClient(req.body).then((user, error) => {
                             var usr = user[0];
                             if (usr) {
-                                delete usr.user_password;
+                                usr.resetPasswordToken = undefined;
+                                usr.resetPasswordExpires = undefined;
+                                usr.user_password = req.body.user_password;
                                 let token = jwt.sign({ user_id: usr.user_id }, "Secret key"); // JWT Token
                                 done(err, usr, token);
                             } else {
@@ -151,7 +152,7 @@ router.post('/reset/:token', function (req, res) {
             });
         },
         function (user, token, done) {
-            if(user){
+            if (user) {
                 var smtpTrans = nodemailer.createTransport({
                     service: 'Gmail',
                     auth: {
@@ -169,9 +170,9 @@ router.post('/reset/:token', function (req, res) {
                 smtpTrans.sendMail(mailOptions, function (err) {
                     done(err);
                 });
-                return res.json({user, token})
+                return res.json({ user, token })
             } else {
-              console.log("not found");  
+                console.log("not found");
             }
         }
     ], function (err) {
