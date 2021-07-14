@@ -23,7 +23,7 @@ const getActions = async () => {
   }
 }
 
-// Database function to retrieve all actions  //
+// Database function to retrieve last action  //
 const getLastAction = async () => {
   var query = `SELECT * FROM actions ORDER BY action_id DESC LIMIT 1`;
   try {
@@ -45,7 +45,7 @@ const getActionById = async (action_id) => {
   }
 }
 
-// Database function to retrieve action by ID  //
+// Database function to retrieve action by user ID  //
 const getActionByUserId = async (user_id) => {
   var query = `Select * from actions where user_id='${user_id}'`;
   try {
@@ -56,7 +56,7 @@ const getActionByUserId = async (user_id) => {
   }
 }
 
-// Database function to retrieve action by ID  //
+// Database function to retrieve action by user position  //
 const getActionByUserPosition = async (user_position) => {
   var query = `Select * from actions where user_position=${user_position}`;
   try {
@@ -67,7 +67,7 @@ const getActionByUserPosition = async (user_position) => {
   }
 }
 
-// Database function to retrieve action by ID  //
+// Database function to retrieve action by status  //
 const getActionByStatus = async (status) => {
   var query = `Select * from actions where status='${status}'`;
   try {
@@ -78,7 +78,7 @@ const getActionByStatus = async (status) => {
   }
 }
 
-// Database function to retrieve validated action by user ID  //
+// Database function to retrieve from DSM validated action by user ID  //
 const getDSMValidatedActions = async (user_id) => {
   var query = `Select * from actions where DSM_validation='${user_id}'`;
   try {
@@ -89,7 +89,7 @@ const getDSMValidatedActions = async (user_id) => {
   }
 }
 
-// Database function to retrieve validated action by user ID  //
+// Database function to retrieve from CDP validated action by user ID  //
 const getCDPValidatedActions = async (user_id) => {
   var query = `Select * from actions where CDP_validation='${user_id}'`;
   try {
@@ -100,7 +100,7 @@ const getCDPValidatedActions = async (user_id) => {
   }
 }
 
-// Database function to retrieve rejected action by user ID  //
+// Database function to retrieve from DSM rejected action by user ID  //
 const getDSMRejectedActions = async (user_id) => {
   var query = `Select * from actions where DSM_rejection='${user_id}'`;
   try {
@@ -111,7 +111,7 @@ const getDSMRejectedActions = async (user_id) => {
   }
 }
 
-// Database function to retrieve rejected action by user ID  //
+// Database function to retrieve from CDP rejected action by user ID  //
 const getCDPRejectedActions = async (user_id) => {
   var query = `Select * from actions where CDP_rejection='${user_id}'`;
   try {
@@ -155,7 +155,7 @@ const updateActionById = async (req) => {
 }
 
 
-// Database function to update status of action by ID  //
+// Database function to validate from VM action by ID  //
 const validateVMActionById = async (action_id, user_email, user_id) => {
   var query = `UPDATE actions SET status='En attente de validation DSM', VM_validation='${user_id}' WHERE action_id='${action_id}'`;
   try {
@@ -166,7 +166,7 @@ const validateVMActionById = async (action_id, user_email, user_id) => {
   }
 }
 
-// Database function to update status of action by ID  //
+// Database function to validate from DSM action by ID  //
 const validateDSMActionById = async (action_id, user_email, user_id) => {
   var query = `UPDATE actions SET status='En attente de validation CDP', DSM_validation='${user_id}' WHERE action_id='${action_id}'`;
   try {
@@ -178,7 +178,7 @@ const validateDSMActionById = async (action_id, user_email, user_id) => {
 }
 
 
-// Database function to update status of action by ID  //
+// Database function to validate from CDP action by ID  //
 const validateCDPActionById = async (action_id, user_email, user_id) => {
   var query = `UPDATE actions SET status='Validé', CDP_validation='${user_id}' WHERE action_id='${action_id}'`;
   try {
@@ -189,7 +189,7 @@ const validateCDPActionById = async (action_id, user_email, user_id) => {
   }
 }
 
-// Database function to update status of action by ID  //
+// Database function to reject DSM action to rejected by ID  //
 const denyDSMActionById = async (action_id, user_id) => {
   var query = `UPDATE actions SET status='Refusé', DSM_rejection='${user_id}' WHERE action_id='${action_id}'`;
   try {
@@ -200,7 +200,7 @@ const denyDSMActionById = async (action_id, user_id) => {
   }
 }
 
-// Database function to update status of action by ID  //
+// Database function reject CDP action to rejected by ID  //
 const denyCDPActionById = async (action_id, user_id) => {
   var query = `UPDATE actions SET status='Refusé', CDP_rejection='${user_id}' WHERE action_id='${action_id}'`;
   try {
@@ -211,7 +211,7 @@ const denyCDPActionById = async (action_id, user_id) => {
   }
 }
 
-// Database function to delete action by ID  //
+// Database function to delete action by ID from VM //
 const deleteActionById = async (action_id) => {
   var query = `DELETE from actions where action_id='${action_id}'`;
   try {

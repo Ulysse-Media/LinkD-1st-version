@@ -89,6 +89,17 @@ const saveClientResetCredentials = async (req) => {
     }
 }
 
+// Database function to update client avatar   //
+const updateClientAvatar = async (user_id, user_avatar) => {
+    var query = `UPDATE users Set user_avatar='${user_avatar}' WHERE user_email='${user_id}'`;
+    try {
+        let user = await sql(query);
+        return user;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 // Database function to update client password   //
 const updateClientPassword = async (req) => {
     const password = req.user_password;
@@ -124,5 +135,6 @@ module.exports = {
     getClientByEmail,
     getClientByResetPasswordToken,
     saveClientResetCredentials,
+    updateClientAvatar,
     updateClientPassword,
 }

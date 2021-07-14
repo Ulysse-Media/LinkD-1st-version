@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const Actions = require("../database-mysql/actions/actions");
-const Users = require("../database-mysql/users/users");
 const nodemailer = require('nodemailer');
 
 // Api to retrieve action by user ID
@@ -184,7 +183,7 @@ router.post('/CDPvalidated', function (req, res, next) {
     })
 });
 
-// Api to validate action by ID
+// Api to reject DSM action by ID
 router.post('/DSMdenied', function (req, res, next) {
     Actions.denyDSMActionById(req.query.action_id, req.query.user_id).then((result, error) => {
         if (result) {
@@ -195,7 +194,7 @@ router.post('/DSMdenied', function (req, res, next) {
     })
 });
 
-// Api to validate action by ID
+// Api to reject CDP action by ID
 router.post('/CDPdenied', function (req, res, next) {
     Actions.denyCDPActionById(req.query.action_id, req.query.user_id).then((result, error) => {
         if (result) {
