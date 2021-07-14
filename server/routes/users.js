@@ -40,8 +40,12 @@ router.get('/', (req, res, next) => {
 
 // Api to retrive user by it's ID
 router.post('/:user_id', function (req, res, next) {
-    Users.getClient(req.query.user_id).then(result => {
-        return res.json(result);
+    Users.getClient(req.query.user_id).then((result, error) => {
+        if(result) {
+            delete result[0].user_password;
+            return res.json(result)
+        }
+        console.log("error", error)
     })
 });
 

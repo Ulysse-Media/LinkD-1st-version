@@ -56,8 +56,8 @@ const getClients = async () => {
 }
 
 // Database function to retrieve client by it's ID  //
-const getClient = async (req) => {
-    var query = `Select * from users where user_id='${req}'`;
+const getClient = async (user_id) => {
+    var query = `Select * from users where user_id='${user_id}'`;
     try {
         let user = await sql(query);
         return user;
@@ -67,8 +67,8 @@ const getClient = async (req) => {
 }
 
 // Database function to retrieve client by it's Email adress  //
-const getClientByEmail = async (req) => {
-    var query = `Select * from users where user_email='${req.user_email}'`;
+const getClientByEmail = async (user_email) => {
+    var query = `Select * from users where user_email='${user_email}'`;
     try {
         let user = await sql(query);
         return user;
@@ -77,16 +77,6 @@ const getClientByEmail = async (req) => {
     }
 }
 
-// Database function to retrieve client by it's Email adress  //
-const getClientByMail = async (req) => {
-    var query = `Select * from users where user_email='${req}'`;
-    try {
-        let user = await sql(query);
-        return user;
-    } catch (err) {
-        console.log(err)
-    }
-}
 
 // Database function to save client forgot password crendentials  //
 const saveClientResetCredentials = async (req) => {
@@ -112,9 +102,10 @@ const updateClientPassword = async (req) => {
     }
 }
 
+
 // Database function to retrieve client by it's Email adress  //
-const getClientByResetPasswordToken = async (req) => {
-    var query = `Select * from users where resetPasswordToken='${req}'`;
+const getClientByResetPasswordToken = async (resetPasswordToken) => {
+    var query = `Select * from users where resetPasswordToken='${resetPasswordToken}'`;
     try {
         let user = await sql(query);
         return user;
@@ -131,7 +122,6 @@ module.exports = {
     getClients,
     getClient,
     getClientByEmail,
-    getClientByMail,
     getClientByResetPasswordToken,
     saveClientResetCredentials,
     updateClientPassword,

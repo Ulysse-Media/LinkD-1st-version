@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Actions = require("../database-mysql/actions/actions");
+const Users = require("../database-mysql/users/users");
 const nodemailer = require('nodemailer');
 
 // Api to retrieve action by user ID
@@ -25,7 +26,7 @@ router.get('/position/:user_position', function (req, res, next) {
     })
 });
 
-// Api to retrieve action by user ID
+// Api to retrieve action by status 
 router.get('/validation/:status', function (req, res, next) {
     Actions.getActionByStatus(req.query.status).then(result => {
         try {
@@ -36,9 +37,53 @@ router.get('/validation/:status', function (req, res, next) {
     })
 });
 
+// Api to retrieve DSM validated action by user ID 
+router.get('/validation/DSMvalidated/:user_id', function (req, res, next) {
+    Actions.getDSMValidatedActions(req.query.user_id).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
+// Api to retrieve CDP validated action by user ID 
+router.get('/validation/CDPvalidated/:user_id', function (req, res, next) {
+    Actions.getCDPValidatedActions(req.query.user_id).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
+// Api to retrieve DSM rejected action by user ID 
+router.get('/rejection/DSMrejected/:user_id', function (req, res, next) {
+    Actions.getDSMRejectedActions(req.query.user_id).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
+// Api to retrieve CDP rejected action by user ID 
+router.get('/rejection/CDPrejected/:user_id', function (req, res, next) {
+    Actions.getCDPRejectedActions(req.query.user_id).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
 // Api to validate VM action by ID
 router.post('/VMvalidated', function (req, res, next) {
-    Actions.validateVMActionById(req.query.action_id, req.query.user_email).then((result, error) => {
+    Actions.validateVMActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
         Actions.getActionById(req.query.action_id).then((action, error) => {
             if (result) {
                 var smtpTrans = nodemailer.createTransport({
@@ -72,7 +117,7 @@ router.post('/VMvalidated', function (req, res, next) {
 
 // Api to validate DSM action by ID
 router.post('/DSMvalidated', function (req, res, next) {
-    Actions.validateDSMActionById(req.query.action_id, req.query.user_email).then((result, error) => {
+    Actions.validateDSMActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
         Actions.getActionById(req.query.action_id).then((action, error) => {
             if (result) {
                 var smtpTrans = nodemailer.createTransport({
@@ -107,7 +152,7 @@ router.post('/DSMvalidated', function (req, res, next) {
 
 // Api to validate CDP action by ID
 router.post('/CDPvalidated', function (req, res, next) {
-    Actions.validateCDPActionById(req.query.action_id, req.query.user_email).then((result, error) => {
+    Actions.validateCDPActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
         Actions.getActionById(req.query.action_id).then((action, error) => {
             if (result) {
                 var smtpTrans = nodemailer.createTransport({
@@ -140,8 +185,19 @@ router.post('/CDPvalidated', function (req, res, next) {
 });
 
 // Api to validate action by ID
-router.post('/denied', function (req, res, next) {
-    Actions.denyActionById(req.query.action_id).then((result, error) => {
+router.post('/DSMdenied', function (req, res, next) {
+    Actions.denyDSMActionById(req.query.action_id, req.query.user_id).then((result, error) => {
+        if (result) {
+            return res.json(result);
+        } else {
+            console.log("error", error)
+        }
+    })
+});
+
+// Api to validate action by ID
+router.post('/CDPdenied', function (req, res, next) {
+    Actions.denyCDPActionById(req.query.action_id, req.query.user_id).then((result, error) => {
         if (result) {
             return res.json(result);
         } else {

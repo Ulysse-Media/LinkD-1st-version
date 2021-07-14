@@ -35,8 +35,8 @@ const getLastAction = async () => {
 }
 
 // Database function to retrieve action by ID  //
-const getActionById = async (req) => {
-  var query = `Select * from actions where action_id='${req}'`;
+const getActionById = async (action_id) => {
+  var query = `Select * from actions where action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action[0];
@@ -46,8 +46,8 @@ const getActionById = async (req) => {
 }
 
 // Database function to retrieve action by ID  //
-const getActionByUserId = async (req) => {
-  var query = `Select * from actions where user_id='${req}'`;
+const getActionByUserId = async (user_id) => {
+  var query = `Select * from actions where user_id='${user_id}'`;
   try {
     let actions = await sql(query);
     return actions;
@@ -57,8 +57,8 @@ const getActionByUserId = async (req) => {
 }
 
 // Database function to retrieve action by ID  //
-const getActionByUserPosition = async (req) => {
-  var query = `Select * from actions where user_position=${req}`;
+const getActionByUserPosition = async (user_position) => {
+  var query = `Select * from actions where user_position=${user_position}`;
   try {
     let actions = await sql(query);
     return actions;
@@ -68,8 +68,52 @@ const getActionByUserPosition = async (req) => {
 }
 
 // Database function to retrieve action by ID  //
-const getActionByStatus = async (req) => {
-  var query = `Select * from actions where status='${req}'`;
+const getActionByStatus = async (status) => {
+  var query = `Select * from actions where status='${status}'`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to retrieve validated action by user ID  //
+const getDSMValidatedActions = async (user_id) => {
+  var query = `Select * from actions where DSM_validation='${user_id}'`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to retrieve validated action by user ID  //
+const getCDPValidatedActions = async (user_id) => {
+  var query = `Select * from actions where CDP_validation='${user_id}'`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to retrieve rejected action by user ID  //
+const getDSMRejectedActions = async (user_id) => {
+  var query = `Select * from actions where DSM_rejection='${user_id}'`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to retrieve rejected action by user ID  //
+const getCDPRejectedActions = async (user_id) => {
+  var query = `Select * from actions where CDP_rejection='${user_id}'`;
   try {
     let actions = await sql(query);
     return actions;
@@ -112,8 +156,8 @@ const updateActionById = async (req) => {
 
 
 // Database function to update status of action by ID  //
-const validateVMActionById = async (req) => {
-  var query = `UPDATE actions SET status='En attente de validation DSM' WHERE action_id='${req}'`;
+const validateVMActionById = async (action_id, user_email, user_id) => {
+  var query = `UPDATE actions SET status='En attente de validation DSM', VM_validation='${user_id}' WHERE action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -123,8 +167,8 @@ const validateVMActionById = async (req) => {
 }
 
 // Database function to update status of action by ID  //
-const validateDSMActionById = async (req) => {
-  var query = `UPDATE actions SET status='En attente de validation CDP' WHERE action_id='${req}'`;
+const validateDSMActionById = async (action_id, user_email, user_id) => {
+  var query = `UPDATE actions SET status='En attente de validation CDP', DSM_validation='${user_id}' WHERE action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -135,8 +179,8 @@ const validateDSMActionById = async (req) => {
 
 
 // Database function to update status of action by ID  //
-const validateCDPActionById = async (req) => {
-  var query = `UPDATE actions SET status='Validé' WHERE action_id='${req}'`;
+const validateCDPActionById = async (action_id, user_email, user_id) => {
+  var query = `UPDATE actions SET status='Validé', CDP_validation='${user_id}' WHERE action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -146,8 +190,19 @@ const validateCDPActionById = async (req) => {
 }
 
 // Database function to update status of action by ID  //
-const denyActionById = async (req) => {
-  var query = `UPDATE actions SET status='Refusé' WHERE action_id='${req}'`;
+const denyDSMActionById = async (action_id, user_id) => {
+  var query = `UPDATE actions SET status='Refusé', DSM_rejection='${user_id}' WHERE action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to update status of action by ID  //
+const denyCDPActionById = async (action_id, user_id) => {
+  var query = `UPDATE actions SET status='Refusé', CDP_rejection='${user_id}' WHERE action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -157,8 +212,8 @@ const denyActionById = async (req) => {
 }
 
 // Database function to delete action by ID  //
-const deleteActionById = async (req) => {
-  var query = `DELETE from actions where action_id='${req}'`;
+const deleteActionById = async (action_id) => {
+  var query = `DELETE from actions where action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -176,10 +231,15 @@ module.exports = {
   getLastAction,
   getActionByUserPosition,
   getActionByStatus,
+  getDSMValidatedActions,
+  getCDPValidatedActions,
+  getDSMRejectedActions,
+  getCDPRejectedActions,
   updateActionById,
   validateDSMActionById,
   validateVMActionById,
   validateCDPActionById,
-  denyActionById,
+  denyDSMActionById,
+  denyCDPActionById,
   deleteActionById,
 }
