@@ -69,6 +69,7 @@ router.get('/last', function (req, res, next) {
 router.get('/:id', function (req, res, next) {
     Actions.getActionById(req.query.action_id).then(result => {
         try {
+            socket.emit("FromAPI", response);
             return res.json(result);
         } catch (err) {
             console.log(err)
@@ -155,5 +156,11 @@ router.delete('/:id', function (req, res, next) {
         }
     })
 });
+
+const fetchNotifications = socket => {
+    const response = new Date();
+    // Emitting a new message. Will be consumed by the client
+    socket.emit("FromAPI", response);
+  };
 
 module.exports = router;
