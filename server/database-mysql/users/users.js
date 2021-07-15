@@ -1,6 +1,7 @@
 const { sql } = require("../config/db");
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
+const _DIR = "../../../server/public";
 
 // Database function to insert new client  //
 const signupClient = async (req) => {
@@ -91,7 +92,7 @@ const saveClientResetCredentials = async (req) => {
 
 // Database function to update client avatar   //
 const updateClientAvatar = async (user_id, user_avatar) => {
-    var query = `UPDATE users Set user_avatar='${user_avatar}' WHERE user_email='${user_id}'`;
+    var query = `UPDATE users Set user_avatar='${user_avatar}' WHERE user_id='${user_id}'`;
     try {
         let user = await sql(query);
         return user;

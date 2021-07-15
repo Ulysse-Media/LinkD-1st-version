@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const async = require('async');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+const _DIR = "./server/public";
 
 // Api to register user
 router.post('/signup', function (req, res, next) {
@@ -42,7 +43,6 @@ router.get('/', (req, res, next) => {
 router.post('/:user_id', function (req, res, next) {
     Users.getClient(req.query.user_id).then((result, error) => {
         if (result) {
-            delete result[0].user_password;
             return res.json(result)
         }
         console.log("error", error)
@@ -59,7 +59,7 @@ router.post('/editProfile/:user_id', function (req, res, next) {
             if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
                 file.mv(`${_DIR}/edit-profile/${file.name}`);
                 imgURL = `/edit-profile/${file.name}`;
-                Users.updateClientAvatar(imgURL, req.query.user_id).then(result => {
+                Users.updateClientAvatar(req.query.user_id, imgURL).then(result => {
                     try {
                         return res.json(result);
                     } catch (err) {
