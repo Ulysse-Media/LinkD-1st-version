@@ -156,10 +156,6 @@ router.delete('/:id', function (req, res, next) {
     })
 });
 
-const fetchNotifications = socket => {
-    const response = new Date();
-    // Emitting a new message. Will be consumed by the client
-    socket.emit("FromAPI", response);
-  };
+
 
 module.exports = router;
