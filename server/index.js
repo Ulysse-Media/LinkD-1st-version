@@ -73,8 +73,8 @@ app.use('/api/actions', actionsRoute);
 app.use('/api/actions/user', actionsUserRoute);
 app.use('/api/doctors', doctorsRoute);
 app.use('/api/localisations', localisationRoute);
+app.use('/api/notifications', notificationRoute);
 app.use(require('./routes/notif')(io));
-app.use(require("./routes/notifications"));
 
 // Listen to node server on port 3001 //
 http.listen(PORT, function () {
