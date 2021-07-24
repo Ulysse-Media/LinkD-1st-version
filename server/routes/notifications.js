@@ -12,6 +12,16 @@ router.get('/:notification_recipient', function (req, res, next) {
     })
 });
 
+router.post('/:notification_id', function (req, res, next) {
+    Notifications.markAsReadNotification(req.query.notification_id).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
 module.exports = router;
 
 

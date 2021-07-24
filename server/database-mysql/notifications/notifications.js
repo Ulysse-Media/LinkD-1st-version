@@ -12,6 +12,17 @@ const pushNotification = async (req) => {
     }
 }
 
+// Database function to insert new notification  //
+const markAsReadNotification = async (notification_id) => {
+    var query = `UPDATE notifications SET markAsRead=1 WHERE notification_id=${notification_id}`;
+    try {
+        let notification = await sql(query);
+        return notification;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 // Database function to retrieve all notifications //
 const getnotifications = async () => {
     var query = `Select * from notifications`;
@@ -39,4 +50,5 @@ module.exports = {
     pushNotification,
     getnotifications,
     getnotificationByUserId,
+    markAsReadNotification,
 }

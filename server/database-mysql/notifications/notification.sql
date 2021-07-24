@@ -1,1 +1,1 @@
-Create Table notifications(notification_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, notification_name VARCHAR(200), notification_sender INT, notification_recipient INT);
+Create Table notifications(notification_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, notification_name VARCHAR(200), notification_sender INT, notification_recipient INT, markAsRead BOOLEAN NOT NULL DEFAULT 0);
