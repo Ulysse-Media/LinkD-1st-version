@@ -3,7 +3,7 @@ const { sql } = require("../config/db");
 
 // Database function to insert new notification  //
 const pushNotification = async (req) => {
-    var query = `INSERT INTO notifications (notification_name, notification_sender, notification_recipient) values ('${req.notification_name}', ${req.notification_sender}, ${req.notification_recipient})`;
+    var query = `INSERT INTO notifications (notification_name, notification_sender, notification_recipient, recieved_since) values ('${req.notification_name}', ${req.notification_sender}, ${req.notification_recipient}, '${req.recieved_since}')`;
     try {
         let notification = await sql(query);
         return notification;
