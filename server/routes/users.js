@@ -51,15 +51,17 @@ router.post('/:user_id', function (req, res, next) {
 
 // Api to modify user profile 
 router.post('/editProfile/:user_id', function (req, res, next) {
-    var imgURL = "";
+    var body = JSON.parse(req.body.values);
+    var user_avatar = "";
     var message = "";
     if (req.method == "POST") {
         if (req.files) {
             var file = req.files.file;
             if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
                 file.mv(`${_DIR}/edit-profile/${file.name}`);
-                imgURL = `/edit-profile/${file.name}`;
-                Users.updateClientAvatar(req.query.user_id, imgURL).then(result => {
+                user_avatar = `/edit-profile/${file.name}`;
+                body.user_avatar = user_avatar;
+                Users.updateClientProfile(req.query.user_id, body).then(result => {
                     try {
                         return res.json(result);
                     } catch (err) {
@@ -70,17 +72,6 @@ router.post('/editProfile/:user_id', function (req, res, next) {
                 message = "This format is not allowed , please upload file with '.png','.gif','.jpg'";
                 return res.json({ message })
             }
-        }
-        else {
-            imgURL = `https://www.monteirolobato.edu.br/public/assets/admin/images/avatars/avatar1_big.png`;
-            body.meeting_agenda = imgURL;
-            Users.updateClientAvatar(imgURL, req.query.user_id).then(result => {
-                try {
-                    return res.json(result);
-                } catch (err) {
-                    console.log(err);
-                }
-            })
         }
     }
 });

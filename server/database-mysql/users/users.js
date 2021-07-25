@@ -1,7 +1,6 @@
 const { sql } = require("../config/db");
 var bcrypt = require('bcryptjs');
 var salt = bcrypt.genSaltSync(10);
-const _DIR = "../../../server/public";
 
 // Database function to insert new client  //
 const signupClient = async (req) => {
@@ -91,13 +90,24 @@ const saveClientResetCredentials = async (req) => {
 }
 
 // Database function to update client avatar   //
-const updateClientAvatar = async (user_id, user_avatar) => {
-    var query = `UPDATE users Set user_avatar='${user_avatar}' WHERE user_id='${user_id}'`;
-    try {
-        let user = await sql(query);
-        return user;
-    } catch (err) {
-        console.log(err)
+const updateClientProfile = async (user_id, req) => {
+    if(req.user_password) {
+        var hash = bcrypt.hashSync(req.user_password, salt);
+        var query = `UPDATE users Set user_avatar='${req.user_avatar}', user_password='${hash}' WHERE user_id='${user_id}'`;
+        try {
+            let user = await sql(query);
+            return user;
+        } catch (err) {
+            console.log(err)
+        }
+    } else {
+        var query = `UPDATE users Set user_avatar='${req.user_avatar}' WHERE user_id='${user_id}'`;
+        try {
+            let user = await sql(query);
+            return user;
+        } catch (err) {
+            console.log(err)
+        } 
     }
 }
 
@@ -136,6 +146,6 @@ module.exports = {
     getClientByEmail,
     getClientByResetPasswordToken,
     saveClientResetCredentials,
-    updateClientAvatar,
+    updateClientProfile,
     updateClientPassword,
 }
