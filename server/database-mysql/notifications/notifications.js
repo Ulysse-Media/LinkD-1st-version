@@ -45,10 +45,22 @@ const getnotificationByUserId = async (notification_recipient) => {
     }
 }
 
+// Database function to retrieve last notification  //
+const getLastNotification = async () => {
+    var query = `SELECT * FROM notifications ORDER BY notification_id DESC LIMIT 1`;
+    try {
+      let notification = await sql(query);
+      return notification;
+    } catch(err) {
+        console.log(err)
+    }
+  }
+
 
 module.exports = {
     pushNotification,
     getnotifications,
     getnotificationByUserId,
     markAsReadNotification,
+    getLastNotification,
 }

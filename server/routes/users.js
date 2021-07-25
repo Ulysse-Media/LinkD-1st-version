@@ -92,7 +92,7 @@ router.get('/logout', function (req, res, next) {
 });
 
 // Api to handle redirection password reinitialization
-router.post('/forgot', function (req, res, next) {
+router.post('/forgot/password', function (req, res, next) {
     var alert = "";
     async.waterfall([
         function (done) {
@@ -102,7 +102,7 @@ router.post('/forgot', function (req, res, next) {
             });
         },
         function (token, done) {
-            Users.getClientByEmail(req.body).then((user, err) => {
+            Users.getClientByEmail(req.body.user_email).then((user, err) => {
                 if (!user[0]) {
                     req.flash('error', 'No account with that email address exists.');
                     alert = "Cette adresse Email n'appartient a aucun compte"
@@ -112,7 +112,8 @@ router.post('/forgot', function (req, res, next) {
                     req.body.resetPasswordExpires = Date.now() + 3600000; // 1 hour
                     Users.saveClientResetCredentials(req.body).then((result, err) => {
                         if (result) {
-                            Users.getClientByEmail(req.body).then((usr, error) => {
+                            Users.getClientByEmail(req.body.user_email).then((usr, error) => {
+                                console.log(usr)
                                 if (usr[0]) {
                                     delete usr[0].user_password
                                     done(err, token, usr);
