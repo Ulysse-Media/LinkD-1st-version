@@ -8,6 +8,7 @@ const doctorsRoute = require('./routes/doctors');
 const actionsUserRoute = require('./routes/actionsUser');
 const localisationRoute = require('./routes/localisation');
 const notificationRoute = require('./routes/notifications');
+const notesRoute = require('./routes/notes');
 const PORT = process.env.PORT || 5000;
 const fileUpload = require('express-fileupload');
 const path = require('path');
@@ -74,6 +75,7 @@ app.use('/api/actions/user', actionsUserRoute);
 app.use('/api/doctors', doctorsRoute);
 app.use('/api/localisations', localisationRoute);
 app.use('/api/notifications', notificationRoute);
+app.use('/api/notes', notesRoute);
 app.use(require('./routes/notif')(io));
 
 // Listen to node server on port 3001 //
