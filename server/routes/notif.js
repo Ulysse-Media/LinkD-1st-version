@@ -11,7 +11,8 @@ module.exports = function (io) {
                     io.on("connection", (socket) => {
                         console.log("User connected")
                     });
-                    io.sockets.emit("VALIDATION", req.body);
+                    setTimeout(() => {io.sockets.emit("VALIDATION", req.body)},2000);
+                    
                     return res.json(result);
                 }
             } catch (err) {

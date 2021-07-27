@@ -35,8 +35,19 @@ const getnotifications = async () => {
 }
 
 // Database function to retrieve all notifications //
-const getnotificationByUserId = async (notification_recipient) => {
+const getnotificationByRecipient = async (notification_recipient) => {
     var query = `Select * from notifications where notification_recipient='${notification_recipient}'`;
+    try {
+        let notifications = await sql(query);
+        return notifications;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+// Database function to retrieve all notifications //
+const getnotificationBySender = async (notification_sender) => {
+    var query = `Select * from notifications where notification_sender='${notification_sender}'`;
     try {
         let notifications = await sql(query);
         return notifications;
@@ -60,7 +71,8 @@ const getLastNotification = async () => {
 module.exports = {
     pushNotification,
     getnotifications,
-    getnotificationByUserId,
+    getnotificationByRecipient,
+    getnotificationBySender,
     markAsReadNotification,
     getLastNotification,
 }
