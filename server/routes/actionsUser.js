@@ -103,7 +103,7 @@ router.post('/VMvalidated', function (req, res, next) {
                         console.log(err)
                     } else {
                         req.flash('success', 'An e-mail has been sent to ' + req.query.user_email + ' with further instructions.');
-                        res.redirect('/forgot');
+                        res.redirect('/monitoring-action');
                     }
                 });
                 return res.json(result);
