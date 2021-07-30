@@ -34,6 +34,25 @@ const getDoctorsByVMSupervisor = async (user_id) => {
   }
 }
 
+// Database function to retrieve all doctors by VM supervisor //
+const getInvitedDoctors = async (doctor_name) => {
+ var doctor_fname = [];
+ var doctor_lname = [];
+  for(var i = 0 ; i < doctor_name.length; i++) {
+    doctor_fname.push(JSON.parse(doctor_name[i]).doctor_fname);
+    doctor_lname.push(JSON.parse(doctor_name[i]).doctor_lname);
+  }
+  const injectedDoctorFname = doctor_fname.map(c => `'${c}'`).join(',');
+  const injectedDoctorlname = doctor_lname.map(c => `'${c}'`).join(',');
+  var query = `Select * from doctors WHERE doctors.doctor_fname In (${injectedDoctorFname}) AND doctors.doctor_lname IN (${injectedDoctorlname})`;
+  try {
+    let doctors = await sql(query);
+    return doctors;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // Database function to retrieve last doctor  //
 const getLastDoctor = async () => {
   var query = `SELECT * FROM doctors ORDER BY doctor_id DESC LIMIT 1`;
@@ -49,5 +68,6 @@ module.exports = {
   addDoctor,
   getDoctors,
   getDoctorsByVMSupervisor,
+  getInvitedDoctors,
   getLastDoctor,
 }

@@ -36,6 +36,28 @@ router.get('/validation/:status', function (req, res, next) {
     })
 });
 
+// Api to retrieve VM actions by user id 
+router.get('/VM/actions/:user_id', function (req, res, next) {
+    Actions.getDSMActions(req.query.user_id).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
+// Api to retrieve VM validated actions by user id 
+router.get('/VM/validated/actions/:user_id', function (req, res, next) {
+    Actions.getCDPActions(req.query.user_id).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
 // Api to retrieve DSM validated action by user ID 
 router.get('/validation/DSMvalidated/:user_id', function (req, res, next) {
     Actions.getDSMValidatedActions(req.query.user_id).then(result => {

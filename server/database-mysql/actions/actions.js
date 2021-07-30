@@ -3,7 +3,7 @@ const { sql } = require("../config/db");
 
 // Database function to insert new action  //
 const addAction = async (req) => {
-  var query = `INSERT INTO actions (user_id, user_position, user_email, action_type, other_stuff, start_action, end_action, schedule, action_town, action_location, other_location, product, speaker, speaker_suggestion, speaker_transfer, speaker_accommodation, meeting_agenda, meeting_theme, pax_number, action_field, invited_doctors, other_doctors, comments) values ('${req.user_id}', '${req.user_position}', '${req.user_email}', '${req.action_type}', '${req.other_stuff}', '${req.start_action}', '${req.end_action}', '${req.schedule}', '${req.action_town}', '${req.action_location}', '${req.other_location}', '${req.product}', '${req.speaker}', '${req.speaker_suggestion || null}', '${req.speaker_transfer || 0}', '${req.speaker_accommodation || 0}', '${req.meeting_agenda || null}', '${req.meeting_theme}', '${req.pax_number}', '${req.action_field}', '${req.invited_doctors}', '${req.other_doctors}', '${req.comments}')`;
+  var query = `INSERT INTO actions (user_id, DSM_supervisor, user_position, user_email, action_type, other_stuff, start_action, end_action, schedule, action_town, action_location, other_location, product, speaker, speaker_suggestion, speaker_transfer, speaker_accommodation, meeting_agenda, meeting_theme, pax_number, action_field, invited_doctors, other_doctors, comments) values ('${req.user_id}', '${req.DSM_supervisor}', '${req.user_position}', '${req.user_email}', '${req.action_type}', '${req.other_stuff}', '${req.start_action}', '${req.end_action}', '${req.schedule}', '${req.action_town}', '${req.action_location}', '${req.other_location}', '${req.product}', '${req.speaker}', '${req.speaker_suggestion || null}', '${req.speaker_transfer || 0}', '${req.speaker_accommodation || 0}', '${req.meeting_agenda || null}', '${req.meeting_theme}', '${req.pax_number}', '${req.action_field}', '${req.invited_doctors}', '${req.other_doctors}', '${req.comments}')`;
   try {
     let action = await sql(query);
     return action;
@@ -78,6 +78,28 @@ const getActionByStatus = async (status) => {
   }
 }
 
+// Database function to retrieve from DSM action by user ID  //
+const getDSMActions = async (user_id) => {
+  var query = `Select * from actions where DSM_supervisor='${user_id}' AND status != "En attente de validation VM"`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to retrieve from CDP action by user ID  //
+const getCDPActions = async (user_id) => {
+  var query = `Select * from actions where CDP_supervisor='${user_id}'`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // Database function to retrieve from DSM validated action by user ID  //
 const getDSMValidatedActions = async (user_id) => {
   var query = `Select * from actions where DSM_validation='${user_id}'`;
@@ -121,7 +143,6 @@ const getCDPRejectedActions = async (user_id) => {
     console.log(err)
   }
 }
-
 
 // Database function to update action by ID  //
 const updateActionById = async (req) => {
@@ -168,7 +189,7 @@ const validateVMActionById = async (action_id, user_email, user_id) => {
 
 // Database function to validate from DSM action by ID  //
 const validateDSMActionById = async (action_id, user_email, user_id) => {
-  var query = `UPDATE actions SET status='En attente de validation CDP', DSM_validation='${user_id}' WHERE action_id='${action_id}'`;
+  var query = `UPDATE actions SET status='En attente de validation CDP', CDP_supervisor='${user_id}' WHERE action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -231,6 +252,8 @@ module.exports = {
   getLastAction,
   getActionByUserPosition,
   getActionByStatus,
+  getDSMActions,
+  getCDPActions,
   getDSMValidatedActions,
   getCDPValidatedActions,
   getDSMRejectedActions,

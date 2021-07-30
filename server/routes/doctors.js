@@ -46,5 +46,16 @@ router.get('/last', function (req, res, next) {
     })
 });
 
+// Api to retrieve last doctor from database
+router.get('/invited', function (req, res, next) {
+    Doctors.getInvitedDoctors(req.query.doctor_name).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
 
 module.exports = router;
