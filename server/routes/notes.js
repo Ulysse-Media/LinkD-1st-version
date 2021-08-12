@@ -12,8 +12,8 @@ router.post('/', function (req, res, next) {
     })
 });
 
-router.get('/:user_id', function (req, res, next) {
-    Notes.getNotesByUserId(req.query.user_id).then(result => {
+router.get('/:action_sender', function (req, res, next) {
+    Notes.getNotesByUserId(req.query.action_sender).then(result => {
         try {
             return res.json(result);
         } catch (err) {

@@ -23,11 +23,6 @@ const io = require('socket.io')(http, {
   }
 });
 
-// io.on("connection", (socket) => {
-//   socket.emit("connection", "hello")
-//   console.log("Socket-io connection established");
-// });
-
 // allowing CORS:
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -76,7 +71,8 @@ app.use('/api/doctors', doctorsRoute);
 app.use('/api/localisations', localisationRoute);
 app.use('/api/notifications', notificationRoute);
 app.use('/api/notes', notesRoute);
-app.use(require('./routes/notif')(io));
+app.use(require('./routes/notif-socket-io')(io));
+app.use(require('./routes/notes-socket-io')(io));
 
 // Listen to node server on port 3001 //
 http.listen(PORT, function () {

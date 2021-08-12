@@ -243,6 +243,17 @@ const deleteActionById = async (action_id) => {
   }
 }
 
+// Database function to delete action by ID from VM //
+const returnActionById = async (action_id) => {
+  var query = `UPDATE actions SET status="En attente de validation VM", CDP_supervisor=null where action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 
 module.exports = {
   addAction,
@@ -265,4 +276,5 @@ module.exports = {
   denyDSMActionById,
   denyCDPActionById,
   deleteActionById,
+  returnActionById,
 }
