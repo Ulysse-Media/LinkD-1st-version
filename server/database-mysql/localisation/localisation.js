@@ -23,8 +23,20 @@ const getLocalisations = async () => {
   }
 }
 
+// Database function to retrieve all localisations //
+const getLocalisationByUserId = async (user_id) => {
+  var query = `Select * from localisation where user_id=${user_id}`;
+  try {
+    let localisations = await sql(query);
+    return localisations;
+  } catch(err) {
+      console.log(err)
+  }
+}
+
 
 module.exports = {
     addLocalisation,
     getLocalisations,
+    getLocalisationByUserId
 }
