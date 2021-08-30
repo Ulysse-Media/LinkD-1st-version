@@ -100,6 +100,17 @@ const getCDPActions = async (user_id) => {
   }
 }
 
+// Database function to retrieve from CDP action by user ID  //
+const getSpeakerActions = async () => {
+  var query = `Select * from actions where speaker=1`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 // Database function to retrieve from DSM validated action by user ID  //
 const getDSMValidatedActions = async (user_id) => {
   var query = `Select * from actions where DSM_validation='${user_id}'`;
@@ -114,6 +125,28 @@ const getDSMValidatedActions = async (user_id) => {
 // Database function to retrieve from CDP validated action by user ID  //
 const getCDPValidatedActions = async (user_id) => {
   var query = `Select * from actions where CDP_validation='${user_id}'`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to retrieve from CDP validated action by user ID  //
+const getPendingCDPValidatedActions = async (user_id) => {
+  var query = `Select * from actions where status='En attente de validation CDP'`;
+  try {
+    let actions = await sql(query);
+    return actions;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to retrieve from MED validated action by user ID  //
+const getPendingMEDValidatedActions = async (user_id) => {
+  var query = `Select * from actions where status='En attente de validation MED'`;
   try {
     let actions = await sql(query);
     return actions;
@@ -198,10 +231,54 @@ const validateDSMActionById = async (action_id, user_email, user_id) => {
   }
 }
 
+// Database function to validate from DSM action by ID  //
+const validateDSMSpeakerActionById = async (action_id, user_email, user_id) => {
+  var query = `UPDATE actions SET status='En attente de validation CDP et MED', CDP_supervisor='${user_id}' WHERE action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+
+// Database function to validate from CDP action by ID  //
+const validateFirstCDPActionById = async (action_id, user_email, user_id) => {
+  var query = `UPDATE actions SET status='En attente de validation MED', CDP_validation='${user_id}' WHERE action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to validate from CDP action by ID  //
+const validateFirstMEDActionById = async (action_id, user_email, user_id) => {
+  var query = `UPDATE actions SET status='En attente de validation CDP', MED_validation='${user_id}' WHERE action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 // Database function to validate from CDP action by ID  //
 const validateCDPActionById = async (action_id, user_email, user_id) => {
   var query = `UPDATE actions SET status='Validé', CDP_validation='${user_id}' WHERE action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to validate from Med action by ID  //
+const validateMEDActionById = async (action_id, user_email, user_id) => {
+  var query = `UPDATE actions SET status='Validé', MED_validation='${user_id}' WHERE action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -265,14 +342,21 @@ module.exports = {
   getActionByStatus,
   getDSMActions,
   getCDPActions,
+  getSpeakerActions,
   getDSMValidatedActions,
   getCDPValidatedActions,
   getDSMRejectedActions,
   getCDPRejectedActions,
+  getPendingCDPValidatedActions,
+  getPendingMEDValidatedActions,
   updateActionById,
   validateDSMActionById,
+  validateDSMSpeakerActionById,
   validateVMActionById,
+  validateFirstMEDActionById,
+  validateFirstCDPActionById,
   validateCDPActionById,
+  validateMEDActionById,
   denyDSMActionById,
   denyCDPActionById,
   deleteActionById,
