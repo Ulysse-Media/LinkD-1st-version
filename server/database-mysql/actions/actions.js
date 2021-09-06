@@ -331,6 +331,28 @@ const returnActionById = async (action_id) => {
   }
 }
 
+// Database function to archive action by ID //
+const disarchiveActionById = async (action_id) => {
+  var query = `UPDATE actions SET status="Terminée et non archivée" where action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to archive action by ID //
+const archiveActionById = async (action_id) => {
+  var query = `UPDATE actions SET status="Terminée et archivée" where action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 
 module.exports = {
   addAction,
@@ -361,4 +383,6 @@ module.exports = {
   denyCDPActionById,
   deleteActionById,
   returnActionById,
+  disarchiveActionById,
+  archiveActionById
 }

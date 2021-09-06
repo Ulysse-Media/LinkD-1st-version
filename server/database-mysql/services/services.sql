@@ -1,0 +1,1 @@
+Create Table services(service_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, service_name VARCHAR(20));

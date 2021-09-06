@@ -3,7 +3,6 @@ const router = express.Router();
 const Actions = require("../database-mysql/actions/actions");
 const Users = require("../database-mysql/users/users");
 const nodemailer = require('nodemailer');
-const twilio = require('twilio');
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require('twilio')(accountSid, authToken);
@@ -147,7 +146,7 @@ router.post('/VMvalidated', function (req, res, next) {
                         });
                         var mailOptions = {
                             to: [req.query.action_sender, DSM_email, CDP_email],
-                            from: 'g@gmail.com',
+                            from: 'yknaizia@gmail.com',
                             subject: "Validation d'action",
                             text: `Votre action a été envoyée de la part du ${req.query.user_email} et en attente de validation DSM! \nDescription détaillée sur l'action portante ID: ${action.action_id} sous username: ${req.query.user_email.split("@").shift()} \n- Produit: ${action.product} \n- Orateur: ${action.speaker} \n- Proposition d'orateur: ${action.speaker_suggestion} \n- Type d’action: ${action.action_type} \n- Transfert: ${action.speaker_transfer} \n- Hébergement: ${action.speaker_accommodation} \n- Autre staff sanofi: ${action.other_staff} \n- Agenda de la réunion: ${action.meeting_agenda} \n- Date début de l’action: ${action.start_action} \n- Date fin de l’action: ${action.end_action} \n- Théme de la réunion: ${action.meeting_theme} \n- Nombre de Pax: ${action.pax_number} \n- Horaire: ${action.schedule} \n- Liste Médecins invités: ${action.invited_doctors} \n- Ville: ${action.action_town} \n- Lieu: ${action.action_location} \n- Autre lieu: ${action.other_location} \n- Autres médecins: ${action.other_doctors} \n- Commentaires: ${action.comments}`,
                         };
@@ -406,6 +405,28 @@ router.post('/returned/:action_id', function (req, res, next) {
     })
 });
 
+// Api to disarchive action by ID
+router.post('/disarchived/:action_id', function (req, res, next) {
+    Actions.disarchiveActionById(req.query.action_id).then((result, error) => {
+        if (result) {
+            return res.json(result);
+        } else {
+            console.log("error", error)
+        }
+    })
+});
+
+// Api to archive action by ID
+router.post('/archived/:action_id', function (req, res, next) {
+    Actions.archiveActionById(req.query.action_id).then((result, error) => {
+        if (result) {
+            return res.json(result);
+        } else {
+            console.log("error", error)
+        }
+    })
+});
+
 router.post('/twilio/messaging/validation', function (req, res, nest) {
     client.messages
         .create({
@@ -413,7 +434,7 @@ router.post('/twilio/messaging/validation', function (req, res, nest) {
             from: process.env.MY_OLD_PHONE_NUMBER,
             to: req.body.to
         }).then(message => {
-             res.json(message);
+            res.json(message);
         }).catch(err => {
             console.log(err);
             res.json({ success: false });
@@ -427,11 +448,57 @@ router.post('/twilio/messaging/rejection', function (req, res, nest) {
             from: process.env.MY_OLD_PHONE_NUMBER,
             to: req.body.to
         }).then(message => {
-             res.json(message);
+            res.json(message);
         }).catch(err => {
             console.log(err);
             res.json({ success: false });
         });
 })
+
+// Api to send agence services 
+router.post('/CDPvalidated/services', function (req, res, next) {
+    console.log(req.body)
+    let agency_name = [];
+    let agency_email = [];
+    for(var i = 0 ; i < req.body.values.agency.length ; i++) {
+        agency_name.push(req.body.values.agency[i].split(",")[1])
+        agency_email.push(req.body.values.agency[i].split(",")[0])
+    }
+    var smtpTrans = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'yknaizia@gmail.com',
+            pass: 'yass94683607'
+        }
+    });
+    var mailOptions = {
+        to: [agency_email],
+        from: 'yknaizia@gmail.com',
+        subject: "Choix de service",
+        text: `Bonjour, Merci de nous confirmer l’action suivante
+        - Type de l’action: ${req.body.action.action_type}
+        - Nombre des participants: ${req.body.action.pax_number}
+        - Lieu de l’action : ${req.body.action.action_location}
+        - Date de l’action: ${req.body.action.start_action.split("T")[0]}
+        - Horaire: ${req.body.action.schedule}
+        - Service demandé : ${req.body.values.service_name}
+        Service additionnel : 
+        Commentaires: 
+        - Nom de facturation (Sanofi-Aventis Tunisie; Winthrop Pharma Tunisie) : Sanofi-Aventis Tunisie
+        - Contact responsable action: ${req.body.action.user_email}
+        Cordialement.
+        `,
+    };
+    smtpTrans.sendMail(mailOptions, function (err, info) {
+        if (err) {
+            console.log(err)
+        } else {
+            req.flash('success', 'An e-mail has been sent to ' + req.query.agency_email + ' with further instructions.');
+            res.redirect('/monitoring-action');
+        }
+    });
+    return res.json({result : "Email sent to agency successfully"});
+
+});
 
 module.exports = router;

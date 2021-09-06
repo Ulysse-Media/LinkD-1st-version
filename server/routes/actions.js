@@ -66,7 +66,7 @@ router.get('/last', function (req, res, next) {
 });
 
 // Api to retrieve action by ID
-router.get('/:id', function (req, res, next) {
+router.get('/:action_id', function (req, res, next) {
     Actions.getActionById(req.query.action_id).then(result => {
         try {
             return res.json(result);
@@ -75,7 +75,6 @@ router.get('/:id', function (req, res, next) {
         }
     })
 });
-
 
 
 // Api to update action by ID

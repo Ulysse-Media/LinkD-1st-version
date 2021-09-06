@@ -1,0 +1,1 @@
+Create Table agencies(agency_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, agency_name VARCHAR(50), agency_email VARCHAR(50));
