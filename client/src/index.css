@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.MuiFormControl-root,
+.MuiInput-root {
+  width: 100%;
+}
+.input-with-hint {
+  width: 100%;
+}
+.MuiFormGroup-root {
+  flex-flow: nowrap !important;
+}
+.bold-title {
+  font-weight: bold !important;
+}
+.user-avatar {
+  margin: 0 auto;
+}
+.file {
+  width: 50px;
+  height: 50px;
+}
+.red-star {
+  color: red;
+}
+.overview-action {
+  border: 0;
+  background: white;
+  color: blue;
+}
+.MuiCircularProgress-root {
+  left: 43%;
+  position: absolute;
+  top: 44vh;
+}
+.px-4 {
+  padding-left: 6.5rem !important;
+}
+.link-items {
+  font-size: 24px !important;
+}
+.statusvalidated {
+  color: #78e03c !important;
+}
+.statusdenied {
+  color: rgb(233, 39, 84) !important;
+}
+.statusfinished {
+  color: rgb(196, 102, 205) !important;
+}
+.statusarchieved {
+  color: grey !important;
+}
+.statuspending {
+  color: rgb(205, 164, 102) !important;
+}
+.MuiTableCell-head,
+.MuiTableCell-body {
+  text-align: center !important;
+}
+.notif {
+  overflow-y: scroll !important;
+  height: 385px !important;
+}
+
+.border-left {
+  cursor: pointer;
+}
+.time-left {
+  color: #307ee7;
+  font-weight: 500;
+}
+
+.MuiButton-label .hide {
+  display: none;
+}
+.main-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.nav-link {
+  color: #0d6efd !important;
+}
+.main {
+  background-color: red;
+}
+.navbar-nav {
+  position: fixed !important;
+  right: 0;
+}
+.link-items {
+  border-bottom: 1px solid;
+}
+.active {
+  background: radial-gradient(black, transparent) !important;
+  color: white !important;
+}

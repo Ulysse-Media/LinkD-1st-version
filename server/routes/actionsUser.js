@@ -170,6 +170,7 @@ router.post('/VMvalidated', function (req, res, next) {
 
 // Api to validate DSM action by ID
 router.post('/DSMvalidated', function (req, res, next) {
+    console.log("hereee",req.query)
     Actions.validateDSMActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
         Actions.getActionById(req.query.action_id).then((action, error) => {
             if (result) {
@@ -177,7 +178,7 @@ router.post('/DSMvalidated', function (req, res, next) {
                     service: 'Gmail',
                     auth: {
                         user: 'yknaizia@gmail.com',
-                        pass: 'yass94683607'
+                        pass: 'yassine94683607'
                     }
                 });
                 var mailOptions = {
@@ -211,7 +212,7 @@ router.post('/DSMSpeakervalidated', function (req, res, next) {
                     service: 'Gmail',
                     auth: {
                         user: 'yknaizia@gmail.com',
-                        pass: 'yass94683607'
+                        pass: 'yassine94683607'
                     }
                 });
                 var mailOptions = {
@@ -246,7 +247,7 @@ router.post('/CDPvalidated/first', function (req, res, next) {
                     service: 'Gmail',
                     auth: {
                         user: 'yknaizia@gmail.com',
-                        pass: 'yass94683607'
+                        pass: 'yassine94683607'
                     }
                 });
                 var mailOptions = {
@@ -279,7 +280,7 @@ router.post('/CDPvalidated', function (req, res, next) {
                     service: 'Gmail',
                     auth: {
                         user: 'yknaizia@gmail.com',
-                        pass: 'yass94683607'
+                        pass: 'yassine94683607'
                     }
                 });
                 var mailOptions = {
@@ -313,7 +314,7 @@ router.post('/MEDvalidated/first', function (req, res, next) {
                     service: 'Gmail',
                     auth: {
                         user: 'yknaizia@gmail.com',
-                        pass: 'yass94683607'
+                        pass: 'yassine94683607'
                     }
                 });
                 var mailOptions = {
@@ -347,7 +348,7 @@ router.post('/MEDvalidated', function (req, res, next) {
                     service: 'Gmail',
                     auth: {
                         user: 'yknaizia@gmail.com',
-                        pass: 'yass94683607'
+                        pass: 'yassine94683607'
                     }
                 });
                 var mailOptions = {
@@ -468,7 +469,7 @@ router.post('/CDPvalidated/services', function (req, res, next) {
         service: 'Gmail',
         auth: {
             user: 'yknaizia@gmail.com',
-            pass: 'yass94683607'
+            pass: 'yassine94683607'
         }
     });
     var mailOptions = {
