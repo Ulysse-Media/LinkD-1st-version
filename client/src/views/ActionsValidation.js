@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Row } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId } from "../actions/actions-initiation-actions/actions";
+import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId, getSpeakerActions} from "../actions/actions-initiation-actions/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -52,6 +52,7 @@ const ActionsValidation = () => {
     const handleClick = (e) => {
         return history.push(`display-action/${e.target.id}`); // Redirect user after submition of form
     }
+    // Component on mount
     useEffect(() => {
         let isCancelled = false;
         if (!isCancelled) {
@@ -59,16 +60,16 @@ const ActionsValidation = () => {
                 dispatch(getVMActionsByUserId(user.user_id));
             } else if (user.user_position === "CDP") {
                 dispatch(getVMValidatedActionsByUserId(user.user_id));
-            } else {
+                dispatch(getSpeakerActions());
+            } else if (user.user_position === "MED") {
+                dispatch(getSpeakerActions());
+            }
+            else {
                 dispatch(getActionByUserId(user.user_id));
             }
         }
         return () => (isCancelled = true);
     }, [dispatch, user.user_id, user.user_position]);
-    // Component on mount //
-    useEffect(() => {
-        dispatch(getActionByUserId(user.user_id));
-    }, [dispatch, user.user_id])
     if (!isLoading) {
         return (
             <div style={{ padding: 16, margin: 'auto', maxWidth: 1225, height: '100%' }}>
@@ -102,7 +103,7 @@ const ActionsValidation = () => {
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
-                                                <TableCell>{row.start_action.split("T").shift().split("-").reverse().join("/")}</TableCell>
+                                                <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
@@ -135,7 +136,7 @@ const ActionsValidation = () => {
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
-                                                <TableCell>{row.start_action.split("T").shift().split("-").reverse().join("/")}</TableCell>
+                                                <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
@@ -167,7 +168,7 @@ const ActionsValidation = () => {
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
-                                                <TableCell>{row.start_action.split("T").shift().split("-").reverse().join("/")}</TableCell>
+                                                <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>

@@ -481,11 +481,11 @@ const DisplayAction = () => {
       if (action.speaker === 0) {
         dispatch(validateDSMActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email));
         dispatch(pushNotification(values));
-        dispatch(messagingValidation(+21694683607));
+        dispatch(messagingValidation(parseInt(user.user_phone_number)));
       } else {
         dispatch(validateDSMSpeakerActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email));
         dispatch(pushNotification(values));
-        dispatch(messagingValidation(+21694683607));
+        dispatch(messagingValidation(parseInt(user.user_phone_number)));
       }
     } else if (user.user_position === "CDP") {
       values.VM_supervisor = action.VM_validation;
@@ -499,7 +499,7 @@ const DisplayAction = () => {
       } else {
         dispatch(validateCDPActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values));
-        dispatch(messagingValidation(+21694683607));
+        dispatch(messagingValidation(parseInt(user.user_phone_number)));
       }
     } else if (user.user_position === "MED") {
       values.VM_supervisor = action.VM_validation;

@@ -141,7 +141,7 @@ router.post('/VMvalidated', function (req, res, next) {
                             service: 'Gmail',
                             auth: {
                                 user: 'yknaizia@gmail.com',
-                                pass: 'yass94683607'
+                                pass: 'yassine94683607'
                             }
                         });
                         var mailOptions = {
@@ -170,7 +170,6 @@ router.post('/VMvalidated', function (req, res, next) {
 
 // Api to validate DSM action by ID
 router.post('/DSMvalidated', function (req, res, next) {
-    console.log("hereee",req.query)
     Actions.validateDSMActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
         Actions.getActionById(req.query.action_id).then((action, error) => {
             if (result) {
@@ -458,7 +457,6 @@ router.post('/twilio/messaging/rejection', function (req, res, nest) {
 
 // Api to send agence services 
 router.post('/CDPvalidated/services', function (req, res, next) {
-    console.log(req.body)
     let agency_name = [];
     let agency_email = [];
     for(var i = 0 ; i < req.body.values.agency.length ; i++) {

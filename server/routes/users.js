@@ -104,7 +104,6 @@ router.post('/forgot/password', function (req, res, next) {
                     Users.saveClientResetCredentials(req.body).then((result, err) => {
                         if (result) {
                             Users.getClientByEmail(req.body.user_email).then((usr, error) => {
-                                console.log(usr)
                                 if (usr[0]) {
                                     delete usr[0].user_password
                                     done(err, token, usr);

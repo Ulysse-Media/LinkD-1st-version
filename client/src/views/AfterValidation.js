@@ -33,6 +33,7 @@ const AfterValidation = () => {
     );
     // Submit Form Group inputs
     const onSubmit = async (values) => {
+        console.log(values)
         dispatch(validateservices(values, action));
     };
     const handleBack = () => {
@@ -121,15 +122,16 @@ const AfterValidation = () => {
             size: 9,
             field: (
                 <Field name="comments">
-                {props => (
-                  <div>
-                    <TextField
-                      placeholder="Tapez des commentaires"
-                      margin="none"
-                    />
-                  </div>
-                )}
-              </Field>
+                    {props => (
+                        <div>
+                            <TextField
+                                name="comments"
+                                placeholder="Tapez des commentaires"
+                                margin="none"
+                            />
+                        </div>
+                    )}
+                </Field>
             ),
         },
     ];

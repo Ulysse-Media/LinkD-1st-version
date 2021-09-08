@@ -108,7 +108,7 @@ const ActionsMonitoring = () => {
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
-                                                <TableCell>{row.start_action.split("T").shift().split("-").reverse().join("/")}</TableCell>
+                                                <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
@@ -140,7 +140,7 @@ const ActionsMonitoring = () => {
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
-                                                <TableCell>{row.start_action.split("T").shift().split("-").reverse().join("/")}</TableCell>
+                                                <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
@@ -172,7 +172,7 @@ const ActionsMonitoring = () => {
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
-                                                <TableCell>{row.start_action.split("T").shift().split("-").reverse().join("/")}</TableCell>
+                                                <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
@@ -204,7 +204,7 @@ const ActionsMonitoring = () => {
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
-                                                <TableCell>{row.start_action.split("T").shift().split("-").reverse().join("/")}</TableCell>
+                                                <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
