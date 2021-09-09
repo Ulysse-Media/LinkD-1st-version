@@ -95,14 +95,13 @@ code {
 .main {
   background-color: red;
 }
-.navbar-nav {
-  position: fixed !important;
-  right: 0;
-}
 .link-items {
   border-bottom: 1px solid;
 }
 .active {
   background: radial-gradient(black, transparent) !important;
   color: white !important;
+}
+.main-navbar.bg-white.sticky-top .container{
+  max-width: unset !important;
 }

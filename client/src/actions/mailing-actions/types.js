@@ -1,0 +1,4 @@
+export const ADD_MAIL_REQUEST = "ADD_MAIL_REQUEST";
+export const ADD_MAIL_SUCCESS = "ADD_MAIL_SUCCESS";
+export const ADD_MAIL_FAILURE = "ADD_MAIL_FAILURE";
+

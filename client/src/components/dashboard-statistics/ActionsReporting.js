@@ -166,7 +166,7 @@ class ActionsReporting extends React.Component {
                                             "rgb(175,72,152)",
                                             "rgb(229,104,56)",
                                         ]
-                                    }
+                                    },
                                 ]
                             }
                         })
@@ -180,7 +180,6 @@ class ActionsReporting extends React.Component {
                         let actions = response.data;
                         for (var i = 0; i < actions.length; i++) {
                             if (actions[i].status === "En attente de validation CDP") {
-                                console.log(actions[i].status);
                                 pendingCDP++;
                                 pendingPercentageCDP = Math.round((pendingCDP / actions.length) * 100);
                             }

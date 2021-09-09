@@ -11,6 +11,7 @@ const notificationRoute = require('./routes/notifications');
 const AgencyRoute = require('./routes/agencies');
 const ServiceRoute = require('./routes/services');
 const notesRoute = require('./routes/notes');
+const mailingRoute = require('./routes/mailing');
 const PORT = process.env.PORT || 5000;
 const fileUpload = require('express-fileupload');
 const path = require('path');
@@ -75,6 +76,7 @@ app.use('/api/services', ServiceRoute);
 app.use('/api/localisations', localisationRoute);
 app.use('/api/notifications', notificationRoute);
 app.use('/api/notes', notesRoute);
+app.use('/api/mailings', mailingRoute);
 app.use(require('./routes/notif-socket-io')(io));
 app.use(require('./routes/notes-socket-io')(io));
 

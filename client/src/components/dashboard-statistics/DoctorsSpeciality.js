@@ -101,7 +101,6 @@ class DoctorsSpeciality extends React.Component {
               user_id: this.props.user[0].VM_supervisor
             }
           }).then((response) => {
-            console.log(response)
             let total = response.data
             for (let i = 0; i < total.length; i++) {
               if (total[i].doctor_field === "Médecin de travail") {
