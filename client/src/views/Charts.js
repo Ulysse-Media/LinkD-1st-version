@@ -11,10 +11,7 @@ const Charts = () => {
   const user = useSelector(
     (state) => state.authReducer.user
 );
-const handleClick = (e) => {
-  console.log(e)
 
-}
 useEffect(() => {
   if(user.length) {
     setUsername(user[0].user_email.split("@").shift());

@@ -47,11 +47,11 @@ export function signinUser(values) {
         dispatch(getAuthUser(response.data.user.user_id));
       } else {
         if (response.data === "Please verify your email adress") {
-          toast.error("Vérifier votre adresse Email SVP!", {
+          toast.error("Veuillez vérifier votre adresse Email SVP!", {
             position: toast.POSITION.TOP_LEFT
           });
         } else if (response.data === "Please verify your password") {
-          toast.error("Vérifier votre mot de passe SVP!", {
+          toast.error("Veuillez vérifier votre mot de passe SVP!", {
             position: toast.POSITION.TOP_LEFT
           });
         } else {

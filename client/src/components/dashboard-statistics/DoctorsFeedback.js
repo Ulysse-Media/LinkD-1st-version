@@ -115,7 +115,7 @@ class DoctorsFeedback extends React.Component {
             }
           })
         })
-      } else if (this.props.user[0].user_position === "CDP") {
+      } else if (this.props.user[0].user_position === "CDP" || this.props.user[0].user_position === "MED") {
         axiosInstance.get(`http://localhost:3000/api/doctors`, {
         }).then((response) => {
           let total = response.data

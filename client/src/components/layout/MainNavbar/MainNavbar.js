@@ -6,7 +6,7 @@ import { Container, Navbar } from "shards-react";
 import NavbarNav from "./NavbarNav/NavbarNav";
 import NavbarToggle from "./NavbarToggle";
 
-const MainNavbar = ({ layout, stickyTop, VM_notif, DSM_notif, CDP_notif, notes }) => {
+const MainNavbar = ({ layout, stickyTop, VM_notif, DSM_notif, CDP_notif, MED_notif, notes }) => {
   const classes = classNames(
     "main-navbar",
     "bg-white",
@@ -18,7 +18,7 @@ const MainNavbar = ({ layout, stickyTop, VM_notif, DSM_notif, CDP_notif, notes }
         <Navbar type="light" className="align-items-stretch flex-md-nowrap p-0">
           <NavbarToggle />
           {/* <NavbarSearch /> */}
-          <NavbarNav notes={notes} VM_notif={VM_notif} DSM_notif={DSM_notif} CDP_notif={CDP_notif}/>
+          <NavbarNav notes={notes} VM_notif={VM_notif} DSM_notif={DSM_notif} CDP_notif={CDP_notif} MED_notif={MED_notif}/>
         </Navbar>
       </Container>
     </div>

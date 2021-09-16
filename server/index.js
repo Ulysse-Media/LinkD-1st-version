@@ -12,6 +12,7 @@ const AgencyRoute = require('./routes/agencies');
 const ServiceRoute = require('./routes/services');
 const notesRoute = require('./routes/notes');
 const mailingRoute = require('./routes/mailing');
+const filesRoute = require('./routes/files');
 const PORT = process.env.PORT || 5000;
 const fileUpload = require('express-fileupload');
 const path = require('path');
@@ -48,7 +49,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Middleware for files upload
-app.use(fileUpload());
+app.use(fileUpload({
+   createParentPath: true
+}));
 app.set('socketio', io)
 // Serve static files
 app.use(express.static(_DIR));
@@ -77,8 +80,10 @@ app.use('/api/localisations', localisationRoute);
 app.use('/api/notifications', notificationRoute);
 app.use('/api/notes', notesRoute);
 app.use('/api/mailings', mailingRoute);
+app.use('/api/files', filesRoute);
 app.use(require('./routes/notif-socket-io')(io));
 app.use(require('./routes/notes-socket-io')(io));
+// routes //
 
 // Listen to node server on port 3001 //
 http.listen(PORT, function () {

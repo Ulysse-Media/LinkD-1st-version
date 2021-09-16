@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId, getSpeakerActions, disarchiveActionById } from "../actions/actions-initiation-actions/actions";
@@ -26,7 +26,6 @@ const useStyles = makeStyles({
 });
 
 const ActionsArchiving = () => {
-    const mounted = useRef();
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -60,7 +59,7 @@ const ActionsArchiving = () => {
     );
     // Handle click function
     const handleClick = (e) => {
-        return history.push(`display-action/${e.target.id}`); // Redirect user after submition of form
+        return history.push(`display-archiving-action/${e.target.id}`); // Redirect user after submition of form
     }
     // Component on mount
     useEffect(() => {
@@ -96,53 +95,52 @@ const ActionsArchiving = () => {
                 }
             }
         }
-
-        // if (user.user_position === "DSM" && ArchivedDSMactions.length == 0) {
-        //     if (VMActions.length > 0) {
-        //         for (var k = 0; i < VMActions.length; k++) {
-        //             if (now.getTime() - new Date(VMActions[k].start_action).getTime() > 0) {
-        //                 const newAction = VMActions[k];
-        //                 setArchivedDSMactions(oldArchivedDSMactions => [...oldArchivedDSMactions, newAction]);
-        //             }
-        //         }
-        //         for (var l = 0; j < ArchivedDSMactions.length; l++) {
-        //             if (ArchivedDSMactions[l].status === "Validé") {
-        //                 dispatch(disarchiveActionById(ArchivedDSMactions[l].action_id));
-        //             }
-        //         }
-        //     }
-        // }
-        // if (user.user_position === "CDP" && ArchivedCDPactions.length == 0) {
-        //     if (VMValidatedActions.length > 0) {
-        //         for (var m = 0; m < VMValidatedActions.length; m++) {
-        //             if (now.getTime() - new Date(VMValidatedActions[m].start_action).getTime() > 0) {
-        //                 const newAction = VMValidatedActions[m];
-        //                 setArchivedCDPactions(oldArchivedCDPactions => [...oldArchivedCDPactions, newAction]);
-        //             }
-        //         }
-        //         for (var n = 0; n < ArchivedCDPactions.length; n++) {
-        //             if (ArchivedCDPactions[n].status === "Validé") {
-        //                 dispatch(disarchiveActionById(ArchivedCDPactions[n].action_id));
-        //             }
-        //         }
-        //     }
-        // }
-        // if (user.user_position === "MED" && ArchivedMEDactions.length == 0) {
-        //     if (speakerActions.length > 0) {
-        //         for (var p = 0; p < speakerActions.length; p++) {
-        //             if (now.getTime() - new Date(speakerActions[p].start_action).getTime() > 0) {
-        //                 const newAction = speakerActions[p];
-        //                 setArchivedMEDactions(oldArchivedMEDactions => [...oldArchivedMEDactions, newAction]);
-        //             }
-        //         }
-        //         for (var q = 0; q < ArchivedMEDactions.length; q++) {
-        //             if (ArchivedMEDactions[q].status === "Validé") {
-        //                 dispatch(disarchiveActionById(ArchivedMEDactions[q].action_id));
-        //             }
-        //         }
-        //     }
-        // }
-    }, [dispatch, user.user_position, VMActions, VMValidatedActions, actionsUser, speakerActions]);
+        if (user.user_position === "DSM" && ArchivedDSMactions.length === 0) {
+            if (VMActions.length > 0) {
+                for (var k = 0; i < VMActions.length; k++) {
+                    if (now.getTime() - new Date(VMActions[k].start_action).getTime() > 0) {
+                        newAction.push(VMActions[k]);
+                    }
+                }
+                setArchivedDSMactions(newAction);
+                for (var l = 0; j < ArchivedDSMactions.length; l++) {
+                    if (ArchivedDSMactions[l].status === "Validé") {
+                        dispatch(disarchiveActionById(ArchivedDSMactions[l].action_id));
+                    }
+                }
+            }
+        }
+        if (user.user_position === "CDP" && ArchivedCDPactions.length === 0) {
+            if (VMValidatedActions.length > 0) {
+                for (var m = 0; m < VMValidatedActions.length; m++) {
+                    if (now.getTime() - new Date(VMValidatedActions[m].start_action).getTime() > 0) {
+                        newAction.push(VMValidatedActions[m]);
+                    }
+                }
+                setArchivedCDPactions(newAction);
+                for (var n = 0; n < ArchivedCDPactions.length; n++) {
+                    if (ArchivedCDPactions[n].status === "Validé") {
+                        dispatch(disarchiveActionById(ArchivedCDPactions[n].action_id));
+                    }
+                }
+            }
+        }
+        if (user.user_position === "MED" && ArchivedMEDactions.length === 0) {
+            if (speakerActions.length > 0) {
+                for (var p = 0; p < speakerActions.length; p++) {
+                    if (now.getTime() - new Date(speakerActions[p].start_action).getTime() > 0) {
+                        newAction.push(speakerActions[p]);
+                    }
+                }
+                setArchivedMEDactions(newAction);
+                for (var q = 0; q < ArchivedMEDactions.length; q++) {
+                    if (ArchivedMEDactions[q].status === "Validé") {
+                        dispatch(disarchiveActionById(ArchivedMEDactions[q].action_id));
+                    }
+                }
+            }
+        }
+    }, [dispatch, user.user_position, VMActions, VMValidatedActions, actionsUser, speakerActions, ArchivedDSMactions, ArchivedCDPactions, ArchivedMEDactions]);
     if (!isLoading) {
         return (
             <div style={{ padding: 16, margin: 'auto', maxWidth: 1225, height: '100%' }}>
@@ -203,7 +201,7 @@ const ActionsArchiving = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {ArchivedDSMactions.filter((element, key) => element.status === "Terminée et archivée").map((row, index) => (
+                                        {ArchivedDSMactions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -235,7 +233,7 @@ const ActionsArchiving = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {ArchivedCDPactions.filter((element, key) => element.status === "Terminée et archivée").map((row, index) => (
+                                        {ArchivedCDPactions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -267,7 +265,7 @@ const ActionsArchiving = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {ArchivedMEDactions.filter((element, key) => element.status === "Terminée et archivée").map((row, index) => (
+                                        {ArchivedMEDactions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>

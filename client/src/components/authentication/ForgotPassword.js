@@ -80,7 +80,7 @@ const ForgotPassword = () => {
                             <form onSubmit={handleSubmit}>
                                 <Paper style={{ padding: 16 }}>
                                     <Grid container alignItems="flex-start" spacing={2}>
-                                        <Grid item xs={9}>
+                                        <Grid item xs={12}>
                                             <Field name="user_email">
                                                 {props => (
                                                     <div>
@@ -89,6 +89,7 @@ const ForgotPassword = () => {
                                                             name="user_email"
                                                             margin="none"
                                                             type="email"
+                                                            fullWidth
                                                         />
                                                     </div>
                                                 )}

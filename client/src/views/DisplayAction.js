@@ -29,8 +29,8 @@ const DisplayAction = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-  const [open, setOpen] = React.useState(false);
-  const [NoteContent, setNoteContent] = React.useState("");
+  const [open, setOpen] = useState(false);
+  const [NoteContent, setNoteContent] = useState("");
   const [LastAction, setLastAction] = useState({});
   const [Speaker, setSpeaker] = useState("");
   const [SpeakerTransfer, setSpeakerTransfer] = useState("");
@@ -223,7 +223,7 @@ const DisplayAction = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px" }}>
-          <Avatar alt="uploaded-file" className="file" src={LastAction.meeting_agenda} />
+          <Avatar alt="uploaded-file" className="file" src={LastAction.meeting_agenda} style={{ width: 150, height: 150 }}/>
         </Typography>
       ),
     },
@@ -406,13 +406,16 @@ const DisplayAction = () => {
   ];
 
   const handleDialogOpen = () => {
+    // Open modal of dialog
     setOpen(true);
   };
 
   const handleDialoClose = () => {
+    // Close modal of dialog
     setOpen(false);
   };
   const handleModifyActionById = () => {
+    // Redirect user to modify action initiated by VM
     history.push("/initiation-action")
   }
 
@@ -425,29 +428,29 @@ const DisplayAction = () => {
     values.DSM_supervisor = user.DSM_supervisor;
     values.CDP_supervisor = user.CDP_supervisor;
     values.recieved_since = new Date();
-    if (user.user_position === "VM") {
+    if (user.user_position === "VM") { // User type VM
       values.VM_supervisor = action.VM_validation;
       values.notification_name = returnedDSMText;
-      dispatch(pushNotification(values));
-      dispatch(modifyActionById(action.action_id));
+      dispatch(pushNotification(values));  // Push notification to VM, DSM && CDP || MED
+      dispatch(modifyActionById(action.action_id));  // Modify action by VM
     }
-    if (user.user_position === "DSM") {
+    if (user.user_position === "DSM") { // User type DSM
       values.VM_supervisor = action.VM_validation;
       values.notification_name = returnedDSMText;
-      dispatch(pushNotification(values));
-      dispatch(returnActionById(action.action_id));
+      dispatch(pushNotification(values)); // Push notification to VM, DSM, CDP || MED
+      dispatch(returnActionById(action.action_id)); // Return action to investigation modification 
     }
-    if (user.user_position === "CDP") {
+    if (user.user_position === "CDP") { // User type CDP
       values.VM_supervisor = action.VM_validation;
       values.notification_name = returnedCDPText;
-      dispatch(pushNotification(values));
-      dispatch(returnActionById(action.action_id));
+      dispatch(pushNotification(values)); // Push notification to VM, DSM, CDP || MED
+      dispatch(returnActionById(action.action_id)); // Return action to investigation modification 
     }
-    if (user.user_position === "MED") {
+    if (user.user_position === "MED") { // User type MED
       values.VM_supervisor = action.VM_validation;
       values.notification_name = returnedMEDText;
-      dispatch(pushNotification(values));
-      dispatch(returnActionById(action.action_id));
+      dispatch(pushNotification(values)); // Push notification to VM, DSM, CDP && MED
+      dispatch(returnActionById(action.action_id)); // Return action to investigation modification 
     }
   };
 
@@ -456,64 +459,66 @@ const DisplayAction = () => {
     let validationVMText = `Action avec id ${pathId} de la part du client ${action.user_email} a été envoyée et en attente de validation DSM!`
     let validationDSMText = `Action avec id ${pathId} de la part du client ${action.user_email} a été validée avec succés de la part du DSM ${user.user_email} et en attente de validation CDP`
     let validationCDPText = `Action avec id ${pathId} de la part du client ${action.user_email} a été validée avec succés de la part du chef de projet ${user.user_email}!`
+    let validationMEDText = `Action avec id ${pathId} de la part du client ${action.user_email} a été validée avec succés de la part du médicale ${user.user_email}!`
     values.notification_sender = user.user_id;
     values.recieved_since = new Date();
     if (user.user_position === "VM") {
-      if (action.status === "En attente de validation VM") {
+      if (action.status === "En attente de validation VM") { // User type VM
+        values.VM_supervisor = user.user_id;
         values.DSM_supervisor = user.DSM_supervisor;
         values.CDP_supervisor = user.CDP_supervisor;
-        values.VM_supervisor = user.user_id;
         values.notification_name = validationVMText;
-        dispatch(validateVMActionById(pathId, user.user_email, user.user_id, action.user_email, user.DSM_supervisor, user.CDP_supervisor));
-        dispatch(pushNotification(values));
-        dispatch(messagingValidation(parseInt(user.user_phone_number)));
-      } else if(action.status === "Terminée et non archivée") {
-        dispatch(archiveActionById(action.action_id));
+        dispatch(validateVMActionById(pathId, user.user_email, user.user_id, action.user_email, user.DSM_supervisor, user.CDP_supervisor)); // Validate action by VM
+        dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor || MED supervisor 
+        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
+      } else if (action.status === "Terminée et non archivée") {
+        dispatch(archiveActionById(action.action_id)); // Archieve action
       }
-       else {
+      else {
         history.push("/after-validation")
       }
-    } else if (user.user_position === "DSM") {
+    } else if (user.user_position === "DSM") { // User type DSM
       values.VM_supervisor = action.VM_validation;
       values.DSM_supervisor = user.user_id;
       values.CDP_supervisor = user.CDP_supervisor;
       values.notification_name = validationDSMText;
       if (action.speaker === 0) {
-        dispatch(validateDSMActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email));
-        dispatch(pushNotification(values));
-        dispatch(messagingValidation(parseInt(user.user_phone_number)));
+        dispatch(validateDSMActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email)); // Validate action by DSM
+        dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor
+        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
       } else {
         dispatch(validateDSMSpeakerActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email));
-        dispatch(pushNotification(values));
-        dispatch(messagingValidation(parseInt(user.user_phone_number)));
+        dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
+        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
       }
-    } else if (user.user_position === "CDP") {
+    } else if (user.user_position === "CDP") { // User type CDP
       values.VM_supervisor = action.VM_validation;
       values.DSM_supervisor = user.DSM_supervisor;
       values.CDP_supervisor = user.user_id;
       values.notification_name = validationCDPText;
       if (action.status === 'En attente de validation CDP et MED') {
         dispatch(validateCDPFirstActionById(pathId, user.user_email, user.user_id, action.user_email));
-        dispatch(pushNotification(values));
-        dispatch(messagingValidation(parseInt(user.user_phone_number)));
+        dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
+        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
       } else {
         dispatch(validateCDPActionById(pathId, user.user_email, user.user_id, action.user_email));
-        dispatch(pushNotification(values));
-        dispatch(messagingValidation(parseInt(user.user_phone_number)));
+        dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor
+        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
       }
-    } else if (user.user_position === "MED") {
+    } else if (user.user_position === "MED") { // User type MED
       values.VM_supervisor = action.VM_validation;
       values.DSM_supervisor = user.DSM_supervisor;
-      values.CDP_supervisor = user.user_id;
-      values.notification_name = validationCDPText;
+      values.CDP_supervisor = user.CDP_supervisor;
+      values.MED_supervisor = user.user_id;
+      values.notification_name = validationMEDText;
       if (action.status === 'En attente de validation CDP et MED') {
         dispatch(validateMEDFirstActionById(pathId, user.user_email, user.user_id, action.user_email));
-        dispatch(pushNotification(values));
-        dispatch(messagingValidation(parseInt(user.user_phone_number)));
+        dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
+        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
       } else {
         dispatch(validateMEDActionById(pathId, user.user_email, user.user_id, action.user_email));
-        dispatch(pushNotification(values));
-        dispatch(messagingValidation(parseInt(user.user_phone_number)));
+        dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor || MED supervisor 
+        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a validation message to all destinataires
       }
     }
   }
@@ -524,37 +529,43 @@ const DisplayAction = () => {
     let rejectionDSMText = `Action avec id ${pathId} du client ${action.user_email} a été rejetée de la part du DSM ${user.user_email}`
     let rejectionCDPText = `Action avec id ${pathId} du client ${action.user_email} a été rejetée de la part du chef de projet ${user.user_email}!`
     values.notification_sender = user.user_id;
-    values.DSM_supervisor = user.DSM_supervisor;
-    values.CDP_supervisor = user.CDP_supervisor;
     values.recieved_since = new Date();
-    if (user.user_position === "VM") {
+    if (user.user_position === "VM") {   // User type VM
+      values.VM_supervisor = user.user_id;
+      values.DSM_supervisor = user.DSM_supervisor;
+      values.CDP_supervisor = user.CDP_supervisor;
+      values.notification_name = rejectionVMText;
       if (action.status === "En attente de validation VM") {
-        values.VM_supervisor = user.user_id;
-        values.notification_name = rejectionVMText;
-        dispatch(removeActionById(pathId));
-        dispatch(pushNotification(values));
-        dispatch(messagingRejection(user.user_phone_number));
+        dispatch(removeActionById(pathId)); // Delete action permenantly
+        dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
+        dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
       } else {
         history.goBack()
       }
-    } else if (user.user_position === "DSM") {
+    } else if (user.user_position === "DSM") { // User type DSM
       values.VM_supervisor = action.VM_validation;
+      values.DSM_supervisor = user.user_id;
+      values.CDP_supervisor = user.CDP_supervisor;
       values.notification_name = rejectionDSMText;
-      dispatch(denyDSMActionById(pathId, user.user_id));
-      dispatch(pushNotification(values));
-      dispatch(messagingRejection(user.user_phone_number));
-    } else if (user.user_position === "CDP") {
+      dispatch(denyDSMActionById(pathId, user.user_id)); // Deny action permenantly
+      dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
+      dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
+    } else if (user.user_position === "CDP") { // User type CDP
       values.VM_supervisor = action.VM_validation;
+      values.DSM_supervisor = user.DSM_supervisor;
+      values.CDP_supervisor = user.user_id;
       values.notification_name = rejectionCDPText;
-      dispatch(denyCDPActionById(pathId, user.user_id));
-      dispatch(pushNotification(values));
-      dispatch(messagingRejection(user.user_phone_number));
-    } else if (user.user_position === "MED") {
+      dispatch(denyCDPActionById(pathId, user.user_id)); // Deny action permenantly
+      dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
+      dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
+    } else if (user.user_position === "MED") { // User type MED
       values.VM_supervisor = action.VM_validation;
+      values.DSM_supervisor = user.DSM_supervisor;
+      values.CDP_supervisor = user.user_id;
       values.notification_name = rejectionCDPText;
-      dispatch(denyCDPActionById(pathId, user.user_id));
-      dispatch(pushNotification(values));
-      dispatch(messagingRejection(user.user_phone_number));
+      dispatch(denyCDPActionById(pathId, user.user_id)); // Deny action permenantly
+      dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
+      dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
     }
   }
 
@@ -652,15 +663,18 @@ const DisplayAction = () => {
           open={open}
           onClose={handleDialoClose}
           aria-labelledby="responsive-dialog-title"
+          fullWidth
+          maxWidth="sm"
         >
           <DialogTitle id="responsive-dialog-title">{"Raison de modification d'action"}</DialogTitle>
           <DialogContent>
             <DialogContentText>
               <TextField
-                id="standard-multiline-flexible"
-                label="Tapez la raison ici"
+                id="filled-multiline-static"
+                label="Décrivez votre raison pour le retour à la modification"
                 multiline
-                rowsMax={4}
+                rows={12}
+                variant="filled"
                 onChange={(e) => setNoteContent(e.target.value)}
               />
             </DialogContentText>

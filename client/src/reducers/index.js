@@ -7,6 +7,7 @@ import  { notificationsReducer }  from "./notificationsReducer";
 import  { notesReducer }  from "./notesReducer";
 import  { agenciesReducer }  from "./agenciesReducer";
 import  { servicesReducer }  from "./servicesReducer";
+import  { filesReducer }  from "./filesReducer";
 
 
 const RootReducer = combineReducers({
@@ -18,6 +19,7 @@ const RootReducer = combineReducers({
   notesReducer,
   agenciesReducer,
   servicesReducer,
+  filesReducer
 });
 
 export default RootReducer;

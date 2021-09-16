@@ -18,7 +18,7 @@ class DoctorsSpeciality extends React.Component {
       chartData: {},
     }
   }
-// Component on mount
+  // Component on mount
   componentDidMount() {
     let jobDoctor = 0;
     let generalist = 0;
@@ -95,69 +95,69 @@ class DoctorsSpeciality extends React.Component {
             }
           })
         })
-      } else if(this.props.user[0].user_position === "DSM") {
-          axiosInstance.get(`http://localhost:3000/api/doctors/VMsupervisors/${this.props.user[0].VM_supervisor}`, {
-            params: {
-              user_id: this.props.user[0].VM_supervisor
+      } else if (this.props.user[0].user_position === "DSM") {
+        axiosInstance.get(`http://localhost:3000/api/doctors/VMsupervisors/${this.props.user[0].VM_supervisor}`, {
+          params: {
+            user_id: this.props.user[0].VM_supervisor
+          }
+        }).then((response) => {
+          let total = response.data
+          for (let i = 0; i < total.length; i++) {
+            if (total[i].doctor_field === "Médecin de travail") {
+              jobDoctor++;
+              jobDoctorPercentage = Math.round((jobDoctor / total.length) * 100);
             }
-          }).then((response) => {
-            let total = response.data
-            for (let i = 0; i < total.length; i++) {
-              if (total[i].doctor_field === "Médecin de travail") {
-                jobDoctor++;
-                jobDoctorPercentage = Math.round((jobDoctor / total.length) * 100);
-              }
-              if (total[i].doctor_field === "Generaliste") {
-                generalist++;
-                generalistPercentage = Math.round((generalist / total.length) * 100);
-              }
-              if (total[i].doctor_field === "Médecin Général") {
-                generalDoctor++;
-                generalDoctorPercentage = Math.round((generalDoctor / total.length) * 100);
-              }
-              if (total[i].doctor_field === "Neuphrologie") {
-                neuphrologie++;
-                neuphrologiePercentage = Math.round((neuphrologie / total.length) * 100);
-              }
-              if (total[i].doctor_field === "Médecin enfant") {
-                kidsDoctor++;
-                kidsDoctorPercentage = Math.round((kidsDoctor / total.length) * 100);
-              }
-              if (total[i].doctor_field === "Chirugien") {
-                chirugien++;
-                chirugienPercentage = Math.round((chirugien / total.length) * 100);
-              }
+            if (total[i].doctor_field === "Generaliste") {
+              generalist++;
+              generalistPercentage = Math.round((generalist / total.length) * 100);
             }
-            this.setState({
-              chartData:
-              {
-                labels: ["Docteur de travail", "Généraliste", "Docteur général", "Neuphrologiste", "Docteur d'enfant", "Chirugien"],
-                datasets: [
-                  {
-                    data: [jobDoctorPercentage, generalistPercentage, generalDoctorPercentage, neuphrologiePercentage, kidsDoctorPercentage, chirugienPercentage],
-                    backgroundColor: [
-                      "rgb(229,104,56)",
-                      "rgb(105,66,209)",
-                      "rgb(239,191,61)",
-                      "rgb(175,72,152)",
-                      "rgb(89,180,189)",
-                      "rgb(171,219,227)",
-                    ],
-                    borderWidth: 2,
-                    borderColor: [
-                      "rgb(229,104,56)",
-                      "rgb(105,66,209)",
-                      "rgb(239,191,61)",
-                      "rgb(175,72,152)",
-                      "rgb(89,180,189)",
-                      "rgb(171,219,227)",
-                    ]
-                  }
-                ]
-              }
-            })
+            if (total[i].doctor_field === "Médecin Général") {
+              generalDoctor++;
+              generalDoctorPercentage = Math.round((generalDoctor / total.length) * 100);
+            }
+            if (total[i].doctor_field === "Neuphrologie") {
+              neuphrologie++;
+              neuphrologiePercentage = Math.round((neuphrologie / total.length) * 100);
+            }
+            if (total[i].doctor_field === "Médecin enfant") {
+              kidsDoctor++;
+              kidsDoctorPercentage = Math.round((kidsDoctor / total.length) * 100);
+            }
+            if (total[i].doctor_field === "Chirugien") {
+              chirugien++;
+              chirugienPercentage = Math.round((chirugien / total.length) * 100);
+            }
+          }
+          this.setState({
+            chartData:
+            {
+              labels: ["Docteur de travail", "Généraliste", "Docteur général", "Neuphrologiste", "Docteur d'enfant", "Chirugien"],
+              datasets: [
+                {
+                  data: [jobDoctorPercentage, generalistPercentage, generalDoctorPercentage, neuphrologiePercentage, kidsDoctorPercentage, chirugienPercentage],
+                  backgroundColor: [
+                    "rgb(229,104,56)",
+                    "rgb(105,66,209)",
+                    "rgb(239,191,61)",
+                    "rgb(175,72,152)",
+                    "rgb(89,180,189)",
+                    "rgb(171,219,227)",
+                  ],
+                  borderWidth: 2,
+                  borderColor: [
+                    "rgb(229,104,56)",
+                    "rgb(105,66,209)",
+                    "rgb(239,191,61)",
+                    "rgb(175,72,152)",
+                    "rgb(89,180,189)",
+                    "rgb(171,219,227)",
+                  ]
+                }
+              ]
+            }
           })
-      } else if(this.props.user[0].user_position === "CDP") {
+        })
+      } else if (this.props.user[0].user_position === "CDP" || this.props.user[0].user_position === "MED") {
         axiosInstance.get(`http://localhost:3000/api/doctors`, {
         }).then((response) => {
           let total = response.data
@@ -216,7 +216,7 @@ class DoctorsSpeciality extends React.Component {
             }
           })
         })
-    }
+      }
     }
   }
 

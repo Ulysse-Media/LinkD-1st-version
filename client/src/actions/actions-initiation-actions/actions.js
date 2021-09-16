@@ -177,7 +177,7 @@ export function getDSMRejectedActionsByUserId(user_id) {
     dispatch({ type: FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_REQUEST });
     try {
       const response = await ActionsServices.fetchDSMRejectedActionByUserId(user_id);
-      dispatch({ type: FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data });
+      dispatch({ type: FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
         type: FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_FAILURE,
@@ -191,7 +191,7 @@ export function getCDPRejectedActionsByUserId(user_id) {
     dispatch({ type: FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_REQUEST });
     try {
       const response = await ActionsServices.fetchCDPRejectedActionByUserId(user_id);
-      dispatch({ type: FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data });
+      dispatch({ type: FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
         type: FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_FAILURE,
@@ -206,7 +206,7 @@ export function getSpeakerActions() {
     dispatch({ type: FETCH_SPEAKER_ACTIONS_BY_USER_ID_REQUEST });
     try {
       const response = await ActionsServices.fetchSpeakerAction();
-      dispatch({ type: FETCH_SPEAKER_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data });
+      dispatch({ type: FETCH_SPEAKER_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
         type: FETCH_SPEAKER_ACTIONS_BY_USER_ID_FAILURE,
@@ -473,11 +473,11 @@ export function disarchiveActionById(action_id) {
 }
 
 // Archive action by Id
-export function archiveActionById(action_id) {
+export function archiveActionById(action_id, present_doctors) {
   return async (dispatch) => {
     dispatch({ type: ARCHIVAGE_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.archiveActionByIdRequest(action_id);
+      const response = await ActionsServices.archiveActionByIdRequest(action_id, present_doctors);
         window.location.reload();
       dispatch({ type: ARCHIVAGE_ACTION_BY_ID_SUCCESS });
     } catch (e) {

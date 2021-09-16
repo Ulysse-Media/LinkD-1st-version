@@ -89,12 +89,24 @@ const getnotificationByCDPsupervisor = async (CDP_supervisor) => {
     }
 }
 
+// Database function to retrieve all MED notifications //
+const getnotificationByMEDsupervisor = async (MED_supervisor) => {
+    var query = `Select * from notifications where notification_MED_supervisor='${MED_supervisor}'`;
+    try {
+        let notifications = await sql(query);
+        return notifications;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports = {
     pushNotification,
     getnotifications,
     getnotificationByVMsupervisor,
     getnotificationByDSMsupervisor,
     getnotificationByCDPsupervisor,
+    getnotificationByMEDsupervisor,
     markAsReadVMsupervisorNotification,
     markAsReadDSMsupervisorNotification,
     markAsReadCDPsupervisorNotification

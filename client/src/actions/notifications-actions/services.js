@@ -18,7 +18,7 @@ function fetchNotifications() {
   });
 }
 
-// Fetch notification by recipient //
+// Fetch notification by VM supervisor //
 function fetchNotificationsByVMsupervisor(VM_supervisor) {
   return axiosInstance({
     method: "get",
@@ -30,7 +30,7 @@ function fetchNotificationsByVMsupervisor(VM_supervisor) {
   });
 }
 
-// Fetch notification by recipient //
+// Fetch notification by DSM supervisor //
 function fetchNotificationsByDSMsupervisor(DSM_supervisor) {
   return axiosInstance({
     method: "get",
@@ -42,13 +42,25 @@ function fetchNotificationsByDSMsupervisor(DSM_supervisor) {
   });
 }
 
-// Fetch notification by recipient //
+// Fetch notification by CDP supervisor //
 function fetchNotificationsByCDPsupervisor(CDP_supervisor) {
   return axiosInstance({
     method: "get",
     url: `/api/notifications/VM_validated/DSM_validated/:${CDP_supervisor}`,
     params: {
         CDP_supervisor : CDP_supervisor
+    },
+    data: null,
+  });
+}
+
+// Fetch notification by MED supervisor //
+function fetchNotificationsByMEDsupervisor(MED_supervisor) {
+  return axiosInstance({
+    method: "get",
+    url: `/api/notifications/VM_validated/DSM_validated/:${MED_supervisor}`,
+    params: {
+        MED_supervisor : MED_supervisor
     },
     data: null,
   });
@@ -96,6 +108,7 @@ const NotificationsServices = {
   fetchNotificationsByVMsupervisor,
   fetchNotificationsByDSMsupervisor,
   fetchNotificationsByCDPsupervisor,
+  fetchNotificationsByMEDsupervisor,
   markAsReadNotificationsVMsupervisorRequest,
   markAsReadNotificationsDSMsupervisorRequest,
   markAsReadNotificationsCDPsupervisorRequest

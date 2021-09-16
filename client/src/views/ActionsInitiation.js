@@ -96,21 +96,21 @@ const ActionsInitiation = () => {
   // Dummy data => API's later //
 
   //  Global variables //
-  var filter = [];
-  var filteredDoctors = [];
-  var filteredGeolocalisation = [];
+  let filter = [];
+  let filteredDoctors = [];
+  let filteredGeolocalisation = [];
   //  Global variables //
 
   // Function to handle Filter of doctors
   const handleFilteredDoctors = () => {
-    var counter = 0;
+    let counter = 0;
     setFilteredDoctors(doctors); // Set all available doctors data
-    var options = $(".MuiSelect-select.MuiSelect-select[name='action_field'] option:selected");
+    let options = $(".MuiSelect-select.MuiSelect-select[name='action_field'] option:selected");
     options.each((index, element) => {
       filter.push(element.value);
     })
-    for (var k = 0; k < filter.length; k++) {
-      for (var l = 0; l < doctors.length; l++) {
+    for (let k = 0; k < filter.length; k++) {
+      for (let l = 0; l < doctors.length; l++) {
         if (filter[k].includes(doctors[l].doctor_field)) {
           filteredDoctors = filteredDoctors.concat(doctors.filter(element => element.doctor_field === filter[k])) // Concat all object that correspond to the condition
           filteredDoctors = filteredDoctors.filter((item, index) => filteredDoctors.indexOf(item) === index); // Avoid duplicated objects
@@ -131,7 +131,7 @@ const ActionsInitiation = () => {
 
   // Function to count invited_doctors
   const handleNumberDoctors = () => {
-    var counter = $("#invited_doctors option:selected").length; // Selected options length
+    let counter = $("#invited_doctors option:selected").length; // Selected options length
     setCount(counter); // Hook number of invited doctors to local state
   }
 
@@ -139,9 +139,9 @@ const ActionsInitiation = () => {
   const handleFilteredGeolocalisation = () => {
     setFilteredGeoLocalisation([]); // Clear data
     $(document).ready(() => {
-      var element = $(".MuiList-padding");
-      for (var i = 0; i < element[0].children.length; i++) {
-        for (var j = 0; j < location.length; j++) {
+      let element = $(".MuiList-padding");
+      for (let i = 0; i < element[0].children.length; i++) {
+        for (let j = 0; j < location.length; j++) {
           if (element[0].children[i].selected && element[0].children[i].value === location[j].split(': ').pop()) {
             filteredGeolocalisation = filteredGeolocalisation.concat(location[j])
             setFilteredGeoLocalisation(filteredGeolocalisation); // Hook filtered localisation to local state
@@ -154,11 +154,11 @@ const ActionsInitiation = () => {
   // Function to handle Search //
   const handleSearch = (e) => {
     e.preventDefault(); // Prevent default behavior
-    var text = "";
+    let text = "";
     setText(e.target.value); // Set text of user to local state
     if (Text.length) {
       text = Text.toLowerCase(); // Transform all text type to lowcase
-      for (var i = 0; i < FilteredDoctors.length; i++) {
+      for (let i = 0; i < FilteredDoctors.length; i++) {
         if (FilteredDoctors[i].doctor_lname.trim().toLowerCase().indexOf(text) !== -1 || FilteredDoctors[i].doctor_fname.trim().toLowerCase().indexOf(text) !== -1 || FilteredDoctors[i].doctor_field.trim().toLowerCase().indexOf(text) !== -1) {
           filteredDoctors.push(FilteredDoctors[i]);
           setFilteredDoctors(filteredDoctors); // Hook filtered doctors to local state
@@ -176,7 +176,7 @@ const ActionsInitiation = () => {
 
   // Function to display extra inputs
   const toggleRadioButton = () => {
-    var element = $(".extra-speaker-elements");
+    let element = $(".extra-speaker-elements");
     element.toggle();
   }
 
@@ -268,19 +268,23 @@ const ActionsInitiation = () => {
     dispatch(getLocalisations()); // Dispatch get action of localisations
   }, [dispatch])
   useEffect(() => {
-    var element = $(".extra-speaker-elements");
+    let startAction = "";
+    let endAction = "";
+    let element = $(".extra-speaker-elements");
     element.hide();
       if (action.start_action) {
-        setStartAction(action.start_action.split("T").shift());
+        startAction = (new Date(action.start_action)).toLocaleDateString();
+        setStartAction(startAction.split("/").reverse().join('-'));
       }
       if (action.end_action) {
-        setEndAction(action.end_action.split("T").shift());
+        endAction = (new Date(action.end_action)).toLocaleDateString();
+        setEndAction(endAction.split("/").reverse().join('-'));
     }
     if (action.action_id) {
       setFilteredGeoLocalisation([action.action_location]);
-      var invitedDoctors = action.invited_doctors.split(",");
-      for (var i = 0; i < doctors.length; i++) {
-        for (var j = 0; j < invitedDoctors.length; j++) {
+      let invitedDoctors = action.invited_doctors.split(",");
+      for (let i = 0; i < doctors.length; i++) {
+        for (let j = 0; j < invitedDoctors.length; j++) {
           if ((doctors[i].doctor_lname + " " + doctors[i].doctor_fname) === invitedDoctors[j]) {
             filteredDoctors.push(doctors[i]);
             setFilteredDoctors(filteredDoctors); // Hook filtered doctors to local state

@@ -102,6 +102,24 @@ code {
   background: radial-gradient(black, transparent) !important;
   color: white !important;
 }
-.main-navbar.bg-white.sticky-top .container{
+.main-navbar.bg-white.sticky-top .container {
   max-width: unset !important;
+}
+.MuiPaper-rounded #responsive-dialog-title {
+  width: 550px;
+  height: 350px;
+}
+.MuiDialogContent-root {
+  position: absolute;
+  top: 61px;
+  width: 100%;
+}
+.nav-item {
+  caret-color: transparent;
+}
+.invited-doctors-container {
+  display: flex;
+}
+.invited-doctors-container li {
+  list-style-type: none;
 }

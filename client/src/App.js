@@ -12,6 +12,7 @@ import AfterValidation from "./views/AfterValidation";
 import ActionsArchiving from "./views/ActionsArchiving";
 import ViewNotifications from "./components/layout/MainNavbar/NavbarNav/ViewNotifications";
 import DisplayAction from "./views/DisplayAction";
+import DisplayArchivingAction from "./views/DisplayArchivingAction";
 import EditUserProfile from "./components/layout/MainNavbar/dropdown-menu/EditUserProfile";
 import Charts from "./views/Charts";
 // Layout Types
@@ -71,6 +72,12 @@ export default () => {
         authenticated={isAuthenticated}
         component={DisplayAction}
         path={"/display-action/:id"}
+        layout={DefaultLayout}
+      />
+      <AuthRoute
+        authenticated={isAuthenticated}
+        component={DisplayArchivingAction}
+        path={"/display-archiving-action/:id"}
         layout={DefaultLayout}
       />
       <AuthRoute

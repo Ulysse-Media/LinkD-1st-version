@@ -181,7 +181,7 @@ router.post('/DSMvalidated', function (req, res, next) {
                     }
                 });
                 var mailOptions = {
-                    to: [req.query.action_sender, req.query.CDP_supervisor],
+                    to: [req.query.action_sender, req.query.user_email],
                     from: req.query.user_email,
                     subject: "Validation d'action",
                     text: `Votre action a été validée de la part du ${req.query.user_email} avec success! et en attente de validation CDP! \nDescription détaillée sur l'action portante ID: ${action.action_id} sous username: ${req.query.user_email.split("@").shift()} \n- Produit: ${action.product} \n- Orateur: ${action.speaker} \n- Proposition d'orateur: ${action.speaker_suggestion} \n- Type d’action: ${action.action_type} \n- Transfert: ${action.speaker_transfer} \n- Hébergement: ${action.speaker_accommodation} \n- Autre staff sanofi: ${action.other_staff} \n- Agenda de la réunion: ${action.meeting_agenda} \n- Date début de l’action: ${action.start_action} \n- Date fin de l’action: ${action.end_action} \n- Théme de la réunion: ${action.meeting_theme} \n- Nombre de Pax: ${action.pax_number} \n- Horaire: ${action.schedule} \n- Liste Médecins invités: ${action.invited_doctors} \n- Ville: ${action.action_town} \n- Lieu: ${action.action_location} \n- Autre lieu: ${action.other_location} \n- Autres médecins: ${action.other_doctors} \n- Commentaires: ${action.comments}`,
@@ -215,7 +215,7 @@ router.post('/DSMSpeakervalidated', function (req, res, next) {
                     }
                 });
                 var mailOptions = {
-                    to: [req.query.action_sender, req.query.CDP_supervisor],
+                    to: [req.query.action_sender, req.query.user_email],
                     from: req.query.user_email,
                     subject: "Validation d'action",
                     text: `Votre action a été validée de la part du ${req.query.user_email} avec success! et en attente de validation CDP! \nDescription détaillée sur l'action portante ID: ${action.action_id} sous username: ${req.query.user_email.split("@").shift()} \n- Produit: ${action.product} \n- Orateur: ${action.speaker} \n- Proposition d'orateur: ${action.speaker_suggestion} \n- Type d’action: ${action.action_type} \n- Transfert: ${action.speaker_transfer} \n- Hébergement: ${action.speaker_accommodation} \n- Autre staff sanofi: ${action.other_staff} \n- Agenda de la réunion: ${action.meeting_agenda} \n- Date début de l’action: ${action.start_action} \n- Date fin de l’action: ${action.end_action} \n- Théme de la réunion: ${action.meeting_theme} \n- Nombre de Pax: ${action.pax_number} \n- Horaire: ${action.schedule} \n- Liste Médecins invités: ${action.invited_doctors} \n- Ville: ${action.action_town} \n- Lieu: ${action.action_location} \n- Autre lieu: ${action.other_location} \n- Autres médecins: ${action.other_doctors} \n- Commentaires: ${action.comments}`,
@@ -239,6 +239,7 @@ router.post('/DSMSpeakervalidated', function (req, res, next) {
 
 // Api to validate CDP action by ID
 router.post('/CDPvalidated/first', function (req, res, next) {
+    console.log(req.query)
     Actions.validateFirstCDPActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
         Actions.getActionById(req.query.action_id).then((action, error) => {
             if (result) {
@@ -250,7 +251,7 @@ router.post('/CDPvalidated/first', function (req, res, next) {
                     }
                 });
                 var mailOptions = {
-                    to: [req.query.action_sender, req.query.DSM_supervisor],
+                    to: [req.query.action_sender, req.query.user_email],
                     from: req.query.user_email,
                     subject: "Validation d'action",
                     text: `Votre action a été validée avec success de la part du ${req.query.user_email} \nDescription détaillée sur l'action portante ID: ${action.action_id} sous username: ${req.query.user_email.split("@").shift()} \n- Produit: ${action.product} \n- Orateur: ${action.speaker} \n- Proposition d'orateur: ${action.speaker_suggestion} \n- Type d’action: ${action.action_type} \n- Transfert: ${action.speaker_transfer} \n- Hébergement: ${action.speaker_accommodation} \n- Autre staff sanofi: ${action.other_staff} \n- Agenda de la réunion: ${action.meeting_agenda} \n- Date début de l’action: ${action.start_action} \n- Date fin de l’action: ${action.end_action} \n- Théme de la réunion: ${action.meeting_theme} \n- Nombre de Pax: ${action.pax_number} \n- Horaire: ${action.schedule} \n- Liste Médecins invités: ${action.invited_doctors} \n- Ville: ${action.action_town} \n- Lieu: ${action.action_location} \n- Autre lieu: ${action.other_location} \n- Autres médecins: ${action.other_doctors} \n- Commentaires: ${action.comments}`,
@@ -283,7 +284,7 @@ router.post('/CDPvalidated', function (req, res, next) {
                     }
                 });
                 var mailOptions = {
-                    to: [req.query.action_sender, req.query.DSM_supervisor],
+                    to: [req.query.action_sender, req.query.user_email],
                     from: req.query.user_email,
                     subject: "Validation d'action",
                     text: `Votre action a été validée avec success de la part du ${req.query.user_email} \nDescription détaillée sur l'action portante ID: ${action.action_id} sous username: ${req.query.user_email.split("@").shift()} \n- Produit: ${action.product} \n- Orateur: ${action.speaker} \n- Proposition d'orateur: ${action.speaker_suggestion} \n- Type d’action: ${action.action_type} \n- Transfert: ${action.speaker_transfer} \n- Hébergement: ${action.speaker_accommodation} \n- Autre staff sanofi: ${action.other_staff} \n- Agenda de la réunion: ${action.meeting_agenda} \n- Date début de l’action: ${action.start_action} \n- Date fin de l’action: ${action.end_action} \n- Théme de la réunion: ${action.meeting_theme} \n- Nombre de Pax: ${action.pax_number} \n- Horaire: ${action.schedule} \n- Liste Médecins invités: ${action.invited_doctors} \n- Ville: ${action.action_town} \n- Lieu: ${action.action_location} \n- Autre lieu: ${action.other_location} \n- Autres médecins: ${action.other_doctors} \n- Commentaires: ${action.comments}`,
@@ -306,6 +307,7 @@ router.post('/CDPvalidated', function (req, res, next) {
 
 // Api to validate MED action by ID
 router.post('/MEDvalidated/first', function (req, res, next) {
+    console.log(req.query)
     Actions.validateFirstMEDActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
         Actions.getActionById(req.query.action_id).then((action, error) => {
             if (result) {
@@ -317,7 +319,7 @@ router.post('/MEDvalidated/first', function (req, res, next) {
                     }
                 });
                 var mailOptions = {
-                    to: [req.query.action_sender, req.query.MED_supervisor],
+                    to: [req.query.action_sender, req.query.user_email],
                     from: req.query.user_email,
                     subject: "Validation d'action",
                     text: `Votre action a été validée avec success de la part du ${req.query.user_email} \nDescription détaillée sur l'action portante ID: ${action.action_id} sous username: ${req.query.user_email.split("@").shift()} \n- Produit: ${action.product} \n- Orateur: ${action.speaker} \n- Proposition d'orateur: ${action.speaker_suggestion} \n- Type d’action: ${action.action_type} \n- Transfert: ${action.speaker_transfer} \n- Hébergement: ${action.speaker_accommodation} \n- Autre staff sanofi: ${action.other_staff} \n- Agenda de la réunion: ${action.meeting_agenda} \n- Date début de l’action: ${action.start_action} \n- Date fin de l’action: ${action.end_action} \n- Théme de la réunion: ${action.meeting_theme} \n- Nombre de Pax: ${action.pax_number} \n- Horaire: ${action.schedule} \n- Liste Médecins invités: ${action.invited_doctors} \n- Ville: ${action.action_town} \n- Lieu: ${action.action_location} \n- Autre lieu: ${action.other_location} \n- Autres médecins: ${action.other_doctors} \n- Commentaires: ${action.comments}`,
@@ -351,7 +353,7 @@ router.post('/MEDvalidated', function (req, res, next) {
                     }
                 });
                 var mailOptions = {
-                    to: [req.query.action_sender, req.query.MED_supervisor],
+                    to: [req.query.action_sender, req.query.user_email],
                     from: req.query.user_email,
                     subject: "Validation d'action",
                     text: `Votre action a été validée avec success de la part du ${req.query.user_email} \nDescription détaillée sur l'action portante ID: ${action.action_id} sous username: ${req.query.user_email.split("@").shift()} \n- Produit: ${action.product} \n- Orateur: ${action.speaker} \n- Proposition d'orateur: ${action.speaker_suggestion} \n- Type d’action: ${action.action_type} \n- Transfert: ${action.speaker_transfer} \n- Hébergement: ${action.speaker_accommodation} \n- Autre staff sanofi: ${action.other_staff} \n- Agenda de la réunion: ${action.meeting_agenda} \n- Date début de l’action: ${action.start_action} \n- Date fin de l’action: ${action.end_action} \n- Théme de la réunion: ${action.meeting_theme} \n- Nombre de Pax: ${action.pax_number} \n- Horaire: ${action.schedule} \n- Liste Médecins invités: ${action.invited_doctors} \n- Ville: ${action.action_town} \n- Lieu: ${action.action_location} \n- Autre lieu: ${action.other_location} \n- Autres médecins: ${action.other_doctors} \n- Commentaires: ${action.comments}`,
@@ -418,7 +420,7 @@ router.post('/disarchived/:action_id', function (req, res, next) {
 
 // Api to archive action by ID
 router.post('/archived/:action_id', function (req, res, next) {
-    Actions.archiveActionById(req.query.action_id).then((result, error) => {
+    Actions.archiveActionById(req.query.action_id, req.body.present_doctors).then((result, error) => {
         if (result) {
             return res.json(result);
         } else {
@@ -430,7 +432,7 @@ router.post('/archived/:action_id', function (req, res, next) {
 router.post('/twilio/messaging/validation', function (req, res, nest) {
     client.messages
         .create({
-            body: 'Action validée',
+            body: 'Action validée avec success',
             from: process.env.MY_OLD_PHONE_NUMBER,
             to: req.body.to
         }).then(message => {

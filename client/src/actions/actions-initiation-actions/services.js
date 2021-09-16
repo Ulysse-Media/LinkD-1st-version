@@ -294,12 +294,15 @@ function disarchiveActionByIdRequest(action_id) {
 }
 
 // Archive action by Id //
-function archiveActionByIdRequest(action_id) {
+function archiveActionByIdRequest(action_id, present_doctors) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/archived/:${action_id}`,
     params: {
       action_id: action_id,
+    },
+    data : {
+      present_doctors: present_doctors
     }
   })
 }

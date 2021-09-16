@@ -6,7 +6,6 @@ const addAction = async (req) => {
   var query = `INSERT INTO actions (user_id, DSM_supervisor, user_position, user_email, action_type, other_stuff, start_action, end_action, schedule, action_town, action_location, other_location, product, speaker, speaker_suggestion, speaker_transfer, speaker_accommodation, meeting_agenda, meeting_theme, pax_number, action_field, invited_doctors, other_doctors, comments) values ('${req.user_id}', '${req.DSM_supervisor}', '${req.user_position}', '${req.user_email}', '${req.action_type}', '${req.other_stuff}', '${req.start_action}', '${req.end_action}', '${req.schedule}', '${req.action_town}', '${req.action_location}', '${req.other_location}', '${req.product}', '${req.speaker}', '${req.speaker_suggestion || null}', '${req.speaker_transfer || 0}', '${req.speaker_accommodation || 0}', '${req.meeting_agenda || null}', '${req.meeting_theme}', '${req.pax_number}', '${req.action_field}', '${req.invited_doctors}', '${req.other_doctors}', '${req.comments}')`;
   try {
     let action = await sql(query);
-    console.log(action)
     return action;
   } catch (err) {
     console.log(err)
@@ -344,8 +343,9 @@ const disarchiveActionById = async (action_id) => {
 }
 
 // Database function to archive action by ID //
-const archiveActionById = async (action_id) => {
-  var query = `UPDATE actions SET status="Terminée et archivée" where action_id='${action_id}'`;
+const archiveActionById = async (action_id, present_invited_doctors) => {
+  let present = present_invited_doctors.join(",");
+  var query = `UPDATE actions SET status="Terminée et archivée", present_invited_doctors='${present}' where action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;

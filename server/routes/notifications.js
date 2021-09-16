@@ -2,6 +2,16 @@ const express = require('express');
 const router = express.Router();
 const Notifications = require("../database-mysql/notifications/notifications");
 
+router.get('/', function (req, res, next) {
+    Notifications.getnotifications().then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
 router.get('/:VM_supervisor', function (req, res, next) {
     Notifications.getnotificationByVMsupervisor(req.query.VM_supervisor).then(result => {
         try {
@@ -24,6 +34,16 @@ router.get('/VM_validated/:DSM_supervisor', function (req, res, next) {
 
 router.get('/VM_validated/DSM_validated/:CDP_supervisor', function (req, res, next) {
     Notifications.getnotificationByCDPsupervisor(req.query.CDP_supervisor).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
+router.get('/VM_validated/DSM_validated/:MED_supervisor', function (req, res, next) {
+    Notifications.getnotificationByMEDsupervisor(req.query.MED_supervisor).then(result => {
         try {
             return res.json(result);
         } catch (err) {

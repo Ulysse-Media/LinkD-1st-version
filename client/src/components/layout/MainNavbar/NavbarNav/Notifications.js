@@ -13,12 +13,14 @@ class Notifications extends React.Component {
       notificationsVM_supervisor: [],
       notificationsDSM_supervisor: [],
       notificationsCDP_supervisor: [],
+      notificationsMED_supervisor: [],
       user: {},
       notesActionSender: [],
       alertNotif: {},
       VM_counter: 0,
       DSM_counter: 0,
       CDP_counter: 0,
+      MED_counter: 0,
       showCounter: true,
       visible: false
     };
@@ -61,6 +63,12 @@ class Notifications extends React.Component {
       let CDP_counter = filteredNotificationsCDP_supervisor.length;
       this.setState({ notificationsCDP_supervisor });
       this.setState({ CDP_counter });
+    } else if (this.state.user.user_position === "MED") {
+      let notificationsMED_supervisor = nextProps.MED_notif.reverse();
+      let filteredNotificationsMED_supervisor = notificationsMED_supervisor.filter(element => element.markAsRead_MED_supervisor === 0);
+      let MED_counter = filteredNotificationsMED_supervisor.length;
+      this.setState({ notificationsMED_supervisor });
+      this.setState({ MED_counter });
     }
   }
   // Component will update //
