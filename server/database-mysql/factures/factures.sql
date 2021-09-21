@@ -1,0 +1,1 @@
+Create Table factures(facture_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, local_price INT, price INT, product VARCHAR(20), logistic VARCHAR(20), accommodation VARCHAR(20), transfer VARCHAR(50), honorary_speaker VARCHAR(20), extras VARCHAR(20), comments VARCHAR(200));

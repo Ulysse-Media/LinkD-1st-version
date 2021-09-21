@@ -478,8 +478,8 @@ export function archiveActionById(action_id, present_doctors) {
     dispatch({ type: ARCHIVAGE_ACTION_BY_ID_REQUEST });
     try {
       const response = await ActionsServices.archiveActionByIdRequest(action_id, present_doctors);
-        window.location.reload();
       dispatch({ type: ARCHIVAGE_ACTION_BY_ID_SUCCESS });
+      window.location.reload();
     } catch (e) {
       dispatch({
         type: ARCHIVAGE_ACTION_BY_ID_FAILURE,

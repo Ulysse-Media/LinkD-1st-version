@@ -6,7 +6,7 @@ import { getActionById, archiveActionById } from "../actions/actions-initiation-
 import { addFile, retriveFile } from "../actions/files-actions/actions";
 import InvitedDoctorsSpeciality from "../components/recap-statistics/DoctorsSpeciality";
 import InvitedDoctorsFeedback from "../components/recap-statistics/DoctorsFeedback";
-
+import CancelIcon from '@material-ui/icons/Cancel';
 import {
   Typography,
   Paper,
@@ -14,10 +14,9 @@ import {
   Checkbox,
   Avatar,
   Button,
-  TextField,
   FormControl,
   FormGroup,
-  FormControlLabel
+  FormControlLabel,
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
@@ -36,6 +35,7 @@ const DisplayArchivingAction = () => {
   const [Files, setFiles] = useState([]);
   const history = useHistory();
   var pathId = history.location.pathname.split("/")[history.location.pathname.split("/").length - 1];
+
   // User state from redux store
   const user = useSelector(
     (state) => state.authReducer.user[0]
@@ -55,20 +55,26 @@ const DisplayArchivingAction = () => {
       setPresentInvitedDoctors(oldArray => oldArray.filter(e => e !== event.target.value))
     }
   }
+  const handleCancel = (name) => {
+    setFiles(oldArray => oldArray.filter(e => e.name !== name));
+  }
   const handleFileChange = (event) => {
+    let arr = [];
     let files = event.target.files;
     for (let i = 0; i < files.length; i++) {
-      setFiles(oldArray => [...oldArray, files[i]]);
+      arr.push(files[i])
     }
-
+    setFiles(arr);
   }
   const onSubmit = () => {
     const formData = new FormData(); // Create an instance of FormData
-    formData.append("file", Files);
+    for (const key of Object.keys(Files)) {
+      formData.append('imgCollection', Files[key])
+    }
     formData.append("action", action.action_id);
     formData.append("user", user.user_id);
     dispatch(addFile(formData));
-    // dispatch(archiveActionById(action.action_id, PresentInvitedDoctors));
+    dispatch(archiveActionById(action.action_id, PresentInvitedDoctors));
   }
   // All displayed fields form //
   const formFields = [
@@ -396,7 +402,7 @@ const DisplayArchivingAction = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px", borderTop: "1px solid" }}>
-          Liste Médecins invités :
+          Liste médecins invités :
         </Typography>
       ),
     },
@@ -452,52 +458,58 @@ const DisplayArchivingAction = () => {
       ),
     },
     {
-      size: 3,
+      size: 6,
       field: (
-        <Typography className={"typography"} style={action.status === "Terminée et non archivée" ? { marginTop: "18px", borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid" }}        >
-          Télèverser le fichier :
+        <Typography className={"typography"} style={action.status === "Terminée et non archivée" ? { marginTop: "18px", borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid" }}>
+          Télèverser:
         </Typography>
       ),
     },
     {
-      size: 3,
+      size: 6,
       field: (
-        // <TextField
-        //   name="fileUpload"
-        //   type="file"
-        //   multiple 
-        //   onChange={handleFileChange}
-        //   style={action.status === "Terminée et non archivée" ? { marginTop: "18px", borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid" }}
-        // />
-        <Button
-          variant="contained"
-          component="label"
-        >
-          Upload File
-          <input
-            type="file"
-            name="fileUpload"
-            onChange={handleFileChange}
-            style={action.status === "Terminée et non archivée" ? { marginTop: "18px", borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid" }}
-            multiple
-          />
-        </Button>
+        <input
+          type="file"
+          name="fileUpload"
+          onChange={handleFileChange}
+          style={action.status === "Terminée et non archivée" ? { width: "100%", marginTop: "18px",  borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid", width: "100%" }}
+          multiple
+        />
       ),
     },
     {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px", borderTop: "1px solid" }}>
-          Fichier télèversé :
+          Fichiers télèversés :
         </Typography>
       ),
     },
     {
-      size: 3,
+      size: 9,
       field: (
-        <Typography className={"typography"} style={{ marginTop: "18px", borderTop: "1px solid" }}>
-          <Avatar style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={file.file_name ? file.file_name : null} variant="rounded" />
+        <Typography className={"typography"} style={{ marginTop: "18px", borderTop: "1px solid", width: "100%" }}>
+            <Grid item xs={12}>
+              <Grid container justifyContent="center" spacing={2}>
+                {file.file_name && file.file_name.split(",").map((element, key) => (
+                  <Grid key={key} item>
+                    <Avatar style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={element} variant="rounded" id={key} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} style={{ marginTop:"16px" }}>
+              <Grid container spacing={2} justifyContent="center" >
+                {Files && Files.map((element, key) => (
+                  <Grid key={key} item>
+                    <CancelIcon onClick={() => handleCancel(element.name)} style={{ cursor: 'pointer', float: 'right' }}></CancelIcon>
+                    <Avatar style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={URL.createObjectURL(element)} variant="rounded" id={key} />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
         </Typography>
+ 
       ),
     },
   ];
@@ -538,6 +550,7 @@ const DisplayArchivingAction = () => {
       }
     }
   }, [LastAction.start_action, LastAction.end_action, action]);
+
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1225, height: '100%' }}>
       <Row noGutters className="page-header py-4">

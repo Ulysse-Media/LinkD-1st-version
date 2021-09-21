@@ -19,6 +19,10 @@ import { useHistory } from "react-router-dom";
 const AfterValidation = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    // User state from redux store
+    const user = useSelector(
+        (state) => state.authReducer.user[0]
+    );
     // Agencies state from redux store
     const agencies = useSelector(
         (state) => state.agenciesReducer.agencies
@@ -33,8 +37,9 @@ const AfterValidation = () => {
     );
     // Submit Form Group inputs
     const onSubmit = async (values) => {
-        console.log(values)
-        dispatch(validateservices(values, action));
+        if (user.user_position === "CDP") {
+            dispatch(validateservices(values, action));
+        }
     };
     const handleBack = () => {
         history.goBack();

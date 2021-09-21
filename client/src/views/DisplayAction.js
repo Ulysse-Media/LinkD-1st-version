@@ -223,7 +223,7 @@ const DisplayAction = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px" }}>
-          <Avatar alt="uploaded-file" className="file" src={LastAction.meeting_agenda} style={{ width: 150, height: 150 }}/>
+          <Avatar alt="uploaded-file" className="file" src={LastAction.meeting_agenda} style={{ width: 150, height: 150 }} />
         </Typography>
       ),
     },
@@ -474,9 +474,6 @@ const DisplayAction = () => {
       } else if (action.status === "Terminée et non archivée") {
         dispatch(archiveActionById(action.action_id)); // Archieve action
       }
-      else {
-        history.push("/after-validation")
-      }
     } else if (user.user_position === "DSM") { // User type DSM
       values.VM_supervisor = action.VM_validation;
       values.DSM_supervisor = user.user_id;
@@ -500,7 +497,10 @@ const DisplayAction = () => {
         dispatch(validateCDPFirstActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
         dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
-      } else {
+      } else if (action.status === "Validé") {
+        history.push("/after-validation")
+      }
+      else {
         dispatch(validateCDPActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor
         dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
@@ -539,8 +539,6 @@ const DisplayAction = () => {
         dispatch(removeActionById(pathId)); // Delete action permenantly
         dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
         dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
-      } else {
-        history.goBack()
       }
     } else if (user.user_position === "DSM") { // User type DSM
       values.VM_supervisor = action.VM_validation;
@@ -551,13 +549,17 @@ const DisplayAction = () => {
       dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
       dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
     } else if (user.user_position === "CDP") { // User type CDP
-      values.VM_supervisor = action.VM_validation;
-      values.DSM_supervisor = user.DSM_supervisor;
-      values.CDP_supervisor = user.user_id;
-      values.notification_name = rejectionCDPText;
-      dispatch(denyCDPActionById(pathId, user.user_id)); // Deny action permenantly
-      dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
-      dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
+      if (action.status === "Validé") {
+        history.goBack()
+      } else {
+        values.VM_supervisor = action.VM_validation;
+        values.DSM_supervisor = user.DSM_supervisor;
+        values.CDP_supervisor = user.user_id;
+        values.notification_name = rejectionCDPText;
+        dispatch(denyCDPActionById(pathId, user.user_id)); // Deny action permenantly
+        dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
+        dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
+      }
     } else if (user.user_position === "MED") { // User type MED
       values.VM_supervisor = action.VM_validation;
       values.DSM_supervisor = user.DSM_supervisor;
@@ -637,7 +639,7 @@ const DisplayAction = () => {
               variant="contained"
               color="primary"
               onClick={handleValidate}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "VM" && action.status === "Validé") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
               {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Envoyer" : user.user_position === "VM" && action.status === "Terminée et non archivée" ? "Archiver" : "Valider"}
             </Button>
@@ -652,9 +654,9 @@ const DisplayAction = () => {
               variant="contained"
               color="secondary"
               onClick={handleDelete}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "VM" && action.status === "Validé") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "VM" && action.status === "Validé" ? "Retour" : "Refuser"}
+              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé" ? "Retour" : null}
             </Button>
           </Grid>
         </Grid>

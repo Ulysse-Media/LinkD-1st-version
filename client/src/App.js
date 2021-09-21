@@ -20,6 +20,7 @@ import { DefaultLayout } from "./layouts";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./shards-dashboard/styles/shards-dashboards.1.1.0.min.css";
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-dropzone-uploader/dist/styles.css'
 
 export default () => {
   const isAuthenticated = useSelector(
@@ -115,15 +116,18 @@ export default () => {
 }
 
 const GuestRoute = ({ component: Component, authenticated, ...rest }) => {
+  const [loggedIn, setLoggedIn] = useState(authenticated);
+  useEffect(() => {
+    setLoggedIn(authenticated);
+  }, [authenticated]);
   return (
     <Route
       {...rest}
-      exact
       render={(props) =>
-        !authenticated ? (
-          <Component {...props} />
-        ) : (
+        loggedIn ? (
           <Redirect to="/dashboard" />
+        ) : (
+          <Component {...props} />
         )
       }
     />
@@ -149,8 +153,8 @@ const AuthRoute = ({ component: Component, authenticated, layout: Layout, ...res
             to={{
               pathname: "/login",
               state: { from: props.location },
-            }}
-          />)}
+            }} />
+        )}
     />)
 };
 

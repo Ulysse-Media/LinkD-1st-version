@@ -49,9 +49,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 // Middleware for files upload
-app.use(fileUpload({
-   createParentPath: true
-}));
+app.use(fileUpload());
 app.set('socketio', io)
 // Serve static files
 app.use(express.static(_DIR));

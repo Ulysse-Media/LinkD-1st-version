@@ -5,24 +5,24 @@ const _DIR = "./server/public";
 
 // Api to post new doctor to database
 router.post('/', function (req, res, next) {
-    console.log(req.files.file)
-    var imgURL = "";
-    // var file = req.files.file;
-    // if (req.files) {
-    //     imgURL = `/calendar/${file.name}`;
-    //     if (file.mimetype == "image/gif" || file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-    //         file.mv(`${_DIR}/calendar/${file.name}`);
-    //         imgURL = `/calendar/${file.name}`;
-    //         req.body.fileUpload = imgURL;
-    //     }
-    // }
-    // Files.addFile(req.body).then(result => {
-    //     try {
-    //         return res.json(result);
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // })
+    var imgURL = [];
+    const files = req.files.imgCollection;
+    if (files) {
+        for (let i = 0; i < files.length; i++) {
+            if (files[i].mimetype == "image/gif" || files[i].mimetype == "image/jpeg" || files[i].mimetype == "image/png") {
+                files[i].mv(`${_DIR}/calendar/${files[i].name}`)
+                imgURL.push(`/calendar/${files[i].name}`);
+            }
+        }
+        req.body.fileUpload = imgURL;
+    }
+    Files.addFile(req.body).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
 });
 
 // Api to post new doctor to database
