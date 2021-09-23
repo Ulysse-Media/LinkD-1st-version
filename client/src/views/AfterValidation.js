@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Select,
 } from 'mui-rff';
@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom";
 const AfterValidation = () => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const [Comments, setComments] = useState("");
     // User state from redux store
     const user = useSelector(
         (state) => state.authReducer.user[0]
@@ -37,8 +38,10 @@ const AfterValidation = () => {
     );
     // Submit Form Group inputs
     const onSubmit = async (values) => {
+        values.comments = Comments;
         if (user.user_position === "CDP") {
             dispatch(validateservices(values, action));
+            history.push("/invoice-finalization");
         }
     };
     const handleBack = () => {
@@ -133,6 +136,8 @@ const AfterValidation = () => {
                                 name="comments"
                                 placeholder="Tapez des commentaires"
                                 margin="none"
+                                onChange={(e) => setComments(e.target.value)}
+                                value={Comments}
                             />
                         </div>
                     )}

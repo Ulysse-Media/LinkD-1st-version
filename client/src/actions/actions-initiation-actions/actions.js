@@ -528,9 +528,6 @@ export function validateservices(values, action) {
       toast.success(`Veuillez vérifier votre adresse email SVP ..`, {
         position: toast.POSITION.TOP_LEFT
       });
-      setInterval(() => {
-        window.location.reload();
-      }, 3000)
     } catch (e) {
       dispatch({
         type: SERVICES_FAILURE,

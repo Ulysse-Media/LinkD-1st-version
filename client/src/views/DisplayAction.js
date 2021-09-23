@@ -656,7 +656,7 @@ const DisplayAction = () => {
               onClick={handleDelete}
               style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé" ? "Retour" : null}
+              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" ? "Refuser" : null}
             </Button>
           </Grid>
         </Grid>

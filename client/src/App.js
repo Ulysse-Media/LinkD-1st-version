@@ -9,6 +9,7 @@ import ActionsInitiation from "./views/ActionsInitiation";
 import ActionsMonitoring from "./views/ActionsMonitoring";
 import ActionsValidation from "./views/ActionsValidation";
 import AfterValidation from "./views/AfterValidation";
+import InvoiceFinalization from "./views/InvoiceFinalization";
 import ActionsArchiving from "./views/ActionsArchiving";
 import ViewNotifications from "./components/layout/MainNavbar/NavbarNav/ViewNotifications";
 import DisplayAction from "./views/DisplayAction";
@@ -91,6 +92,12 @@ export default () => {
         authenticated={isAuthenticated}
         component={AfterValidation}
         path={"/after-validation"}
+        layout={DefaultLayout}
+      />
+      <AuthRoute
+        authenticated={isAuthenticated}
+        component={InvoiceFinalization}
+        path={"/invoice-finalization"}
         layout={DefaultLayout}
       />
       <AuthRoute
