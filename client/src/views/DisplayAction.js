@@ -79,7 +79,9 @@ const DisplayAction = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px" }}>
-          {LastAction.product}
+          {LastAction.product && LastAction.product.split(",").map((element, key) => (
+            <li>{element}</li>
+          ))}
         </Typography>
       ),
     },
@@ -319,7 +321,9 @@ const DisplayAction = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px" }}>
-          {LastAction.invited_doctors}
+          {LastAction.invited_doctors && LastAction.invited_doctors.split(",").map((element, key) => (
+            <li style={{ marginTop: "8px" }} >{element}</li>
+          ))}
         </Typography>
       ),
     },
@@ -648,7 +652,8 @@ const DisplayAction = () => {
               onClick={user.user_position === "VM" ? handleModifyActionById : handleDialogOpen}
               style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              Modifier
+              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Modifier" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Retour à la modification" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : null}
+
             </Button>
             <Button
               variant="contained"
@@ -656,7 +661,7 @@ const DisplayAction = () => {
               onClick={handleDelete}
               style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" ? "Refuser" : null}
+              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED"? "Refuser" : null}
             </Button>
           </Grid>
         </Grid>

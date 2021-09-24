@@ -35,7 +35,6 @@ const DisplayArchivingAction = () => {
   const [Files, setFiles] = useState([]);
   const history = useHistory();
   var pathId = history.location.pathname.split("/")[history.location.pathname.split("/").length - 1];
-
   // User state from redux store
   const user = useSelector(
     (state) => state.authReducer.user[0]
@@ -59,12 +58,12 @@ const DisplayArchivingAction = () => {
     setFiles(oldArray => oldArray.filter(e => e.name !== name));
   }
   const handleFileChange = (event) => {
-    let arr = [];
+    let collectionImg = [];
     let files = event.target.files;
     for (let i = 0; i < files.length; i++) {
-      arr.push(files[i])
+      collectionImg.push(files[i])
     }
-    setFiles(arr);
+    setFiles(collectionImg);
   }
   const onSubmit = () => {
     const formData = new FormData(); // Create an instance of FormData
@@ -76,6 +75,42 @@ const DisplayArchivingAction = () => {
     dispatch(addFile(formData));
     dispatch(archiveActionById(action.action_id, PresentInvitedDoctors));
   }
+    // Component on mount //
+    useEffect(() => {
+      dispatch(getActionById(pathId)); // Dispatch get action of all action 
+      dispatch(retriveFile(pathId)); // Dispatch get action of all action 
+    }, [dispatch, pathId])
+    useEffect(() => {
+      let startDate = new Date(LastAction.start_action); // Create an instance of start date
+      let endDate = new Date(LastAction.end_action); // Create an instance of end date
+      if (action) {
+        setLastAction(action); // Hook last action to local state
+        if (action.start_action) {
+          setStartAction(startDate.toLocaleDateString("fr")); // Format date type to French local date string
+        }
+        if (action.end_action) {
+          setEndAction(endDate.toLocaleDateString("fr")); // Format date type to French local date string
+        }
+        if (action.speaker) {
+          setSpeaker("Oui"); // Set logic number `(0/1)` to readable string
+        } else {
+          setSpeaker("Non"); // Set logic number `(0/1)` to readable string
+        }
+        if (action.speaker_transfer) {
+          setSpeakerTransfer("Oui"); // Set logic number `(0/1)` to readable string
+        } else {
+          setSpeakerTransfer("Non"); // Set logic number `(0/1)` to readable string
+        }
+        if (action.speaker_accommodation) {
+          setSpeakerAccommodation("Oui"); // Set logic number `(0/1)` to readable string
+        } else {
+          setSpeakerAccommodation("Non"); // Set logic number `(0/1)` to readable string
+        }
+        if (action.invited_doctors) {
+          setInvitedDoctors(action.invited_doctors.split(",")); // Set invited doctors array
+        }
+      }
+    }, [LastAction.start_action, LastAction.end_action, action]);
   // All displayed fields form //
   const formFields = [
     {
@@ -106,7 +141,9 @@ const DisplayArchivingAction = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px" }}>
-          {LastAction.product}
+          {LastAction.product && LastAction.product.split(",").map((element, key) => (
+            <li>{element}</li>
+          ))}
         </Typography>
       ),
     },
@@ -410,7 +447,7 @@ const DisplayArchivingAction = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px", borderTop: "1px solid" }}>
-          {action.status === "Terminée et non archivée" ? InvitedDoctors.map((element, key) => {
+          {user.user_position === "VM" && action.status === "Terminée et non archivée" ? InvitedDoctors.map((element, key) => {
             return (
               <FormControl key={key}>
                 <FormGroup>
@@ -460,7 +497,7 @@ const DisplayArchivingAction = () => {
     {
       size: 6,
       field: (
-        <Typography className={"typography"} style={action.status === "Terminée et non archivée" ? { marginTop: "18px", borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid" }}>
+        <Typography className={"typography"} style={user.user_position === "VM" && action.status === "Terminée et non archivée" ? { marginTop: "18px", borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid" }}>
           Télèverser:
         </Typography>
       ),
@@ -472,7 +509,7 @@ const DisplayArchivingAction = () => {
           type="file"
           name="fileUpload"
           onChange={handleFileChange}
-          style={action.status === "Terminée et non archivée" ? { width: "100%", marginTop: "18px",  borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid", width: "100%" }}
+          style={user.user_position === "VM" && action.status === "Terminée et non archivée" ? { width: "100%", marginTop: "18px",  borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid", width: "100%" }}
           multiple
         />
       ),
@@ -513,44 +550,6 @@ const DisplayArchivingAction = () => {
       ),
     },
   ];
-
-  // Component on mount //
-  useEffect(() => {
-    dispatch(getActionById(pathId)); // Dispatch get action of all action 
-    dispatch(retriveFile(pathId)); // Dispatch get action of all action 
-  }, [dispatch, pathId])
-  useEffect(() => {
-    let startDate = new Date(LastAction.start_action); // Create an instance of start date
-    let endDate = new Date(LastAction.end_action); // Create an instance of end date
-    if (action) {
-      setLastAction(action); // Hook last action to local state
-      if (action.start_action) {
-        setStartAction(startDate.toLocaleDateString("fr")); // Format date type to French local date string
-      }
-      if (action.end_action) {
-        setEndAction(endDate.toLocaleDateString("fr")); // Format date type to French local date string
-      }
-      if (action.speaker) {
-        setSpeaker("Oui"); // Set logic number `(0/1)` to readable string
-      } else {
-        setSpeaker("Non"); // Set logic number `(0/1)` to readable string
-      }
-      if (action.speaker_transfer) {
-        setSpeakerTransfer("Oui"); // Set logic number `(0/1)` to readable string
-      } else {
-        setSpeakerTransfer("Non"); // Set logic number `(0/1)` to readable string
-      }
-      if (action.speaker_accommodation) {
-        setSpeakerAccommodation("Oui"); // Set logic number `(0/1)` to readable string
-      } else {
-        setSpeakerAccommodation("Non"); // Set logic number `(0/1)` to readable string
-      }
-      if (action.invited_doctors) {
-        setInvitedDoctors(action.invited_doctors.split(",")); // Set invited doctors array
-      }
-    }
-  }, [LastAction.start_action, LastAction.end_action, action]);
-
   return (
     <div style={{ padding: 16, margin: 'auto', maxWidth: 1225, height: '100%' }}>
       <Row noGutters className="page-header py-4">

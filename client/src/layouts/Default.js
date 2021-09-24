@@ -1,12 +1,12 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Container, Row, Col } from "shards-react";
 import MainNavbar from "../components/layout/MainNavbar/MainNavbar";
 import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 import MainFooter from "../components/layout/MainFooter";
 import { pushNotification } from "../actions/notifications-actions/actions";
-import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId, getSpeakerActions } from "../actions/actions-initiation-actions/actions";
+import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId, getSpeakerActions, disarchiveActionById } from "../actions/actions-initiation-actions/actions";
 import { addVMMailing, addSupervisorsMailing } from "../actions/mailing-actions/actions";
 import { getNotificationsByVMsupervisor, getNotificationsByDSMsupervisor, getNotificationsByCDPsupervisor, getNotificationsByMEDsupervisor } from "../actions/notifications-actions/actions";
 import io from "socket.io-client";
@@ -16,6 +16,7 @@ const socket = io(SERVER, { transports: ["websocket", "polling"] });
 
 const DefaultLayout = ({ children, noNavbar, noFooter }) => {
   const dispatch = useDispatch();
+  const [ArchivedVMactions, setArchivedVMactions] = useState([]);
   // Actions state from redux store
   const actionsUser = useSelector(
     (state) => state.actionsReducer.actionsUser
@@ -56,6 +57,68 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
   const notes = useSelector(
     (state) => state.notesReducer.notesActionSender
   );
+  useEffect(() => {
+    const now = new Date();
+    let newAction = [];
+    if (user[0].user_position === "VM") {
+        for (var i = 0; i < actionsUser.length; i++) {
+            if (now.getTime() - new Date(actionsUser[i].start_action).getTime() > 0) {
+                newAction.push(actionsUser[i]);
+            }
+        }
+        setArchivedVMactions(newAction);
+        for (var j = 0; j < newAction.length; j++) {
+            if (newAction[j].status === "Validé") {
+                dispatch(disarchiveActionById(newAction[j].action_id));
+            }
+        }
+    }
+    // if (user.user_position === "DSM" && ArchivedDSMactions.length === 0) {
+    //     if (VMActions.length > 0) {
+    //         for (var k = 0; i < VMActions.length; k++) {
+    //             if (now.getTime() - new Date(VMActions[k].start_action).getTime() > 0) {
+    //                 newAction.push(VMActions[k]);
+    //             }
+    //         }
+    //         setArchivedDSMactions(newAction);
+    //         for (var l = 0; j < ArchivedDSMactions.length; l++) {
+    //             if (ArchivedDSMactions[l].status === "Validé") {
+    //                 dispatch(disarchiveActionById(ArchivedDSMactions[l].action_id));
+    //             }
+    //         }
+    //     }
+    // }
+    // if (user.user_position === "CDP" && ArchivedCDPactions.length === 0) {
+    //     if (VMValidatedActions.length > 0) {
+    //         for (var m = 0; m < VMValidatedActions.length; m++) {
+    //             if (now.getTime() - new Date(VMValidatedActions[m].start_action).getTime() > 0) {
+    //                 newAction.push(VMValidatedActions[m]);
+    //             }
+    //         }
+    //         setArchivedCDPactions(newAction);
+    //         for (var n = 0; n < ArchivedCDPactions.length; n++) {
+    //             if (ArchivedCDPactions[n].status === "Validé") {
+    //                 dispatch(disarchiveActionById(ArchivedCDPactions[n].action_id));
+    //             }
+    //         }
+    //     }
+    // }
+    // if (user.user_position === "MED" && ArchivedMEDactions.length === 0) {
+    //     if (speakerActions.length > 0) {
+    //         for (var p = 0; p < speakerActions.length; p++) {
+    //             if (now.getTime() - new Date(speakerActions[p].start_action).getTime() > 0) {
+    //                 newAction.push(speakerActions[p]);
+    //             }
+    //         }
+    //         setArchivedMEDactions(newAction);
+    //         for (var q = 0; q < ArchivedMEDactions.length; q++) {
+    //             if (ArchivedMEDactions[q].status === "Validé") {
+    //                 dispatch(disarchiveActionById(ArchivedMEDactions[q].action_id));
+    //             }
+    //         }
+    //     }
+    // }
+}, [dispatch, VMActions, VMValidatedActions, actionsUser, speakerActions]);
   useEffect(() => {
     socket.on("ACTION-VALIDATION", (data) => {
       fetchNotifications();

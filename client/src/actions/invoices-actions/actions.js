@@ -8,6 +8,7 @@ export function addInvoice(values) {
     try {
       const response = await InvoicesServices.addInvoice(values);
       dispatch({type: ADD_INVOICE_SUCCESS, payload: "Invoice added successfully!"});
+      window.location.reload();
     } catch (e) {
       dispatch({
         type: ADD_INVOICE_FAILURE,

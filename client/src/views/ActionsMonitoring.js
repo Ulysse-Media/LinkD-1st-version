@@ -104,7 +104,7 @@ const ActionsMonitoring = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {actionsUser.filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée").map((row) => (
+                                        {actionsUser.filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée" && element.status !== "Finalisée").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
@@ -135,7 +135,7 @@ const ActionsMonitoring = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {VMActions.filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée").map((row) => (
+                                        {VMActions.filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée" && element.status !== "Finalisée").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -167,7 +167,7 @@ const ActionsMonitoring = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {VMValidatedActions.filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée").map((row) => (
+                                        {VMValidatedActions.filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée" && element.status !== "Finalisée").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -199,7 +199,7 @@ const ActionsMonitoring = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {speakerActions.filter((element, key) => element.status === "En attente de validation CDP et MED" || element.status === "En attente de validation MED").map((row) => (
+                                        {speakerActions.filter((element, key) => element.status === "En attente de validation CDP et MED" || element.status === "En attente de validation MED" && element.status !== "Finalisée").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>

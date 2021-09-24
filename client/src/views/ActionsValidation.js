@@ -99,7 +99,7 @@ const ActionsValidation = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {actionsUser.filter(action => action.status === "En attente de validation VM").map((row) => (
+                                        {actionsUser.filter(action => action.status === "Finalisée").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
@@ -131,7 +131,7 @@ const ActionsValidation = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {VMActions.filter(action => action.status === "En attente de validation DSM").map((row) => (
+                                        {VMActions.filter(action => action.status === "Finalisée").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -163,7 +163,7 @@ const ActionsValidation = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {VMValidatedActions.filter(action => action.status === "En attente de validation CDP").map((row) => (
+                                        {VMValidatedActions.filter(action => action.status === "Finalisée").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>

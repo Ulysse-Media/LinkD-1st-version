@@ -307,6 +307,18 @@ function archiveActionByIdRequest(action_id, present_doctors) {
   })
 }
 
+// Finish action by Id //
+function finishActionByIdRequest(action_id) {
+  return axiosInstance({
+    method: "post",
+    url: `/api/actions/user/finished/:${action_id}`,
+    params: {
+      action_id: action_id,
+    },
+    data : null
+  })
+}
+
 // Messaging validation user //
 function messagingValidationRequest(to) {
   return axiosInstance({
@@ -370,6 +382,7 @@ const ActionsServices = {
   returnActionByIdRequest,
   disarchiveActionByIdRequest,
   archiveActionByIdRequest,
+  finishActionByIdRequest,
   messagingValidationRequest,
   messagingRejectionRequest,
   validateServicesRequest

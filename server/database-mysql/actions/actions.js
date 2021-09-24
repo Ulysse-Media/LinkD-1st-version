@@ -354,6 +354,17 @@ const archiveActionById = async (action_id, present_invited_doctors) => {
   }
 }
 
+// Database function to archive action by ID //
+const finishActionById = async (action_id) => {
+  var query = `UPDATE actions SET status="Finalisée" where action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 
 module.exports = {
   addAction,
@@ -385,5 +396,6 @@ module.exports = {
   deleteActionById,
   returnActionById,
   disarchiveActionById,
-  archiveActionById
+  archiveActionById,
+  finishActionById
 }

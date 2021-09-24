@@ -429,6 +429,17 @@ router.post('/archived/:action_id', function (req, res, next) {
     })
 });
 
+// Api to archive action by ID
+router.post('/finished/:action_id', function (req, res, next) {
+    Actions.finishActionById(req.query.action_id).then((result, error) => {
+        if (result) {
+            return res.json(result);
+        } else {
+            console.log("error", error)
+        }
+    })
+});
+
 router.post('/twilio/messaging/validation', function (req, res, nest) {
     client.messages
         .create({
