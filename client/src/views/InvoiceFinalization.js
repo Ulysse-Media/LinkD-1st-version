@@ -38,6 +38,7 @@ const InvoiceFinalization = () => {
         values.invoice_product = Percentage;
         values.invoice_local_price = Number(LocalePrice);
         values.invoice_price = Number(Price);
+        values.action_id = action.action_id;
         dispatch(finishActionById(action.action_id));
         dispatch(addInvoice(values));
     };
@@ -68,8 +69,8 @@ const InvoiceFinalization = () => {
     useEffect(() => {
         let defaultPercentage = 0;
         if (products && products.length > 0) {
-            if(products.length % 2 === 0) {
-                 defaultPercentage = Math.round(100 / products.length);
+            if (products.length % 2 === 0) {
+                defaultPercentage = Math.round(100 / products.length);
             } else {
                 defaultPercentage = (100 / products.length).toFixed(3);
             }
@@ -80,55 +81,32 @@ const InvoiceFinalization = () => {
                     name: `percentage_${i}`,
                     percentage: defaultPercentage,
                 }
-                return data = {...data, [i]: percentagedata};
+                return data = { ...data, [i]: percentagedata };
             })
             setPercentage(data);
         }
 
     }, [])
     const updatePercentageInputs = (newPercentageData) => {
-            // Object.keys(newPercentageData).map((key, index) => {
-            //     console.log(newPercentageData[key].percentage.length);
-            //     if (newPercentageData[key].percentage.length === 0) {
-            //         Object.keys(newPercentageData).map((value, i) => {
-            //             newPercentageData[value].percentage = '';
-            //         })
-            //     } 
-            //     // else {
-            //     //     let counter = 0;
-            //     //     let arr = [];
-            //     //     for (var j = 0; j < newPercentageData.length; j++) {
-            //     //             if (newPercentageData[j].percentage.length === 0) {
-            //     //                     arr.push(newPercentageData[j]);
-            //     //             counter++;
-            //     //         }
-            //     //     }
-            //     //     if (counter === 1) {
-            //     //             newPercentageData.map((element, key) => {
-            //     //                     if (element.percentage === '') {
-            //     //                             element.percentage = (100 - Total) + "%";
-            //     //             }
-            //     //         });
-            //     //     }
-            //     // }
-            // });
-            let NewData = {};
-            if(newPercentageData.percentage.length === 0){
-                Object.keys(Percentage).map((key, i) => {
-                    let emptyData = Percentage[key];
-                    emptyData.percentage = '';
-                   return NewData[key] = emptyData;
-                })
-                setPercentage(NewData);
-            }else{
-                Object.keys(Percentage).map((key, i) => {
-                    let data = Percentage[key];
-                    data.percentage = (100 - newPercentageData.percentage) / (products.length-1);
-                    return NewData[key] = data;
-                })
-                NewData[newPercentageData.id] = newPercentageData;
-                setPercentage(NewData);
-            }
+        let NewData = {};
+        let arr = [];
+        let counter = 0;
+        if (newPercentageData.percentage.length === 0) {
+            Object.keys(Percentage).map((key, i) => {
+                let emptyData = Percentage[key];
+                emptyData.percentage = '';
+                return NewData[key] = emptyData;
+            })
+            setPercentage(NewData);
+        } else {
+            Object.keys(Percentage).map((key, i) => {
+                let data = Percentage[key];
+                data.percentage = (100 - newPercentageData.percentage) / (products.length-1);
+                return NewData[key] = data;
+            })
+            NewData[newPercentageData.id] = newPercentageData;
+            setPercentage(NewData);
+        }
     }
     // All displayed fields form //
     const formFields = [
@@ -235,7 +213,7 @@ const InvoiceFinalization = () => {
                 <Typography className={"typography"} style={{ marginTop: "18px" }}>
                     {products.map((element, key) => (
                         <Typography className={"typography"} style={{ marginTop: "18px" }}>
-                            {element} 
+                            {element}
                         </Typography>
                     ))}
                 </Typography>

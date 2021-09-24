@@ -41,18 +41,18 @@ const ActionsArchiving = () => {
     const actionsUser = useSelector(
         (state) => state.actionsReducer.actionsUser
     );
-    // // Actions state from redux store
-    // const VMActions = useSelector(
-    //     (state) => state.actionsReducer.VMActions
-    // );
-    // // Actions state from redux store
-    // const VMValidatedActions = useSelector(
-    //     (state) => state.actionsReducer.VMValidatedActions
-    // );
-    // // Speaker Actions state from redux store
-    // const speakerActions = useSelector(
-    //     (state) => state.actionsReducer.speakerActions
-    // );
+    // Actions state from redux store
+    const VMActions = useSelector(
+        (state) => state.actionsReducer.VMActions
+    );
+    // Actions state from redux store
+    const VMValidatedActions = useSelector(
+        (state) => state.actionsReducer.VMValidatedActions
+    );
+    // Speaker Actions state from redux store
+    const speakerActions = useSelector(
+        (state) => state.actionsReducer.speakerActions
+    );
     // Loading state from redux store
     const isLoading = useSelector(
         (state) => state.actionsReducer.loading
@@ -185,7 +185,7 @@ const ActionsArchiving = () => {
                                 </Table>
                             </TableContainer>
                         )}
-                        {/* {user.user_position === "DSM" && (
+                        {user.user_position === "DSM" && (
                             <TableContainer component={Paper} style={{ height: '450px', overflow: "scroll" }}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -201,7 +201,7 @@ const ActionsArchiving = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {ArchivedDSMactions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
+                                        {VMActions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -216,8 +216,8 @@ const ActionsArchiving = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        )} */}
-                        {/* {user.user_position === "CDP" && (
+                        )}
+                        {user.user_position === "CDP" && (
                             <TableContainer component={Paper} style={{ height: '450px', overflow: "scroll" }}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -233,7 +233,7 @@ const ActionsArchiving = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {ArchivedCDPactions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
+                                        {VMValidatedActions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -248,8 +248,8 @@ const ActionsArchiving = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        )} */}
-                        {/* {user.user_position === "MED" && (
+                        )}
+                        {user.user_position === "MED" && (
                             <TableContainer component={Paper} style={{ height: '450px', overflow: "scroll" }}>
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
@@ -265,7 +265,7 @@ const ActionsArchiving = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {ArchivedMEDactions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
+                                        {speakerActions.filter((element, key) => element.status === "Terminée et archivée" || element.status === "Terminée et non archivée").map((row, index) => (
                                             <TableRow key={index}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -280,7 +280,7 @@ const ActionsArchiving = () => {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
-                        )} */}
+                        )}
                     </Row>
                 </Container>
             </div>

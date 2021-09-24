@@ -23,6 +23,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { useTheme } from '@material-ui/core/styles';
 import { toast } from 'react-toastify';
+import axios from "axios";
 toast.configure();
 
 const DisplayAction = () => {
@@ -577,6 +578,13 @@ const DisplayAction = () => {
 
   // Component on mount //
   useEffect(() => {
+      axios.get(`http://localhost:3000/auth/:${user.DSM_supervisor}`, {
+        params: {
+          user_id: user.DSM_supervisor
+        }
+      }).then(response => {
+        console.log(response);
+      })
     dispatch(getActionById(pathId)); // Dispatch get action of all action 
   }, [dispatch, pathId])
   useEffect(() => {
@@ -661,7 +669,7 @@ const DisplayAction = () => {
               onClick={handleDelete}
               style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED"? "Refuser" : null}
+              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Refuser" : null}
             </Button>
           </Grid>
         </Grid>
