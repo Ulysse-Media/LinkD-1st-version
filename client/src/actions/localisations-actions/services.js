@@ -8,19 +8,9 @@ function fetchLocalisations() {
       data: null,
     });
   }
-
-// Add new localisation //
-function addLocalisation(body) {
-    return axiosInstance({
-      method: "post",
-      url: "api/localisations",
-      data: body,
-    });
-  }
-
+  
   const LocalisationsServices = {
     fetchLocalisations,
-    addLocalisation,
   };
   
   export default LocalisationsServices;

@@ -50,8 +50,8 @@ const InvoiceFinalization = () => {
             id: Number(i),
             product: products[i],
             name: `percentage_${i}`,
-            percentage: e.target.value,
-            value: ((e.target.value * Number(LocalePrice)) / 100).toFixed(3),
+            percentage: e.target.value.split("%")[0],
+            value: ((e.target.value.split("%")[0] * Number(LocalePrice)) / 100).toFixed(3),
         };
         updatePercentageInputs(initialData);
     }
@@ -89,8 +89,6 @@ const InvoiceFinalization = () => {
     }, [])
     const updatePercentageInputs = (newPercentageData) => {
         let NewData = {};
-        let arr = [];
-        let counter = 0;
         if (newPercentageData.percentage.length === 0) {
             Object.keys(Percentage).map((key, i) => {
                 let emptyData = Percentage[key];
@@ -227,11 +225,11 @@ const InvoiceFinalization = () => {
                         Object.keys(Percentage).map((key, index) =>
                             <NumberFormat
                                 key={index}
-                                label="Tapez le pourcentage du produit"
+                                label="Tapez en pourcent le produit selectionné"
                                 name={`percentage_${key}`}
                                 margin="none"
                                 customInput={TextField}
-                                // suffix={'%'}
+                                suffix={'%'}
                                 type="text"
                                 onChange={(e) => handlePercentage(e, key)}
                                 value={Percentage[key].percentage}
@@ -249,7 +247,7 @@ const InvoiceFinalization = () => {
                             <TextField
                                 key={index}
                                 name={`value_product_${key}`}
-                                label="Valeure retrournée"
+                                label="Valeur correspondante en TND"
                                 margin="none"
                                 type="number"
                                 value={`${Percentage[key].percentage * LocalePrice / 100}`}
@@ -301,6 +299,7 @@ const InvoiceFinalization = () => {
                             <TextField
                                 type="text"
                                 name="invoice_accommodation"
+                                label="Hébergement"
                                 margin="none"
                             />
                         </div>
@@ -325,6 +324,7 @@ const InvoiceFinalization = () => {
                             <TextField
                                 type="text"
                                 name="invoice_transfer"
+                                label="Transfert"
                                 margin="none"
                             />
                         </div>
@@ -348,6 +348,7 @@ const InvoiceFinalization = () => {
                         <div>
                             <TextField
                                 type="text"
+                                label="Honoraire orateur"
                                 name="invoice_honorary_speaker"
                                 margin="none"
                             />
@@ -385,7 +386,7 @@ const InvoiceFinalization = () => {
             size: 3,
             field: (
                 <Typography className={"typography"} style={{ marginTop: "18px" }}>
-                    Commentaires :
+                    Commentaires (optionnel):
                 </Typography>
             ),
         },

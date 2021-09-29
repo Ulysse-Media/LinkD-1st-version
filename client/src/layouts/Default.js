@@ -7,7 +7,7 @@ import MainSidebar from "../components/layout/MainSidebar/MainSidebar";
 import MainFooter from "../components/layout/MainFooter";
 import { pushNotification } from "../actions/notifications-actions/actions";
 import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId, getSpeakerActions, disarchiveActionById } from "../actions/actions-initiation-actions/actions";
-import { addVMMailing, addSupervisorsMailing } from "../actions/mailing-actions/actions";
+import { addVMMailing } from "../actions/mailing-actions/actions";
 import { getNotificationsByVMsupervisor, getNotificationsByDSMsupervisor, getNotificationsByCDPsupervisor, getNotificationsByMEDsupervisor } from "../actions/notifications-actions/actions";
 import io from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
@@ -176,7 +176,7 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
         values.VM_supervisor = user[0].user_id;
         values.DSM_supervisor = null;
         values.CDP_supervisor = null;
-        values.notification_name = `Veuillez archiver votre actions terminées et non archivées SVP!..`
+        values.notification_name = `Veuillez archiver vos actions terminées et non archivées SVP!..`
         actionsUser.map((element, key) => {
           if (element.status === "Terminée et non archivée") {
             VMprevalence = true;

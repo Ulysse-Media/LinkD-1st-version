@@ -9,15 +9,6 @@ function fetchDoctors() {
   });
 }
 
-// Fetch last doctor //
-function fetchLastDoctor() {
-  return axiosInstance({
-    method: "get",
-    url: "api/doctors/last",
-    data: null,
-  });
-}
-
 // Fetch doctors by user id //
 function fetchDoctorsByUserId(user_id) {
   return axiosInstance({
@@ -39,21 +30,10 @@ function fetchInvitedDoctors(doctor_name) {
   });
 }
 
-// Add new doctor //
-function addDoctor(body) {
-  return axiosInstance({
-    method: "post",
-    url: "api/doctors",
-    data: body,
-  });
-}
-
 const DoctorsServices = {
   fetchDoctors,
-  fetchLastDoctor,
   fetchDoctorsByUserId,
   fetchInvitedDoctors,
-  addDoctor,
 };
 
 export default DoctorsServices;

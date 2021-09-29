@@ -73,7 +73,7 @@ class ActionsReporting extends React.Component {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
-                            if (actions[i].status === "Terminée et non archivée") {
+                            if (actions[i].status === "Finalisée") {
                                 finished++;
                                 finishedPercentage = Math.round((finished / actions.length) * 100);
                             }
@@ -131,7 +131,7 @@ class ActionsReporting extends React.Component {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
-                            if (actions[i].status === "Terminée et non archivée") {
+                            if (actions[i].status === "Finalisée") {
                                 finished++;
                                 finishedPercentage = Math.round((finished / actions.length) * 100);
                             }
@@ -187,7 +187,59 @@ class ActionsReporting extends React.Component {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
-                            if (actions[i].status === "Terminée et non archivée") {
+                            if (actions[i].status === "Finalisée") {
+                                finished++;
+                                finishedPercentage = Math.round((finished / actions.length) * 100);
+                            }
+                            if (actions[i].status === "Terminée et archivée") {
+                                archieved++;
+                                archievedPercentage = Math.round((archieved / actions.length) * 100);
+                            }
+                            if (actions[i].status === "Refusé") {
+                                denied++;
+                                deniedPercentage = Math.round((denied / actions.length) * 100);
+                            }
+                        }
+                        this.setState({
+                            chartData:
+                            {
+                                labels: ["En attente", "Validé", "Terminé", "Archivé", "Refusé"],
+                                datasets: [
+                                    {
+                                        data: [pendingPercentageCDP, validatedPercentage, finishedPercentage, archievedPercentage, deniedPercentage],
+                                        backgroundColor: [
+                                            "rgb(239,191,61)",
+                                            "rgb(105,66,209)",
+                                            "rgb(171,219,227)",
+                                            "rgb(175,72,152)",
+                                            "rgb(229,104,56)",
+                                        ],
+                                        borderWidth: 2,
+                                        borderColor: [
+                                            "rgb(239,191,61)",
+                                            "rgb(105,66,209)",
+                                            "rgb(171,219,227)",
+                                            "rgb(175,72,152)",
+                                            "rgb(229,104,56)",
+                                        ]
+                                    }
+                                ]
+                            }
+                        })
+                    })
+                } else if (this.props.user[0].user_position === "MED") {
+                    axiosInstance.get(`http://localhost:3000/api/actions/user/validation/DSMvalidated/speaker`).then(response => {
+                        let actions = response.data;
+                        for (var i = 0; i < actions.length; i++) {
+                            if (actions[i].status === "En attente de validation CDP") {
+                                pendingCDP++;
+                                pendingPercentageCDP = Math.round((pendingCDP / actions.length) * 100);
+                            }
+                            if (actions[i].status === "Validé") {
+                                validated++;
+                                validatedPercentage = Math.round((validated / actions.length) * 100);
+                            }
+                            if (actions[i].status === "Finalisée") {
                                 finished++;
                                 finishedPercentage = Math.round((finished / actions.length) * 100);
                             }
@@ -245,7 +297,13 @@ class ActionsReporting extends React.Component {
                         options={{
                             responsive: true,
                             maintainAspectRatio: true,
+                            callbacks: {
+                                label: function(tooltipItems, data) { 
+                                    return tooltipItems.yLabel + ' %';
+                                }
+                            }
                         }}
+                        
                     />
                 </CardBody>
             </Card>

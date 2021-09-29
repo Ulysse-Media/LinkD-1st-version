@@ -23,17 +23,6 @@ const getActions = async () => {
   }
 }
 
-// Database function to retrieve last action  //
-const getLastAction = async () => {
-  var query = `SELECT * FROM actions ORDER BY action_id DESC LIMIT 1`;
-  try {
-    let actions = await sql(query);
-    return actions;
-  } catch (err) {
-    console.log(err)
-  }
-}
-
 // Database function to retrieve action by ID  //
 const getActionById = async (action_id) => {
   var query = `Select * from actions where action_id='${action_id}'`;
@@ -48,28 +37,6 @@ const getActionById = async (action_id) => {
 // Database function to retrieve action by user ID  //
 const getActionByUserId = async (user_id) => {
   var query = `Select * from actions where user_id='${user_id}'`;
-  try {
-    let actions = await sql(query);
-    return actions;
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-// Database function to retrieve action by user position  //
-const getActionByUserPosition = async (user_position) => {
-  var query = `Select * from actions where user_position=${user_position}`;
-  try {
-    let actions = await sql(query);
-    return actions;
-  } catch (err) {
-    console.log(err)
-  }
-}
-
-// Database function to retrieve action by status  //
-const getActionByStatus = async (status) => {
-  var query = `Select * from actions where status='${status}'`;
   try {
     let actions = await sql(query);
     return actions;
@@ -371,9 +338,6 @@ module.exports = {
   getActions,
   getActionById,
   getActionByUserId,
-  getLastAction,
-  getActionByUserPosition,
-  getActionByStatus,
   getDSMActions,
   getCDPActions,
   getSpeakerActions,

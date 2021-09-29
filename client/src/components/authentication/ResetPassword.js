@@ -52,9 +52,15 @@ const ResetPassword = () => {
     const dispatch = useDispatch();
     // Validator for required fields //
     const validate = values => {
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%\^&\*])(?=.{8,})");
+        // const mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
         const errors = {};
         if (!values.user_password) {
             errors.user_password = 'Champ requis';
+        } else {
+            if (!strongRegex.test(values.user_password)) {
+                errors.user_password = 'Votre mot de passe doit depasser 8 charactéres, au minimum une lettre majiscule, un chiffre et un symbole';
+            }
         }
         return errors;
     };

@@ -60,7 +60,6 @@ const DisplayArchivingAction = () => {
   const handleFileChange = (event) => {
     let collectionImg = [];
     let files = event.target.files;
-    console.log(files)
     for (let i = 0; i < files.length; i++) {
       collectionImg.push(files[i]);
     }
@@ -74,7 +73,7 @@ const DisplayArchivingAction = () => {
     formData.append("action", action.action_id);
     formData.append("user", user.user_id);
     dispatch(addFile(formData));
-    // dispatch(archiveActionById(action.action_id, PresentInvitedDoctors));
+    dispatch(archiveActionById(action.action_id, PresentInvitedDoctors));
   }
     // Component on mount //
     useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Container, Row } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
 import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId, getSpeakerActions } from "../actions/actions-initiation-actions/actions";

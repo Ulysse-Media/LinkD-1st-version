@@ -18,28 +18,6 @@ router.get('/:user_id', function (req, res, next) {
     })
 });
 
-// Api to retrieve action by user ID
-router.get('/position/:user_position', function (req, res, next) {
-    Actions.getActionByUserPosition(req.query.user_position).then(result => {
-        try {
-            return res.json(result);
-        } catch (err) {
-            console.log(err)
-        }
-    })
-});
-
-// Api to retrieve action by status 
-router.get('/validation/:status', function (req, res, next) {
-    Actions.getActionByStatus(req.query.status).then(result => {
-        try {
-            return res.json(result);
-        } catch (err) {
-            console.log(err)
-        }
-    })
-});
-
 // Api to retrieve action by status 
 router.get('/validation/DSMvalidated/speaker', function (req, res, next) {
     Actions.getSpeakerActions().then(result => {

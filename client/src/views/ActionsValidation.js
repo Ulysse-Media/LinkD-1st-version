@@ -81,7 +81,7 @@ const ActionsValidation = () => {
                     <Row style={{ height: 500, width: '100%' }}>
                         <Grid item xs={12}>
                             <Typography variant="h5" component="p">
-                                Tableau de suivi des demandes d'actions :
+                                Tableau de suivi des demandes d'actions finies :
                             </Typography>
                         </Grid>
                         {user.user_position === "VM" && (

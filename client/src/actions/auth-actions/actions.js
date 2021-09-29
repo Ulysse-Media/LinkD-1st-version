@@ -68,28 +68,6 @@ export function signinUser(values) {
   };
 }
 
-export function connectUser(token) {
-  return async (dispatch) => {
-    localStorage.setItem("LinkD", token);
-    dispatch({
-      type: CONNECT_USER_REQUEST,
-    });
-    try {
-      dispatch({
-        type: CONNECT_USER_SUCCESS,
-        payload: {
-          token: token,
-        },
-      });
-    } catch (e) {
-      dispatch({
-        type: CONNECT_USER_FAILURE,
-        payload: e.response.data
-      })
-    }
-  };
-}
-
 export function getAuthUser(user_id) {
   return async (dispatch) => {
     await dispatch({

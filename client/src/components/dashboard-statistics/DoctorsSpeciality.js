@@ -14,7 +14,6 @@ class DoctorsSpeciality extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      doctors: [],
       chartData: {},
     }
   }

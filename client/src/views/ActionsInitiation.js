@@ -28,6 +28,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import MomentUtils from '@date-io/moment';
 import { Hint } from 'react-autocomplete-hint';
 import $ from "jquery";
+import Fuse from 'fuse.js'
 
 const ActionsInitiation = () => {
   const [FilteredDoctors, setFilteredDoctors] = useState([]);
@@ -67,12 +68,12 @@ const ActionsInitiation = () => {
 
   // Dummy data => API's later //
   const products = [
-    "productA",
-    "productB",
-    "productC",
-    "productD",
-    "productE",
-    "productF",
+    "produit-A",
+    "produit-B",
+    "produit-C",
+    "produit-D",
+    "produit-E",
+    "produit-F",
   ];
 
   const speciality = [
@@ -150,26 +151,32 @@ const ActionsInitiation = () => {
       }
     });
   }
-
+  // Search handler
+  const fuse = new Fuse(FilteredDoctors, {
+    keys: ['doctor_lname', 'doctor_fname', 'doctor_field']
+  })
   // Function to handle Search //
   const handleSearch = (e) => {
+    let filteredDoctors = [];
     e.preventDefault(); // Prevent default behavior
     let text = "";
     setText(e.target.value); // Set text of user to local state
     if (Text.length) {
       text = Text.toLowerCase(); // Transform all text type to lowcase
-      for (let i = 0; i < FilteredDoctors.length; i++) {
-        if (FilteredDoctors[i].doctor_lname.trim().toLowerCase().indexOf(text) !== -1 || FilteredDoctors[i].doctor_fname.trim().toLowerCase().indexOf(text) !== -1 || FilteredDoctors[i].doctor_field.trim().toLowerCase().indexOf(text) !== -1) {
-          filteredDoctors.push(FilteredDoctors[i]);
+      const results = fuse.search(text)
+      for (let i = 0; i < results.length; i++) {
+        if (results[i].item.doctor_lname.trim().toLowerCase().indexOf(text) !== -1 || results[i].item.doctor_fname.trim().toLowerCase().indexOf(text) !== -1 || results[i].item.doctor_field.trim().toLowerCase().indexOf(text) !== -1) {
+          filteredDoctors.push(results[i].item);
           setFilteredDoctors(filteredDoctors); // Hook filtered doctors to local state
         }
       }
     }
+    // Handle empty text
     if (e.target.value.length === 0) {
       handleFilteredDoctors(); // Execute function to filter displayed doctors
     }
   }
-
+  // Function to handle file change
   const onFileChange = function (e) {
     setFile(e.target.files[0]); // Hook file to local state
   }
@@ -272,13 +279,13 @@ const ActionsInitiation = () => {
     let endAction = "";
     let element = $(".extra-speaker-elements");
     element.hide();
-      if (action.start_action) {
-        startAction = (new Date(action.start_action)).toLocaleDateString();
-        setStartAction(startAction.split("/").reverse().join('-'));
-      }
-      if (action.end_action) {
-        endAction = (new Date(action.end_action)).toLocaleDateString();
-        setEndAction(endAction.split("/").reverse().join('-'));
+    if (action.start_action) {
+      startAction = (new Date(action.start_action)).toLocaleDateString();
+      setStartAction(startAction.split("/").reverse().join('-'));
+    }
+    if (action.end_action) {
+      endAction = (new Date(action.end_action)).toLocaleDateString();
+      setEndAction(endAction.split("/").reverse().join('-'));
     }
     if (action.action_id) {
       setFilteredGeoLocalisation([action.action_location]);
@@ -379,7 +386,7 @@ const ActionsInitiation = () => {
                   id="date"
                   type="date"
                   name="start_action"
-                  InputProps={{inputProps: { min: new Date().toLocaleDateString().split('/').reverse().join('-') } }}
+                  InputProps={{ inputProps: { min: new Date().toLocaleDateString().split('/').reverse().join('-') } }}
                 />
               </MuiPickersUtilsProvider>
             </div>
@@ -405,7 +412,7 @@ const ActionsInitiation = () => {
                   id="date"
                   type="date"
                   name="end_action"
-                  InputProps={{inputProps: { min: new Date().toLocaleDateString().split('/').reverse().join('-') } }}
+                  InputProps={{ inputProps: { min: new Date().toLocaleDateString().split('/').reverse().join('-') } }}
                 />
               </MuiPickersUtilsProvider>
             </div>
@@ -803,7 +810,7 @@ const ActionsInitiation = () => {
               >
                 {FilteredDoctors.map((element, key) => {
                   return (<option key={key} value={element.doctor_lname + ' ' + element.doctor_fname}>
-                    {element.doctor_lname} {element.doctor_fname} {element.doctor_field}
+                    {element.doctor_lname} {element.doctor_fname} : ({element.doctor_field})
                   </option>)
                 })}
               </Select>
@@ -842,7 +849,7 @@ const ActionsInitiation = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px" }}>
-          Commentaires :
+          Commentaires (optionnel):
         </Typography>
       ),
     },

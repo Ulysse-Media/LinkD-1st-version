@@ -50,7 +50,19 @@ const AfterValidation = () => {
     useEffect(() => {
         dispatch(getAgencies());
         dispatch(getServices());
-    }, [dispatch])
+    }, [dispatch]);
+    // Validator for required fields //
+  const validate = values => {
+      console.log(values)
+    const errors = {};
+    if (!values.agency) {
+      errors.agency = 'Champ requis';
+    }
+    if (!values.service_name) {
+      errors.service_name = 'Champ requis';
+    }
+    return errors;
+  };
     // All displayed fields form //
     const formFields = [
         {
@@ -122,7 +134,7 @@ const AfterValidation = () => {
             size: 3,
             field: (
                 <Typography className={"typography"} >
-                    Commentaires :
+                    Commentaires (optionnel) :
                 </Typography>
             ),
         },
@@ -149,6 +161,7 @@ const AfterValidation = () => {
         <div style={{ padding: 16, margin: 'auto', maxWidth: 1225, height: '100%' }}>
             <Form
                 onSubmit={onSubmit}
+                validate={validate}
                 render={({ handleSubmit, form }) => (
                     <form onSubmit={handleSubmit}>
                         <Paper style={{ padding: 16 }}>

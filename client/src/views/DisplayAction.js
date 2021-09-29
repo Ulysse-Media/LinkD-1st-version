@@ -23,7 +23,6 @@ import {
 import { useHistory } from "react-router-dom";
 import { useTheme } from '@material-ui/core/styles';
 import { toast } from 'react-toastify';
-import axios from "axios";
 toast.configure();
 
 const DisplayAction = () => {
@@ -426,9 +425,9 @@ const DisplayAction = () => {
 
   const handleEdit = () => {
     let values = {};
-    let returnedDSMText = `Action avec id ${pathId} de la part du client ${action.user_email} a été en retour avec modification de la part du DSM ${user.user_email} pour la raison ${NoteContent}`
-    let returnedCDPText = `Action avec id ${pathId} de la part du client ${action.user_email} a été en retour avec modification de la part du CDP ${user.user_email} pour la raison ${NoteContent}`
-    let returnedMEDText = `Action avec id ${pathId} de la part du client ${action.user_email} a été en retour avec modification de la part du MED ${user.user_email} pour la raison ${NoteContent}`
+    let returnedDSMText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email.split("@")[0]} a été en retour avec modification de la part du DSM ${user.user_email.split("@")[0]} pour la raison ${NoteContent}`
+    let returnedCDPText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email.split("@")[0]} a été en retour avec modification de la part du CDP ${user.user_email.split("@")[0]} pour la raison ${NoteContent}`
+    let returnedMEDText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email.split("@")[0]} a été en retour avec modification de la part du MED ${user.user_email.split("@")[0]} pour la raison ${NoteContent}`
     values.notification_sender = user.user_id;
     values.DSM_supervisor = user.DSM_supervisor;
     values.CDP_supervisor = user.CDP_supervisor;
@@ -461,10 +460,10 @@ const DisplayAction = () => {
 
   const handleValidate = () => {
     let values = {};
-    let validationVMText = `Action avec id ${pathId} de la part du client ${action.user_email} a été envoyée et en attente de validation DSM!`
-    let validationDSMText = `Action avec id ${pathId} de la part du client ${action.user_email} a été validée avec succés de la part du DSM ${user.user_email} et en attente de validation CDP`
-    let validationCDPText = `Action avec id ${pathId} de la part du client ${action.user_email} a été validée avec succés de la part du chef de projet ${user.user_email}!`
-    let validationMEDText = `Action avec id ${pathId} de la part du client ${action.user_email} a été validée avec succés de la part du médicale ${user.user_email}!`
+    let validationVMText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email.split("@")[0]} a été envoyée et en attente de validation DSM!`
+    let validationDSMText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email.split("@")[0]} a été validée avec succés de la part du DSM ${user.user_email.split("@")[0]} et en attente de validation CDP`
+    let validationCDPText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email} a été validée avec succés de la part du chef de projet ${user.user_email.split("@")[0]}!`
+    let validationMEDText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email} a été validée avec succés de la part du médicale ${user.user_email.split("@")[0]}!`
     values.notification_sender = user.user_id;
     values.recieved_since = new Date();
     if (user.user_position === "VM") {
@@ -530,9 +529,9 @@ const DisplayAction = () => {
 
   const handleDelete = () => {
     let values = {};
-    let rejectionVMText = `Action avec id ${pathId} du client ${action.user_email} a été supprimée avec succés!`
-    let rejectionDSMText = `Action avec id ${pathId} du client ${action.user_email} a été rejetée de la part du DSM ${user.user_email}`
-    let rejectionCDPText = `Action avec id ${pathId} du client ${action.user_email} a été rejetée de la part du chef de projet ${user.user_email}!`
+    let rejectionVMText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email.split("@")[0]} a été supprimée avec succés!`
+    let rejectionDSMText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email.split("@")[0]} a été rejetée de la part du DSM ${user.user_email}`
+    let rejectionCDPText = `Action de type ${action.action_type} de la thématique ${action.meeting_theme} de la part du VM ${action.user_email.split("@")[0]} a été rejetée de la part du chef de projet ${user.user_email}!`
     values.notification_sender = user.user_id;
     values.recieved_since = new Date();
     if (user.user_position === "VM") {   // User type VM
@@ -578,13 +577,6 @@ const DisplayAction = () => {
 
   // Component on mount //
   useEffect(() => {
-      axios.get(`http://localhost:3000/auth/:${user.DSM_supervisor}`, {
-        params: {
-          user_id: user.DSM_supervisor
-        }
-      }).then(response => {
-        console.log(response);
-      })
     dispatch(getActionById(pathId)); // Dispatch get action of all action 
   }, [dispatch, pathId])
   useEffect(() => {

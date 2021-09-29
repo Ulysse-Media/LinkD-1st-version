@@ -1,4 +1,4 @@
-import { ADD_LOCALISATION_REQUEST, ADD_LOCALISATION_SUCCESS, ADD_LOCALISATION_FAILURE, FETCH_LOCALISATIONS_REQUEST, FETCH_LOCALISATIONS_SUCCESS, FETCH_LOCALISATIONS_FAILURE } from "../actions/localisations-actions/types";
+import { FETCH_LOCALISATIONS_REQUEST, FETCH_LOCALISATIONS_SUCCESS, FETCH_LOCALISATIONS_FAILURE } from "../actions/localisations-actions/types";
 
 const INITIAL_STATE = {
   localisations: [],
@@ -28,22 +28,6 @@ export const localisationsReducer = (
       return {
         ...state,
         isLoading: false,
-      };
-    // Add localisation request
-    case ADD_LOCALISATION_REQUEST:
-      return {
-        ...state,
-      };
-    // Add localisation success
-    case ADD_LOCALISATION_SUCCESS:
-      return {
-        ...state,
-        localisations: action.payload,
-      };
-    // Add localisation failure
-    case ADD_LOCALISATION_FAILURE:
-      return {
-        ...state,
       };
     default:
       return state;

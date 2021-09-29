@@ -107,7 +107,7 @@ router.post('/forgot/password', function (req, res, next) {
                                 if (usr[0]) {
                                     delete usr[0].user_password
                                     done(err, token, usr);
-                                    return res.json(usr[0])
+                                    return res.json(usr[0]);
                                 } else {
                                     console.log("not found");
                                 }
@@ -124,22 +124,22 @@ router.post('/forgot/password', function (req, res, next) {
                 service: 'Gmail',
                 auth: {
                     user: 'yknaizia@gmail.com',
-                    pass: 'yass94683607'
+                    pass: 'yassine94683607'
                 }
             });
             var mailOptions = {
                 to: usr[0].user_email,
                 from: 'yknaizia@gmail.com',
                 subject: 'Node.js Password Reset',
-                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                    'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                text: "Vous recevez ceci parce que vous (ou quelqu'un d'autre) avez demandé la réinitialisation du mot de passe de votre compte.\n\n" +
+                    "Veuillez cliquer sur le lien suivant ou collez-le dans votre navigateur pour terminer le processus:\n\n" +
                     'http://localhost:3000' + '/reset/' + token + '\n\n' +
-                    'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+                    "Si vous ne l'avez pas demandé, veuillez ignorer cet e-mail et votre mot de passe restera inchangé.\n"
 
             };
             smtpTrans.sendMail(mailOptions, function (err, info) {
                 if (err) {
-                    done(err)
+                   done(err)
                 } else {
                     req.flash('success', 'An e-mail has been sent to ' + usr[0].user_email + ' with further instructions.');
                     res.redirect('/forgot');
@@ -188,15 +188,15 @@ router.post('/reset/:token', function (req, res) {
                     service: 'Gmail',
                     auth: {
                         user: 'yknaizia@gmail.com',
-                        pass: 'yass94683607'
+                        pass: 'yassine94683607'
                     }
                 });
                 var mailOptions = {
                     to: user.user_email,
                     from: 'yknaizia@gmail.com',
-                    subject: 'Your password has been changed successfully',
-                    text: 'Hello,\n\n' +
-                        ' - This is a confirmation that the password for your account ' + user.user_email + ' has just been changed.\n'
+                    subject: 'Votre mot de passe a été changé avec succès',
+                    text: "Bonjour,\n\n" +
+                        "- Ceci est une confirmation que le mot de passe de votre compte ' + user.user_email + ' vient d'étre changé.\n"
                 };
                 smtpTrans.sendMail(mailOptions, function (err) {
                     done(err);

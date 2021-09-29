@@ -1,4 +1,4 @@
-import { FETCH_DOCTORS_REQUEST, FETCH_DOCTORS_SUCCESS, FETCH_DOCTORS_FAILURE, ADD_DOCTOR_REQUEST, ADD_DOCTOR_SUCCESS, ADD_DOCTOR_FAILURE, FETCH_LAST_DOCTOR_REQUEST, FETCH_LAST_DOCTOR_SUCCESS, FETCH_LAST_DOCTOR_FAILURE, FETCH_INVITED_DOCTORS_REQUEST, FETCH_INVITED_DOCTORS_SUCCESS, FETCH_INVITED_DOCTORS_FAILURE } from "../actions/doctors-actions/types";
+import { FETCH_DOCTORS_REQUEST, FETCH_DOCTORS_SUCCESS, FETCH_DOCTORS_FAILURE, ADD_DOCTOR_REQUEST, ADD_DOCTOR_SUCCESS, ADD_DOCTOR_FAILURE, FETCH_INVITED_DOCTORS_REQUEST, FETCH_INVITED_DOCTORS_SUCCESS, FETCH_INVITED_DOCTORS_FAILURE } from "../actions/doctors-actions/types";
 
 const INITIAL_STATE = {
   doctors: [],
@@ -46,25 +46,6 @@ export const doctorsReducer = (
       };
     // Fetch invited doctors failure
     case FETCH_INVITED_DOCTORS_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-      };
-    // Fetch last doctor request
-    case FETCH_LAST_DOCTOR_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    // Fetch last doctor success
-    case FETCH_LAST_DOCTOR_SUCCESS:
-      return {
-        ...state,
-        lastDoctor: action.payload,
-        isLoading: false,
-      };
-    // Fetch last doctor failure
-    case FETCH_LAST_DOCTOR_FAILURE:
       return {
         ...state,
         isLoading: false,

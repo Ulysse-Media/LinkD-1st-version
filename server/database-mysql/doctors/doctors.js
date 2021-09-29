@@ -53,21 +53,9 @@ const getInvitedDoctors = async (doctor_name) => {
   }
 }
 
-// Database function to retrieve last doctor  //
-const getLastDoctor = async () => {
-  var query = `SELECT * FROM doctors ORDER BY doctor_id DESC LIMIT 1`;
-  try {
-    let doctors = await sql(query);
-    return doctors;
-  } catch (err) {
-    console.log(err)
-  }
-}
-
 module.exports = {
   addDoctor,
   getDoctors,
   getDoctorsByVMSupervisor,
   getInvitedDoctors,
-  getLastDoctor,
 }

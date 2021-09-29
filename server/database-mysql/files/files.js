@@ -3,7 +3,6 @@ const { sql } = require("../config/db");
 
 // Database function to insert new file  //
 const addFile = async (req) => {
-  console.log(req.fileUpload)
   var query = `INSERT INTO files (action_id, user_id, file_name) values (${req.action}, ${req.user}, '${req.fileUpload}')`;
   try {
     let file = await sql(query);

@@ -199,7 +199,7 @@ const ActionsMonitoring = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {speakerActions.filter((element, key) => element.status === "En attente de validation CDP et MED" || element.status === "En attente de validation MED" && element.status !== "Finalisée").map((row) => (
+                                        {speakerActions.filter((element, key) => element.status === "En attente de validation CDP et MED" || element.status === "En attente de validation MED" || element.status === "Finalisée" || element.status === "Validé").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>

@@ -5,6 +5,11 @@ import { NavItem, NavLink } from "shards-react";
 
 const SidebarNavItem = ({ item }) => (
   <NavItem>
+      {item.subtitle && (
+        <div style={{textAlign: 'center'}}>
+          <span>{item.subtitle}</span>
+        </div>
+      )}
     <NavLink tag={RouteNavLink} className="link-items" to={item.to}>
       {item.htmlBefore && (
         <div

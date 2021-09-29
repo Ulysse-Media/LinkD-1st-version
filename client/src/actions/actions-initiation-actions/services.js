@@ -21,15 +21,6 @@ function fetchActions() {
   });
 }
 
-// Fetch last action //
-function fetchLastAction() {
-  return axiosInstance({
-    method: "get",
-    url: "/api/actions/last",
-    data: null,
-  });
-}
-
 // Fetch action by Id //
 function fetchActionById(action_id) {
   return axiosInstance.get(`/api/actions/:${action_id}`, {
@@ -44,24 +35,6 @@ function fetchActionByUserId(user_id) {
   return axiosInstance.get(`/api/actions/user/:${user_id}`, {
     params: {
       user_id: user_id
-    },
-  })
-}
-
-// Fetch actions by user position //
-function fetchActionByUserPosition(user_position) {
-  return axiosInstance.get(`/api/actions/user/position/:${user_position}`, {
-    params: {
-      user_position: user_position
-    },
-  })
-}
-
-// Fetch actions by user status //
-function fetchActionByStatus(status) {
-  return axiosInstance.get(`/api/actions/user/validation/:${status}`, {
-    params: {
-      status: status
     },
   })
 }
@@ -356,11 +329,8 @@ function validateServicesRequest(values, action) {
 const ActionsServices = {
   fetchActions,
   addAction,
-  fetchLastAction,
   fetchActionById,
   fetchActionByUserId,
-  fetchActionByUserPosition,
-  fetchActionByStatus,
   fetchVMActionByUserId,
   fetchVMValidatedActionByUserId,
   fetchDSMValidatedActionByUserId,

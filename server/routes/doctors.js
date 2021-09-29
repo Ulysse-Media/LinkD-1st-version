@@ -36,17 +36,6 @@ router.get('/VMsupervisors/:user_id', function (req, res, next) {
 });
 
 // Api to retrieve last doctor from database
-router.get('/last', function (req, res, next) {
-    Doctors.getLastDoctor().then(result => {
-        try {
-            return res.json(result);
-        } catch (err) {
-            console.log(err)
-        }
-    })
-});
-
-// Api to retrieve last doctor from database
 router.get('/invited', function (req, res, next) {
     Doctors.getInvitedDoctors(req.query.doctor_name).then(result => {
         try {

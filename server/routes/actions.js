@@ -54,17 +54,6 @@ router.get('/', function (req, res, next) {
     })
 });
 
-// Api to retrieve only last action added to database
-router.get('/last', function (req, res, next) {
-    Actions.getLastAction().then(result => {
-        try {
-            return res.json(result);
-        } catch (err) {
-            console.log(err)
-        }
-    })
-});
-
 // Api to retrieve action by ID
 router.get('/:action_id', function (req, res, next) {
     Actions.getActionById(req.query.action_id).then(result => {
