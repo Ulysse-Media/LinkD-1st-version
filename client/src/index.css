@@ -99,14 +99,14 @@ code {
   border-bottom: 1px solid;
 }
 .active {
-  background: linear-gradient(to right,#8971ea,#7f72ea,#7574ea,#6a75e9,#5f76e8) !important;
-  box-shadow: 0 7px 12px 0 rgb(95 118 232 / 21%) !important;
+  background: linear-gradient(to right, #8971ea, #7f72ea, #7574ea, #6a75e9, #5f76e8) !important;
   opacity: 1;
   color: white !important;
-  border-radius: 0 60px 60px 0;
 }
 .main-sidebar .nav--no-borders .nav-item .nav-link {
+  box-shadow: 0 7px 12px 0 rgb(95 118 232 / 21%) !important;
   border-bottom: 1px solid grey !important;
+  border-radius: 0 0 60px 0;
 }
 .main-navbar.bg-white.sticky-top .container {
   max-width: unset !important;
@@ -129,3 +129,15 @@ code {
 .invited-doctors-container li {
   list-style-type: none;
 }
+.active i {
+  color: white !important;
+}
+.material-icons {
+  color: #0d6efd !important;
+}
+.actions-number {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+

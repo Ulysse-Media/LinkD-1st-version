@@ -71,7 +71,7 @@ class DoctorsPotential extends React.Component {
               labels: ["Médecin de travail", "Génèraliste", "Médecin Général", "Neuphrologie", "Médecin enfant", "Chirugien"],
               datasets: [
                 {
-                  data: [counter_jobDoctor, counter_generalist, counter_generalDoctor, counter_neuphrologie, counter_kidsDoctor, counter_chirugien],
+                  data: [counter_jobDoctor, counter_generalist, counter_generalDoctor, counter_neuphrologie, counter_kidsDoctor, counter_chirugien, total.length],
                   backgroundColor: [
                     "rgb(229,104,56)",
                     "rgb(105,66,209)",

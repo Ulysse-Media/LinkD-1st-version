@@ -31,7 +31,7 @@ class SidebarMainNavbar extends React.Component {
             style={{ lineHeight: "25px" }}
           >
             <div className="d-table m-auto">
-            <Avatar alt="LinkD" src="https://www.kindpng.com/picc/m/256-2564683_transparent-link-website-transparent-website-link-logo-hd.png" />
+            <Avatar style={{width: '100px'}} alt="LinkD" src="https://thumbs.dreamstime.com/b/linked-circle-object-number-logo-vector-174772860.jpg" />
             </div>
           </NavbarBrand>
           {/* eslint-disable-next-line */}

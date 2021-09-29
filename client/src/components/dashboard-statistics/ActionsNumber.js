@@ -18,6 +18,7 @@ class ActionsNumber extends React.Component {
             actions: [],
             user: {},
             chartData: {},
+            time: 0,
         }
     }
 
@@ -36,16 +37,19 @@ class ActionsNumber extends React.Component {
                 if (this.props.user[0].user_position === "VM") {
                     axiosInstance.get(`http://localhost:3000/api/actions/user/user_id?user_id=${this.props.user[0].user_id}`).then(response => {
                         let actions = response.data;
-                        let arr = [];
+                        let counter = 0;
+                        let total = 0;
+                        let time = 0;
                         for (var i = 0; i < actions.length; i++) {
-                            arr.push(new Date(actions[i].start_action))
-                        }
-                        arr.map((element, key) => {
-                            let now = new Date().getTime();
-                            if(now - element.getTime() === 7884000) {
+                            if(new Date().getTime() - new Date(actions[i].start_action).getTime() === 7884000) {
+                                counter++;
+                            } else {
+                                console.log(false);
                             }
-                        })
-                        this.setState({})
+                            total = actions.length;
+                        }
+                        time = Math.round(counter / total);
+                        this.setState({time})
                     })
                 } else if (this.props.user[0].user_position === "DSM") {
                     axiosInstance.get(`http://localhost:3000/api/actions/user/VM/actions/:${this.props.user[0].user_id}`, {
@@ -84,6 +88,7 @@ class ActionsNumber extends React.Component {
     }
     render() {
         const { title } = this.props;
+        console.log(this.state.time)
         return (
             <Card small className="h-100">
                 <CardHeader className="border-bottom">
@@ -92,8 +97,8 @@ class ActionsNumber extends React.Component {
                 <CardBody className="d-flex py-0">
                     <Container fluid className="main-content-container px-4">
                         <Row>
-                            <Col lg="6" md="9" sm="12" className="mb-4">Nombre d'actions par trimestre : <span>0</span></Col>
-                            <Col lg="6" md="9" sm="12" className="mb-4">Nombre d'actions YTD : <span>1</span></Col>
+                            <Col lg="6" md="9" sm="12" className="mb-4">Nombre d'actions par trimestre : <span className="actions-number">0</span></Col>
+                            <Col lg="6" md="9" sm="12" className="mb-4">Nombre d'actions YTD : <span className="actions-number">0</span></Col>
                         </Row>
                     </Container>
                 </CardBody>

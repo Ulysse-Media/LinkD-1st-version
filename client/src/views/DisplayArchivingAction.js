@@ -75,42 +75,42 @@ const DisplayArchivingAction = () => {
     dispatch(addFile(formData));
     dispatch(archiveActionById(action.action_id, PresentInvitedDoctors));
   }
-    // Component on mount //
-    useEffect(() => {
-      dispatch(getActionById(pathId)); // Dispatch get action of all action 
-      dispatch(retriveFile(pathId)); // Dispatch get action of all action 
-    }, [dispatch, pathId])
-    useEffect(() => {
-      let startDate = new Date(LastAction.start_action); // Create an instance of start date
-      let endDate = new Date(LastAction.end_action); // Create an instance of end date
-      if (action) {
-        setLastAction(action); // Hook last action to local state
-        if (action.start_action) {
-          setStartAction(startDate.toLocaleDateString("fr")); // Format date type to French local date string
-        }
-        if (action.end_action) {
-          setEndAction(endDate.toLocaleDateString("fr")); // Format date type to French local date string
-        }
-        if (action.speaker) {
-          setSpeaker("Oui"); // Set logic number `(0/1)` to readable string
-        } else {
-          setSpeaker("Non"); // Set logic number `(0/1)` to readable string
-        }
-        if (action.speaker_transfer) {
-          setSpeakerTransfer("Oui"); // Set logic number `(0/1)` to readable string
-        } else {
-          setSpeakerTransfer("Non"); // Set logic number `(0/1)` to readable string
-        }
-        if (action.speaker_accommodation) {
-          setSpeakerAccommodation("Oui"); // Set logic number `(0/1)` to readable string
-        } else {
-          setSpeakerAccommodation("Non"); // Set logic number `(0/1)` to readable string
-        }
-        if (action.invited_doctors) {
-          setInvitedDoctors(action.invited_doctors.split(",")); // Set invited doctors array
-        }
+  // Component on mount //
+  useEffect(() => {
+    dispatch(getActionById(pathId)); // Dispatch get action of all action 
+    dispatch(retriveFile(pathId)); // Dispatch get action of all action 
+  }, [dispatch, pathId])
+  useEffect(() => {
+    let startDate = new Date(LastAction.start_action); // Create an instance of start date
+    let endDate = new Date(LastAction.end_action); // Create an instance of end date
+    if (action) {
+      setLastAction(action); // Hook last action to local state
+      if (action.start_action) {
+        setStartAction(startDate.toLocaleDateString("fr")); // Format date type to French local date string
       }
-    }, [LastAction.start_action, LastAction.end_action, action]);
+      if (action.end_action) {
+        setEndAction(endDate.toLocaleDateString("fr")); // Format date type to French local date string
+      }
+      if (action.speaker) {
+        setSpeaker("Oui"); // Set logic number `(0/1)` to readable string
+      } else {
+        setSpeaker("Non"); // Set logic number `(0/1)` to readable string
+      }
+      if (action.speaker_transfer) {
+        setSpeakerTransfer("Oui"); // Set logic number `(0/1)` to readable string
+      } else {
+        setSpeakerTransfer("Non"); // Set logic number `(0/1)` to readable string
+      }
+      if (action.speaker_accommodation) {
+        setSpeakerAccommodation("Oui"); // Set logic number `(0/1)` to readable string
+      } else {
+        setSpeakerAccommodation("Non"); // Set logic number `(0/1)` to readable string
+      }
+      if (action.invited_doctors) {
+        setInvitedDoctors(action.invited_doctors.split(",")); // Set invited doctors array
+      }
+    }
+  }, [LastAction.start_action, LastAction.end_action, action]);
   // All displayed fields form //
   const formFields = [
     {
@@ -460,7 +460,11 @@ const DisplayArchivingAction = () => {
             )
           }) : InvitedDoctors.map((element, key) => {
             return (
-              <li style={{ marginTop: "8px" }} key={key}>{element}</li>
+              <div>
+                <ul>
+                  <li style={{ marginTop: "8px" }} key={key}>{element}</li>
+                </ul>
+              </div>
             )
           })}
         </Typography>
@@ -509,7 +513,7 @@ const DisplayArchivingAction = () => {
           type="file"
           name="fileUpload"
           onChange={handleFileChange}
-          style={user.user_position === "VM" && action.status === "Terminée et non archivée" ? { width: "100%", marginTop: "18px",  borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid", width: "100%" }}
+          style={user.user_position === "VM" && action.status === "Terminée et non archivée" ? { width: "100%", marginTop: "18px", borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid", width: "100%" }}
           multiple
         />
       ),
@@ -526,27 +530,27 @@ const DisplayArchivingAction = () => {
       size: 9,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px", borderTop: "1px solid", width: "100%" }}>
-            <Grid item xs={12}>
-              <Grid container justifyContent="center" spacing={2}>
-                {file.file_name && file.file_name.split(",").map((element, key) => (
-                  <Grid key={key} item>
-                    <Avatar style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={element} variant="rounded" id={key} />
-                  </Grid>
-                ))}
-              </Grid>
+          <Grid item xs={12}>
+            <Grid container justifyContent="center" spacing={2}>
+              {file.file_name && file.file_name.split(",").map((element, key) => (
+                <Grid key={key} item>
+                  <Avatar style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={element} variant="rounded" id={key} />
+                </Grid>
+              ))}
             </Grid>
-            <Grid item xs={12} style={{ marginTop:"16px" }}>
-              <Grid container spacing={2} justifyContent="center" >
-                {Files && Files.map((element, key) => (
-                  <Grid key={key} item>
-                    <CancelIcon onClick={() => handleCancel(element.name)} style={{ cursor: 'pointer', float: 'right' }}></CancelIcon>
-                    <Avatar style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={URL.createObjectURL(element)} variant="rounded" id={key} />
-                  </Grid>
-                ))}
-              </Grid>
+          </Grid>
+          <Grid item xs={12} style={{ marginTop: "16px" }}>
+            <Grid container spacing={2} justifyContent="center" >
+              {Files && Files.map((element, key) => (
+                <Grid key={key} item>
+                  <CancelIcon onClick={() => handleCancel(element.name)} style={{ cursor: 'pointer', float: 'right' }}></CancelIcon>
+                  <Avatar style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={URL.createObjectURL(element)} variant="rounded" id={key} />
+                </Grid>
+              ))}
             </Grid>
+          </Grid>
         </Typography>
- 
+
       ),
     },
   ];
