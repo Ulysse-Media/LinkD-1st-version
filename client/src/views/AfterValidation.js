@@ -53,7 +53,6 @@ const AfterValidation = () => {
     }, [dispatch]);
     // Validator for required fields //
   const validate = values => {
-      console.log(values)
     const errors = {};
     if (!values.agency) {
       errors.agency = 'Champ requis';

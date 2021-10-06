@@ -15,7 +15,7 @@ const MainFooter = ({ contained, menuItems, copyright }) => (
               </NavLink>
             </NavItem>
           ))}
-        <span style={{ textAlign: 'center' }} className="copyright ml-auto my-auto mr-2">{copyright}</span>
+        {/* <span style={{ textAlign: 'center' }} className="copyright ml-auto my-auto mr-2">{copyright}</span> */}
         </Nav>
       </Row>
     </Container>

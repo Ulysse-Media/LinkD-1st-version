@@ -112,7 +112,7 @@ const ActionsMonitoring = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === 'Validé' ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -144,7 +144,7 @@ const ActionsMonitoring = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === 'Validé' ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -176,7 +176,7 @@ const ActionsMonitoring = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === 'Validé' ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -199,7 +199,7 @@ const ActionsMonitoring = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {speakerActions.filter((element, key) => element.status === "En attente de validation CDP et MED" || element.status === "En attente de validation MED" || element.status === "Finalisée" || element.status === "Validé").map((row) => (
+                                        {speakerActions.filter((element, key) => element.status === "En attente de validation CDP et MED" || element.status === "En attente de validation MED" || element.status === "Finalisée" || element.status === "Validé et en attente d'envoie BC").map((row) => (
                                             <TableRow key={row.action_id}>
                                                 <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
@@ -208,7 +208,7 @@ const ActionsMonitoring = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === 'Validé' ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

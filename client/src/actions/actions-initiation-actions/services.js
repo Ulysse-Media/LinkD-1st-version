@@ -117,11 +117,11 @@ function validateVMStatusActionById(action_id, user_email, user_id, action_sende
     url: `/api/actions/user/VMvalidated`,
     params: {
       action_id: action_id,
-      user_email : user_email,
-      user_id : user_id,
-      action_sender : action_sender,
-      DSM_supervisor : DSM_supervisor,
-      CDP_supervisor : CDP_supervisor,
+      user_email: user_email,
+      user_id: user_id,
+      action_sender: action_sender,
+      DSM_supervisor: DSM_supervisor,
+      CDP_supervisor: CDP_supervisor,
     }
   })
 }
@@ -133,9 +133,9 @@ function validateDSMStatusActionById(action_id, user_email, user_id, action_send
     url: `/api/actions/user/DSMvalidated`,
     params: {
       action_id: action_id,
-      user_email : user_email,
-      user_id : user_id,
-      action_sender : action_sender
+      user_email: user_email,
+      user_id: user_id,
+      action_sender: action_sender
     }
   })
 }
@@ -147,9 +147,9 @@ function validateDSMSpeakerStatusActionById(action_id, user_email, user_id, acti
     url: `/api/actions/user/DSMSpeakervalidated`,
     params: {
       action_id: action_id,
-      user_email : user_email,
-      user_id : user_id,
-      action_sender : action_sender
+      user_email: user_email,
+      user_id: user_id,
+      action_sender: action_sender
     }
   })
 }
@@ -162,9 +162,9 @@ function validateCDPFirstStatusActionById(action_id, user_email, user_id, action
     url: `/api/actions/user/CDPvalidated/first`,
     params: {
       action_id: action_id,
-      user_email : user_email,
-      user_id : user_id,
-      action_sender : action_sender,
+      user_email: user_email,
+      user_id: user_id,
+      action_sender: action_sender,
     }
   })
 }
@@ -176,9 +176,9 @@ function validateCDPStatusActionById(action_id, user_email, user_id, action_send
     url: `/api/actions/user/CDPvalidated`,
     params: {
       action_id: action_id,
-      user_email : user_email,
-      user_id : user_id,
-      action_sender : action_sender,
+      user_email: user_email,
+      user_id: user_id,
+      action_sender: action_sender,
     }
   })
 }
@@ -190,9 +190,9 @@ function validateMEDFirstStatusActionById(action_id, user_email, user_id, action
     url: `/api/actions/user/MEDvalidated/first`,
     params: {
       action_id: action_id,
-      user_email : user_email,
-      user_id : user_id,
-      action_sender : action_sender,
+      user_email: user_email,
+      user_id: user_id,
+      action_sender: action_sender,
     }
   })
 }
@@ -204,9 +204,9 @@ function validateMEDStatusActionById(action_id, user_email, user_id, action_send
     url: `/api/actions/user/MEDvalidated`,
     params: {
       action_id: action_id,
-      user_email : user_email,
-      user_id : user_id,
-      action_sender : action_sender,
+      user_email: user_email,
+      user_id: user_id,
+      action_sender: action_sender,
     }
   })
 }
@@ -274,7 +274,7 @@ function archiveActionByIdRequest(action_id, present_doctors) {
     params: {
       action_id: action_id,
     },
-    data : {
+    data: {
       present_doctors: present_doctors
     }
   })
@@ -288,28 +288,30 @@ function finishActionByIdRequest(action_id) {
     params: {
       action_id: action_id,
     },
-    data : null
+    data: null
   })
 }
 
 // Messaging validation user //
-function messagingValidationRequest(to) {
+function messagingValidationRequest(to, action) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/twilio/messaging/validation`,
     data: {
       to: to,
+      action: action
     }
   })
 }
 
 // Messaging rejection user //
-function messagingRejectionRequest(to) {
+function messagingRejectionRequest(to, action) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/twilio/messaging/rejection`,
     data: {
       to: to,
+      action: action
     }
   })
 }
@@ -322,6 +324,18 @@ function validateServicesRequest(values, action) {
     data: {
       values,
       action
+    },
+  })
+}
+
+// Services after validation //
+function downloadFileRequest(html) {
+  return axiosInstance({
+    method: "get",
+    url: `/api/actions/user/finished/download`,
+    responseType: 'blob', // Important
+    params: {
+      html: html
     },
   })
 }
@@ -355,7 +369,8 @@ const ActionsServices = {
   finishActionByIdRequest,
   messagingValidationRequest,
   messagingRejectionRequest,
-  validateServicesRequest
+  validateServicesRequest,
+  downloadFileRequest
 };
 
 export default ActionsServices;

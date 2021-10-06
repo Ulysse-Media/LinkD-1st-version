@@ -17,11 +17,11 @@ export function addFile(body) {
 }
 
 // Retrive file action
-export function retriveFile(action_id) {
+export function retrieveFile(action_id) {
   return async (dispatch) => {
     dispatch({type: RETRIEVE_FILE_REQUEST});
     try {
-      const response = await FilesServices.retriveFileRequest(action_id);
+      const response = await FilesServices.retrieveFileRequest(action_id);
       dispatch({type: RETRIEVE_FILE_SUCCESS, payload: response.data });
     } catch (e) {
       dispatch({

@@ -133,7 +133,7 @@ class Notifications extends React.Component {
           open={this.state.visible}
           className={this.state.notificationsVM_supervisor.length || this.state.notificationsDSM_supervisor.length || this.state.notificationsCDP_supervisor.length ? "dropdown-menu dropdown-menu-small notif" : "dropdown-menu dropdown-menu-small no-notif"}
         >
-          {this.state.user.user_position === "VM" && this.state.notificationsVM_supervisor.length && this.state.notificationsVM_supervisor.map((element, key) => {
+          {this.state.user.user_position === "VM" && this.state.notificationsVM_supervisor.length && this.state.notificationsVM_supervisor.slice(0, 5).map((element, key) => {
             return (
               <DropdownItem key={key}><div>
                 <span>{element.notification_name}</span><br></br>
@@ -141,7 +141,7 @@ class Notifications extends React.Component {
               </div></DropdownItem>
             )
           })}
-          {this.state.user.user_position === "DSM" && this.state.notificationsDSM_supervisor.length && this.state.notificationsDSM_supervisor.map((element, key) => {
+          {this.state.user.user_position === "DSM" && this.state.notificationsDSM_supervisor.length && this.state.notificationsDSM_supervisor.slice(0, 5).map((element, key) => {
             return (
               <DropdownItem key={key}><div>
                 <span>{element.notification_name}</span><br></br>
@@ -149,7 +149,15 @@ class Notifications extends React.Component {
               </div></DropdownItem>
             )
           })}
-          {this.state.user.user_position === "CDP" && this.state.notificationsCDP_supervisor.length && this.state.notificationsCDP_supervisor.map((element, key) => {
+          {this.state.user.user_position === "CDP" && this.state.notificationsCDP_supervisor.length && this.state.notificationsCDP_supervisor.slice(0, 5).map((element, key) => {
+            return (
+              <DropdownItem key={key}><div>
+                <span>{element.notification_name}</span><br></br>
+                <span className="time-left">Il y a {(moment(new Date()).from(new Date(element.recieved_since))).split("dans")}</span>
+              </div></DropdownItem>
+            )
+          })}
+          {this.state.user.user_position === "MED" && this.state.notificationsMED_supervisor.length && this.state.notificationsMED_supervisor.slice(0, 5).map((element, key) => {
             return (
               <DropdownItem key={key}><div>
                 <span>{element.notification_name}</span><br></br>

@@ -132,9 +132,42 @@ const ActionsInitiation = () => {
 
   // Function to count invited_doctors
   const handleNumberDoctors = () => {
-    let counter = $("#invited_doctors option:selected").length; // Selected options length
+    let counter = $("#invited-doctors option:selected").length; // Selected options length
     setCount(counter); // Hook number of invited doctors to local state
   }
+  // Handle keyboard CTRL + A selection of number of invited_doctors
+  $(document).ready(function () {
+    let ctrlDown = false;
+    let ctrlKey = 17;
+    let aKey = 65;
+    let field = document.getElementById("speciality-field");
+    let invited = document.getElementById("invited-doctors");
+    if (field) {
+      field.addEventListener("keydown", (event) => {
+        if (event.keyCode === ctrlKey) {
+          ctrlDown = true;
+        }
+        if (ctrlDown && (event.keyCode == aKey)) {
+          setFilteredDoctors(doctors); // Hook all invited doctors to local state
+        }
+      });
+    }
+    if (invited) {
+      invited.addEventListener("keydown", (event) => {
+        if (event.keyCode === ctrlKey) {
+          ctrlDown = true;
+        }
+        if (ctrlDown && (event.keyCode == aKey)) {
+          if (FilteredDoctors.length === doctors.length) {
+            setCount(doctors.length); // Hook number of all invited doctors to local state
+          } else {
+            setCount(FilteredDoctors.length); // Hook number of filtered invited doctors to local state
+          }
+        }
+      });
+    }
+  })
+
 
   // Function to handle Filter geolocalisation
   const handleFilteredGeolocalisation = () => {
@@ -151,10 +184,12 @@ const ActionsInitiation = () => {
       }
     });
   }
+
   // Search handler
   const fuse = new Fuse(FilteredDoctors, {
     keys: ['doctor_lname', 'doctor_fname', 'doctor_field']
   })
+
   // Function to handle Search //
   const handleSearch = (e) => {
     let filteredDoctors = [];
@@ -171,11 +206,13 @@ const ActionsInitiation = () => {
         }
       }
     }
+
     // Handle empty text
     if (e.target.value.length === 0) {
       handleFilteredDoctors(); // Execute function to filter displayed doctors
     }
   }
+
   // Function to handle file change
   const onFileChange = function (e) {
     setFile(e.target.files[0]); // Hook file to local state
@@ -269,6 +306,7 @@ const ActionsInitiation = () => {
       }
     }
   };
+
   // Component on mount //
   useEffect(() => {
     dispatch(getDoctors()); // Dispatch get action of all doctors 
@@ -304,6 +342,7 @@ const ActionsInitiation = () => {
     }
   }, [doctors, localisations, action])
   // Component on mount //
+
   // All displayed fields form //
   const formFields = [
     {
@@ -759,7 +798,7 @@ const ActionsInitiation = () => {
               <Select
                 name="action_field"
                 type="select"
-                id="mySelect"
+                id="speciality-field"
                 formControlProps={{ margin: 'none' }}
                 multiple
                 native
@@ -806,7 +845,7 @@ const ActionsInitiation = () => {
                 type="select"
                 native
                 onClick={handleNumberDoctors}
-                id="invited_doctors"
+                id="invited-doctors"
               >
                 {FilteredDoctors.map((element, key) => {
                   return (<option key={key} value={element.doctor_lname + ' ' + element.doctor_fname}>

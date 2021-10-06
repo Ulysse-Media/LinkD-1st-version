@@ -72,7 +72,7 @@ class UserActions extends React.Component {
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem onClick={this.handleLogout} tag={Link} to="/" className="text-danger">
-          <i className="material-icons">power_settings_new</i> Déconnextion
+          <i className="material-icons" id="disconnect">power_settings_new</i> Déconnextion
           </DropdownItem>
         </Collapse>
       </NavItem>

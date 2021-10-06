@@ -264,9 +264,8 @@ DoctorsPotential.propTypes = {
 };
 
 DoctorsPotential.defaultProps = {
-  title: "Potentiels médecins par spécialité", // Card Title
+  title: "Nombre médecins par spécialité", // Card Title
 };
-
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -274,7 +273,6 @@ const mapStateToProps = (state, ownProps) => {
     doctors: state.doctorsReducer.doctors
   }
 }
-
 
 export default connect(mapStateToProps, null)(DoctorsPotential);
 

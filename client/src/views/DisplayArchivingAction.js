@@ -3,7 +3,7 @@ import PageTitle from "../components/common/PageTitle";
 import { Row, Col } from "shards-react";
 import { useDispatch, useSelector } from "react-redux";
 import { getActionById, archiveActionById } from "../actions/actions-initiation-actions/actions";
-import { addFile, retriveFile } from "../actions/files-actions/actions";
+import { addFile, retrieveFile } from "../actions/files-actions/actions";
 import InvitedDoctorsSpeciality from "../components/recap-statistics/DoctorsSpeciality";
 import InvitedDoctorsFeedback from "../components/recap-statistics/DoctorsFeedback";
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -20,8 +20,8 @@ import {
 } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
+import $ from "jquery";
 toast.configure();
-
 const DisplayArchivingAction = () => {
   const dispatch = useDispatch();
   const [LastAction, setLastAction] = useState({});
@@ -47,6 +47,11 @@ const DisplayArchivingAction = () => {
   const file = useSelector(
     (state) => state.filesReducer.file
   );
+  let el = $('#OpenImgUpload');
+  el.click(function(){ 
+    $('#imgupload').trigger('click'); 
+  });
+
   const handleChange = (event) => {
     if (event.target.checked) {
       setPresentInvitedDoctors(oldArray => [...oldArray, event.target.value])
@@ -78,7 +83,7 @@ const DisplayArchivingAction = () => {
   // Component on mount //
   useEffect(() => {
     dispatch(getActionById(pathId)); // Dispatch get action of all action 
-    dispatch(retriveFile(pathId)); // Dispatch get action of all action 
+    dispatch(retrieveFile(pathId)); // Dispatch get action of all action 
   }, [dispatch, pathId])
   useEffect(() => {
     let startDate = new Date(LastAction.start_action); // Create an instance of start date
@@ -512,6 +517,7 @@ const DisplayArchivingAction = () => {
         <input
           type="file"
           name="fileUpload"
+          id="imgupload"
           onChange={handleFileChange}
           style={user.user_position === "VM" && action.status === "Terminée et non archivée" ? { width: "100%", marginTop: "18px", borderTop: "1px solid" } : { display: "none", marginTop: "18px", borderTop: "1px solid", width: "100%" }}
           multiple
@@ -534,7 +540,7 @@ const DisplayArchivingAction = () => {
             <Grid container justifyContent="center" spacing={2}>
               {file.file_name && file.file_name.split(",").map((element, key) => (
                 <Grid key={key} item>
-                  <Avatar style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={element} variant="rounded" id={key} />
+                  <Avatar id="OpenImgUpload" style={{ width: 150, height: 150 }} alt="uploaded-file" className="file" src={element} variant="rounded" id={key} />
                 </Grid>
               ))}
             </Grid>
@@ -590,7 +596,7 @@ const DisplayArchivingAction = () => {
               variant="contained"
               color="primary"
               onClick={onSubmit}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "VM" && action.status === "Validé") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "VM" && action.status === "Validé et en attente d'envoie BC") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
               Archiver
             </Button>

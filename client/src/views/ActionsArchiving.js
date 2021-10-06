@@ -90,7 +90,7 @@ const ActionsArchiving = () => {
     //         }
     //         setArchivedVMactions(newAction);
     //         for (var j = 0; j < newAction.length; j++) {
-    //             if (newAction[j].status === "Validé") {
+    //             if (newAction[j].status === "Validé et en attente d'envoie BC") {
     //                 dispatch(disarchiveActionById(newAction[j].action_id));
     //             }
     //         }
@@ -104,7 +104,7 @@ const ActionsArchiving = () => {
     //     //         }
     //     //         setArchivedDSMactions(newAction);
     //     //         for (var l = 0; j < ArchivedDSMactions.length; l++) {
-    //     //             if (ArchivedDSMactions[l].status === "Validé") {
+    //     //             if (ArchivedDSMactions[l].status === "Validé et en attente d'envoie BCet" en attente d'envoie BC") {
     //     //                 dispatch(disarchiveActionById(ArchivedDSMactions[l].action_id));
     //     //             }
     //     //         }
@@ -119,7 +119,7 @@ const ActionsArchiving = () => {
     //     //         }
     //     //         setArchivedCDPactions(newAction);
     //     //         for (var n = 0; n < ArchivedCDPactions.length; n++) {
-    //     //             if (ArchivedCDPactions[n].status === "Validé") {
+    //     //             if (ArchivedCDPactions[n].status === "Validé et en attente d'envoie BCet" en attente d'envoie BC") {
     //     //                 dispatch(disarchiveActionById(ArchivedCDPactions[n].action_id));
     //     //             }
     //     //         }
@@ -134,7 +134,7 @@ const ActionsArchiving = () => {
     //     //         }
     //     //         setArchivedMEDactions(newAction);
     //     //         for (var q = 0; q < ArchivedMEDactions.length; q++) {
-    //     //             if (ArchivedMEDactions[q].status === "Validé") {
+    //     //             if (ArchivedMEDactions[q].status === "Validé et en attente d'envoie BCet" en attente d'envoie BC") {
     //     //                 dispatch(disarchiveActionById(ArchivedMEDactions[q].action_id));
     //     //             }
     //     //         }
@@ -178,7 +178,7 @@ const ActionsArchiving = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === 'Validé' ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         )) : null}
                                     </TableBody>
@@ -210,7 +210,7 @@ const ActionsArchiving = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === 'Validé' ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -242,7 +242,7 @@ const ActionsArchiving = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === 'Validé' ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -274,7 +274,7 @@ const ActionsArchiving = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === 'Validé' ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

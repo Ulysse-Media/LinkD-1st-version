@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import PageTitle from "../components/common/PageTitle";
 import { Row, Col } from "shards-react";
 import { useDispatch, useSelector } from "react-redux";
-import { getActionById, denyDSMActionById, denyCDPActionById, validateDSMActionById, modifyActionById, validateVMActionById, validateDSMSpeakerActionById, validateCDPActionById, validateCDPFirstActionById, removeActionById, returnActionById, validateMEDActionById, validateMEDFirstActionById, messagingValidation, messagingRejection, archiveActionById } from "../actions/actions-initiation-actions/actions";
+import { getActionById, denyDSMActionById, denyCDPActionById, validateDSMActionById, modifyActionById, validateVMActionById, validateDSMSpeakerActionById, validateCDPActionById, validateCDPFirstActionById, removeActionById, returnActionById, validateMEDActionById, validateMEDFirstActionById, messagingValidation, messagingRejection, archiveActionById, downloadFile } from "../actions/actions-initiation-actions/actions";
+import { retrieveFile } from "../actions/files-actions/actions";
+import { retrieveInvoice } from "../actions/invoices-actions/actions";
 import { pushNotification } from "../actions/notifications-actions/actions";
 import InvitedDoctorsSpeciality from "../components/recap-statistics/DoctorsSpeciality";
 import InvitedDoctorsFeedback from "../components/recap-statistics/DoctorsFeedback";
+import { jsPDF } from "jspdf";
+import html2canvas from "html2canvas";
 import {
   Typography,
   Paper,
@@ -48,9 +52,13 @@ const DisplayAction = () => {
   const action = useSelector(
     (state) => state.actionsReducer.action
   );
+  // Invoice state from redux store
+  const invoice = useSelector(
+    (state) => state.invoicesReducer.invoice
+  );
 
-  // All displayed fields form //
-  const formFields = [
+  // All displayed action fields form //
+  const actionFields = [
     {
       size: 3,
       field: (
@@ -407,6 +415,145 @@ const DisplayAction = () => {
         </Typography>
       ),
     },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+        </Typography>
+      ),
+    },
+  ];
+
+  // All displayed invoices fields form //
+  const invoiceFields = [
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          facture d'hébergement :
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {invoice.invoice_accommodation}
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          Commentaires :
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {invoice.invoice_comments}
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          Extras :
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {invoice.invoice_extras}
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          Orateur honoraire :
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {invoice.invoice_honorary_speaker}
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          Prix local :
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {invoice.invoice_local_price}
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          Prix :
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {invoice.invoice_price}
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          Logistique :
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {invoice.invoice_logistic}
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          Transfert :
+        </Typography>
+      ),
+    },
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {invoice.invoice_transfer}
+        </Typography>
+      ),
+    },
   ];
 
   const handleDialogOpen = () => {
@@ -467,30 +614,42 @@ const DisplayAction = () => {
     values.notification_sender = user.user_id;
     values.recieved_since = new Date();
     if (user.user_position === "VM") {
-      if (action.status === "En attente de validation VM") { // User type VM
+      if (action.status === "En attente d'envoie VM") { // User type VM
         values.VM_supervisor = user.user_id;
         values.DSM_supervisor = user.DSM_supervisor;
         values.CDP_supervisor = user.CDP_supervisor;
         values.notification_name = validationVMText;
         dispatch(validateVMActionById(pathId, user.user_email, user.user_id, action.user_email, user.DSM_supervisor, user.CDP_supervisor)); // Validate action by VM
         dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor || MED supervisor 
-        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
+        dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
       } else if (action.status === "Terminée et non archivée") {
         dispatch(archiveActionById(action.action_id)); // Archieve action
+      } else if (action.status === "Finalisée") {
+        const input = document.getElementById('divToPrint');
+        html2canvas(input)
+          .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+              format: 'a2',
+            });
+            pdf.addImage(imgData, 'JPEG', 10, 10);
+            pdf.save("Action-Reporting.pdf");
+          });
       }
     } else if (user.user_position === "DSM") { // User type DSM
       values.VM_supervisor = action.VM_validation;
       values.DSM_supervisor = user.user_id;
       values.CDP_supervisor = user.CDP_supervisor;
       values.notification_name = validationDSMText;
+      action.CDP_supervisor = user.CDP_supervisor;
       if (action.speaker === 0) {
         dispatch(validateDSMActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email)); // Validate action by DSM
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor
-        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
+        dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
       } else {
         dispatch(validateDSMSpeakerActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
-        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
+        dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
       }
     } else if (user.user_position === "CDP") { // User type CDP
       values.VM_supervisor = action.VM_validation;
@@ -500,14 +659,14 @@ const DisplayAction = () => {
       if (action.status === 'En attente de validation CDP et MED') {
         dispatch(validateCDPFirstActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
-        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
-      } else if (action.status === "Validé") {
+        dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
+      } else if (action.status === "Validé et en attente d'envoie BC") {
         history.push("/after-validation")
       }
       else {
         dispatch(validateCDPActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor
-        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
+        dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
       }
     } else if (user.user_position === "MED") { // User type MED
       values.VM_supervisor = action.VM_validation;
@@ -518,11 +677,11 @@ const DisplayAction = () => {
       if (action.status === 'En attente de validation CDP et MED') {
         dispatch(validateMEDFirstActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
-        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a message to all destinataires
+        dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
       } else {
         dispatch(validateMEDActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor || MED supervisor 
-        dispatch(messagingValidation(parseInt(user.user_phone_number))); // Send a validation message to all destinataires
+        dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a validation message to all destinataires
       }
     }
   }
@@ -539,21 +698,22 @@ const DisplayAction = () => {
       values.DSM_supervisor = user.DSM_supervisor;
       values.CDP_supervisor = user.CDP_supervisor;
       values.notification_name = rejectionVMText;
-      if (action.status === "En attente de validation VM") {
+      if (action.status === "En attente d'envoie VM") {
         dispatch(removeActionById(pathId)); // Delete action permenantly
         dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
-        dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
+        dispatch(messagingRejection(parseInt(user.user_phone_number), action)); // Send a rejection message to all destinataires
       }
     } else if (user.user_position === "DSM") { // User type DSM
       values.VM_supervisor = action.VM_validation;
       values.DSM_supervisor = user.user_id;
       values.CDP_supervisor = user.CDP_supervisor;
       values.notification_name = rejectionDSMText;
+      action.CDP_supervisor = user.CDP_supervisor;
       dispatch(denyDSMActionById(pathId, user.user_id)); // Deny action permenantly
       dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
-      dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
+      dispatch(messagingRejection(parseInt(user.user_phone_number), action)); // Send a rejection message to all destinataires
     } else if (user.user_position === "CDP") { // User type CDP
-      if (action.status === "Validé") {
+      if (action.status === "Validé et en attente d'envoie BC") {
         history.goBack()
       } else {
         values.VM_supervisor = action.VM_validation;
@@ -562,7 +722,7 @@ const DisplayAction = () => {
         values.notification_name = rejectionCDPText;
         dispatch(denyCDPActionById(pathId, user.user_id)); // Deny action permenantly
         dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
-        dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
+        dispatch(messagingRejection(parseInt(user.user_phone_number), action)); // Send a rejection message to all destinataires
       }
     } else if (user.user_position === "MED") { // User type MED
       values.VM_supervisor = action.VM_validation;
@@ -571,13 +731,15 @@ const DisplayAction = () => {
       values.notification_name = rejectionCDPText;
       dispatch(denyCDPActionById(pathId, user.user_id)); // Deny action permenantly
       dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
-      dispatch(messagingRejection(user.user_phone_number)); // Send a rejection message to all destinataires
+      dispatch(messagingRejection(parseInt(user.user_phone_number), action)); // Send a rejection message to all destinataires
     }
   }
 
   // Component on mount //
   useEffect(() => {
     dispatch(getActionById(pathId)); // Dispatch get action of all action 
+    dispatch(retrieveFile(pathId)); // Dispatch get action of all action 
+    dispatch(retrieveInvoice(pathId)); // Dispatch get action of all action 
   }, [dispatch, pathId])
   useEffect(() => {
     let startDate = new Date(LastAction.start_action); // Create an instance of start date
@@ -607,8 +769,9 @@ const DisplayAction = () => {
       }
     }
   }, [LastAction.start_action, LastAction.end_action, action]);
+  console.log(invoice)
   return (
-    <div style={{ padding: 16, margin: 'auto', maxWidth: 1225, height: '100%' }}>
+    <div id="divToPrint" style={{ padding: 16, margin: 'auto', maxWidth: 1225, height: '100%' }}>
       <Row noGutters className="page-header py-4">
         <PageTitle sm="4" title="Initiation d'action" subtitle="Link-D / Actions" />
       </Row>
@@ -629,39 +792,52 @@ const DisplayAction = () => {
               Thématique :
             </Typography>
           </Grid>
-          {formFields.map((item, index) => (
+          {actionFields.map((item, index) => (
             <Grid item xs={item.size} key={index}>
               {item.field}
             </Grid>
           ))}
-          <Row style={{ margin: '0 auto' }}>
+          <Row>
             <Col lg="6" md="9" sm="12" style={{ marginTop: "32px" }}><InvitedDoctorsFeedback invited_doctors={LastAction.invited_doctors} /></Col>
             <Col lg="6" md="9" sm="12" style={{ marginTop: "32px" }}><InvitedDoctorsSpeciality invited_doctors={LastAction.invited_doctors} /></Col>
           </Row>
+          <Grid container alignItems="flex-start" style={{ marginTop: 16 }}>
+            <Grid item xs={6} style={{ marginBottom: 16 }}>
+              <Typography component="p" className="bold-title">
+                {invoice ? 'Factures' : null}
+              </Typography>
+            </Grid>
+          </Grid>
+          {invoice ? invoiceFields.map((item, index) => (
+            <Grid item xs={item.size} key={index}>
+              {item.field}
+            </Grid>
+          )) : null}
           <Grid container alignItems="flex-start" style={{ marginTop: 32, textAlign: "center", justifyContent: "center" }}>
             <Button
               variant="contained"
               color="primary"
               onClick={handleValidate}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              data-html2canvas-ignore="true"
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "VM" && action.status === "Finalisée") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé et en attente d'envoie BC") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Envoyer" : user.user_position === "VM" && action.status === "Terminée et non archivée" ? "Archiver" : "Valider"}
+              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Envoyer" : user.user_position === "VM" && action.status === "Terminée et non archivée" ? "Archiver" : user.user_position === "VM" && action.status === "Finalisée" ? "Exporter en spreadsheet" : "Valider"}
             </Button>
             <Button
               variant="contained"
               onClick={user.user_position === "VM" ? handleModifyActionById : handleDialogOpen}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Modifier" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Retour à la modification" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : null}
+              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Modifier" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Retour à la modification" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : null}
 
             </Button>
             <Button
               variant="contained"
               color="secondary"
               onClick={handleDelete}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente de validation VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé et en attente d'envoie BC") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente de validation VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Refuser" : null}
+              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé et en attente d'envoie BC" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Refuser" : null}
             </Button>
           </Grid>
         </Grid>

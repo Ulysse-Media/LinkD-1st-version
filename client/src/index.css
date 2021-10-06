@@ -106,7 +106,7 @@ code {
 .main-sidebar .nav--no-borders .nav-item .nav-link {
   box-shadow: 0 7px 12px 0 rgb(95 118 232 / 21%) !important;
   border-bottom: 1px solid grey !important;
-  border-radius: 0 0 60px 0;
+  /* border-radius: 0 0 60px 0; */
 }
 .main-navbar.bg-white.sticky-top .container {
   max-width: unset !important;
@@ -134,6 +134,9 @@ code {
 }
 .material-icons {
   color: #0d6efd !important;
+}
+#disconnect{
+  color: red !important;
 }
 .actions-number {
   font-weight: bold;

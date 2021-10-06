@@ -53,7 +53,7 @@ class ActionsReporting extends React.Component {
                     axiosInstance.get(`http://localhost:3000/api/actions/user/user_id?user_id=${this.props.user[0].user_id}`).then(response => {
                         let actions = response.data;
                         for (var i = 0; i < actions.length; i++) {
-                            if (actions[i].status === "En attente de validation VM") {
+                            if (actions[i].status === "En attente d'envoie VM") {
                                 pendingVM++;
                                 pendingPercentageVM = (pendingVM / actions.length) * 100;
                             }
@@ -69,7 +69,7 @@ class ActionsReporting extends React.Component {
                                 pendingCDP++;
                                 pendingPercentageCDP = (pendingCDP / actions.length) * 100;
                             }
-                            if (actions[i].status === "Validé") {
+                            if (actions[i].status === "Validé et en attente d'envoie BC") {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
@@ -127,7 +127,7 @@ class ActionsReporting extends React.Component {
                                 pendingDSM++;
                                 pendingPercentageDSM = Math.round((pendingDSM / actions.length) * 100);
                             }
-                            if (actions[i].status === "Validé") {
+                            if (actions[i].status === "Validé et en attente d'envoie BC") {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
@@ -183,7 +183,7 @@ class ActionsReporting extends React.Component {
                                 pendingCDP++;
                                 pendingPercentageCDP = Math.round((pendingCDP / actions.length) * 100);
                             }
-                            if (actions[i].status === "Validé") {
+                            if (actions[i].status === "Validé et en attente d'envoie BC") {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
@@ -235,7 +235,7 @@ class ActionsReporting extends React.Component {
                                 pendingCDP++;
                                 pendingPercentageCDP = Math.round((pendingCDP / actions.length) * 100);
                             }
-                            if (actions[i].status === "Validé") {
+                            if (actions[i].status === "Validé et en attente d'envoie BC") {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }

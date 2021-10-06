@@ -2,6 +2,7 @@ import { RETRIEVE_FILE_REQUEST, RETRIEVE_FILE_SUCCESS, RETRIEVE_FILE_FAILURE } f
 
 const INITIAL_STATE = {
   file: {},
+  read : {},
 };
 
 export const filesReducer = (

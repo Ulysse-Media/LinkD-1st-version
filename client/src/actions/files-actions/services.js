@@ -13,7 +13,7 @@ function addFileRequest(body) {
 }
 
 // Retrive file //
-function retriveFileRequest(action_id) {
+function retrieveFileRequest(action_id) {
   return axiosInstance({
     method: "get",
     url: "/api/files",
@@ -25,7 +25,7 @@ function retriveFileRequest(action_id) {
 
 const FilesServices = {
   addFileRequest,
-  retriveFileRequest
+  retrieveFileRequest
 };
 
 export default FilesServices;
