@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PageTitle from "../components/common/PageTitle";
 import { Row, Col } from "shards-react";
 import { useDispatch, useSelector } from "react-redux";
-import { getActionById, denyDSMActionById, denyCDPActionById, validateDSMActionById, modifyActionById, validateVMActionById, validateDSMSpeakerActionById, validateCDPActionById, validateCDPFirstActionById, removeActionById, returnActionById, validateMEDActionById, validateMEDFirstActionById, messagingValidation, messagingRejection, archiveActionById, downloadFile } from "../actions/actions-initiation-actions/actions";
+import { getActionById, denyDSMActionById, denyCDPActionById, validateDSMActionById, modifyActionById, validateVMActionById, validateDSMSpeakerActionById, validateCDPActionById, validateCDPFirstActionById, removeActionById, returnActionById, validateMEDActionById, validateMEDFirstActionById, messagingValidation, messagingRejection, archiveActionById } from "../actions/actions-initiation-actions/actions";
 import { retrieveFile } from "../actions/files-actions/actions";
 import { retrieveInvoice } from "../actions/invoices-actions/actions";
 import { pushNotification } from "../actions/notifications-actions/actions";
@@ -789,8 +789,12 @@ const DisplayAction = () => {
   // Component on mount //
   useEffect(() => {
     dispatch(getActionById(pathId)); // Dispatch get action of all action 
-    dispatch(retrieveFile(pathId)); // Dispatch get action of all action 
-    dispatch(retrieveInvoice(pathId)); // Dispatch get action of all action 
+    if(action.status === "Terminée et archivée") {
+      dispatch(retrieveFile(pathId)); // Dispatch get action of all action 
+    }
+    if(action.status === "Finalisée") {
+      dispatch(retrieveInvoice(pathId)); // Dispatch get action of all action 
+    }
   }, [dispatch, pathId])
   useEffect(() => {
     let startDate = new Date(LastAction.start_action); // Create an instance of start date
@@ -820,7 +824,6 @@ const DisplayAction = () => {
       }
     }
   }, [LastAction.start_action, LastAction.end_action, action]);
-  console.log(invoice)
   return (
     <div id="divToPrint" style={{ padding: 16, margin: 'auto', maxWidth: 1225, height: '100%' }}>
       <Row noGutters className="page-header py-4">

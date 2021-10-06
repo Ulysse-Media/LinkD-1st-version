@@ -49,7 +49,7 @@ class ActionsNumber extends React.Component {
                             total = actions.length;
                         }
                         time = Math.round(counter / total);
-                        this.setState({time})
+                        this.setState({ time })
                     })
                 } else if (this.props.user[0].user_position === "DSM") {
                     axiosInstance.get(`http://localhost:3000/api/actions/user/VM/actions/:${this.props.user[0].user_id}`, {

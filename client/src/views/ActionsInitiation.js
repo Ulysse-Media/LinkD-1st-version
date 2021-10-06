@@ -258,6 +258,11 @@ const ActionsInitiation = () => {
     if (!values.invited_doctors) {
       errors.invited_doctors = 'Champ requis';
     }
+    if (Speaker === "1") {
+      if (!values.speaker_suggestion || values.speaker_suggestion === "Non spécifié") {
+        errors.speaker_suggestion = 'Champ requis';
+      }
+    }
     return errors;
   };
 
@@ -270,9 +275,6 @@ const ActionsInitiation = () => {
     if (!values.comments) {
       values.comments = 'Non spécifié';
     }
-    if (!values.speaker_suggestion) {
-      values.speaker_suggestion = 'Non spécifié';
-    }
     if (!values.other_location) {
       values.other_location = 'Non spécifié';
     }
@@ -282,6 +284,11 @@ const ActionsInitiation = () => {
     if (!values.other_stuff) {
       values.other_stuff = 'Non spécifié';
     }
+    if (Speaker === "0") {
+      if (!values.speaker_suggestion) {
+        values.speaker_suggestion = 'Non spécifié';
+      }
+    }
     values.user_id = user.user_id;
     values.user_email = user.user_email;
     values.DSM_supervisor = user.DSM_supervisor;
@@ -290,6 +297,9 @@ const ActionsInitiation = () => {
     values.speaker = parseInt(Speaker); // Parse string type to integer
     values.speaker_transfer = parseInt(SpeakerTransfer); // Parse string type to integer
     values.speaker_accommodation = parseInt(SpeakerAccommodation); // Parse string type to integer
+    if(!values.other_stuff) {
+
+    }
     if (File.name) {
       formData.append("file", File, File.name); // Append file to formData
       formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
@@ -633,7 +643,7 @@ const ActionsInitiation = () => {
       display: true,
       field: (
         <Typography style={{ marginTop: "18px" }}>
-          Propositions d'orateur :
+          Propositions d'orateur : <span className="red-star">*</span>
         </Typography>
       ),
     },

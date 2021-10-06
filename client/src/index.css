@@ -49,7 +49,7 @@ code {
 .link-items {
   font-size: 24px !important;
 }
-.statusvalidated {
+/* .statusvalidated {
   color: #78e03c !important;
 }
 .statusdenied {
@@ -63,7 +63,7 @@ code {
 }
 .statuspending {
   color: rgb(205, 164, 102) !important;
-}
+} */
 .MuiTableCell-head,
 .MuiTableCell-body {
   text-align: center !important;
