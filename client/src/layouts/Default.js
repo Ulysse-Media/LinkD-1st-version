@@ -68,7 +68,7 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
         }
         setArchivedVMactions(newAction);
         for (var j = 0; j < newAction.length; j++) {
-            if (newAction[j].status === "Validé et en attente d'envoie BC") {
+            if (newAction[j].status === "Validée par CDP et en attente de retour agence") {
                 dispatch(disarchiveActionById(newAction[j].action_id));
             }
         }
@@ -82,7 +82,7 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
     //         }
     //         setArchivedDSMactions(newAction);
     //         for (var l = 0; j < ArchivedDSMactions.length; l++) {
-    //             if (ArchivedDSMactions[l].status === "Validé et en attente d'envoie BC") {
+    //             if (ArchivedDSMactions[l].status === "Validée par CDP et en attente de retour agence") {
     //                 dispatch(disarchiveActionById(ArchivedDSMactions[l].action_id));
     //             }
     //         }
@@ -97,7 +97,7 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
     //         }
     //         setArchivedCDPactions(newAction);
     //         for (var n = 0; n < ArchivedCDPactions.length; n++) {
-    //             if (ArchivedCDPactions[n].status === "Validé et en attente d'envoie BC") {
+    //             if (ArchivedCDPactions[n].status === "Validée par CDP et en attente de retour agence") {
     //                 dispatch(disarchiveActionById(ArchivedCDPactions[n].action_id));
     //             }
     //         }
@@ -112,7 +112,7 @@ const DefaultLayout = ({ children, noNavbar, noFooter }) => {
     //         }
     //         setArchivedMEDactions(newAction);
     //         for (var q = 0; q < ArchivedMEDactions.length; q++) {
-    //             if (ArchivedMEDactions[q].status === "Validé et en attente d'envoie BC") {
+    //             if (ArchivedMEDactions[q].status === "Validée par CDP et en attente de retour agence") {
     //                 dispatch(disarchiveActionById(ArchivedMEDactions[q].action_id));
     //             }
     //         }

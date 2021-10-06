@@ -107,7 +107,7 @@ const ActionsValidation = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validée par CDP et en attente de retour agence" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -140,7 +140,7 @@ const ActionsValidation = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validée par CDP et en attente de retour agence" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
@@ -172,7 +172,7 @@ const ActionsValidation = () => {
                                                 <TableCell>{row.action_location}</TableCell>
                                                 <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
                                                 <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
-                                                <TableCell className={"status" + (row.status === "Validé et en attente d'envoie BC" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                                <TableCell className={"status" + (row.status === "Validée par CDP et en attente de retour agence" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>

@@ -407,17 +407,6 @@ router.post('/archived/:action_id', function (req, res, next) {
     })
 });
 
-// Api to archive action by ID
-router.post('/finished/:action_id', function (req, res, next) {
-    Actions.finishActionById(req.query.action_id).then((result, error) => {
-        if (result) {
-            return res.json(result);
-        } else {
-            console.log("error", error)
-        }
-    })
-});
-
 router.post('/twilio/messaging/validation', function (req, res, nest) {
     client.messages
         .create({
@@ -450,45 +439,120 @@ router.post('/twilio/messaging/rejection', function (req, res, nest) {
 router.post('/CDPvalidated/services', function (req, res, next) {
     let agency_name = [];
     let agency_email = [];
-    for(var i = 0 ; i < req.body.values.agency.length ; i++) {
-        agency_name.push(req.body.values.agency[i].split(",")[1])
-        agency_email.push(req.body.values.agency[i].split(",")[0])
-    }
-    var smtpTrans = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'yknaizia@gmail.com',
-            pass: 'yassine94683607'
-        }
-    });
-    var mailOptions = {
-        to: [agency_email],
-        from: 'yknaizia@gmail.com',
-        subject: "Choix de service",
-        text: `Bonjour, Merci de nous confirmer l’action suivante
-        - Type de l’action: ${req.body.action.action_type}
-        - Nombre des participants: ${req.body.action.pax_number}
-        - Lieu de l’action : ${req.body.action.action_location}
-        - Date de l’action: ${req.body.action.start_action.split("T")[0]}
-        - Horaire: ${req.body.action.schedule}
-        - Service demandé : ${req.body.values.service_name}
-        Service additionnel : 
-        Commentaires: 
-        - Nom de facturation (Sanofi-Aventis Tunisie; Winthrop Pharma Tunisie) : Sanofi-Aventis Tunisie
-        - Contact responsable action: ${req.body.action.user_email}
-        Cordialement.
-        `,
-    };
-    smtpTrans.sendMail(mailOptions, function (err, info) {
-        if (err) {
-            console.log(err)
+    Actions.validateAgencyActionById(req.body.action.action_id).then((result, error) => {
+        if(result) {
+            for(var i = 0 ; i < req.body.values.agency.length ; i++) {
+                agency_name.push(req.body.values.agency[i].split(",")[1])
+                agency_email.push(req.body.values.agency[i].split(",")[0])
+            }
+            var smtpTrans = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'yknaizia@gmail.com',
+                    pass: 'yassine94683607'
+                }
+            });
+            var mailOptions = {
+                to: [agency_email],
+                from: 'yknaizia@gmail.com',
+                subject: "Choix de service",
+                text: `Bonjour, Merci de nous confirmer l’action suivante
+                - Type de l’action: ${req.body.action.action_type}
+                - Nombre des participants: ${req.body.action.pax_number}
+                - Lieu de l’action : ${req.body.action.action_location}
+                - Date de l’action: ${req.body.action.start_action.split("T")[0]}
+                - Horaire: ${req.body.action.schedule}
+                - Service demandé : ${req.body.values.service_name}
+                Service additionnel : 
+                Commentaires: 
+                - Nom de facturation (Sanofi-Aventis Tunisie; Winthrop Pharma Tunisie) : Sanofi-Aventis Tunisie
+                - Contact responsable action: ${req.body.action.user_email}
+                Cordialement.
+                `,
+            };
+            smtpTrans.sendMail(mailOptions, function (err, info) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    req.flash('success', 'An e-mail has been sent to ' + req.query.agency_email + ' with further instructions.');
+                    res.redirect('/monitoring-action');
+                }
+            });
+            return res.json({result : "Email sent to agency successfully"});
         } else {
-            req.flash('success', 'An e-mail has been sent to ' + req.query.agency_email + ' with further instructions.');
-            res.redirect('/monitoring-action');
+            console.log("error", error)
         }
-    });
-    return res.json({result : "Email sent to agency successfully"});
-
+    })
 });
+
+// Api to finish action by ID
+router.post('/finished/:action_id', function (req, res, next) {
+    Actions.finishActionById(req.query.action_id).then((result, error) => {
+        if (result) {
+            return res.json(result);
+        } else {
+            console.log("error", error)
+        }
+    })
+});
+
+// var options = {
+//     format: "A3",
+//     orientation: "portrait",
+//     border: "10mm",
+//     header: {
+//         height: "45mm",
+//         contents: '<div style="text-align: center;">Auteur: Knaizia Yassine</div>'
+//     },
+//     footer: {
+//         height: "28mm",
+//         contents: {
+//             2: 'Second page', // Any page number is working. 1-based index
+//             default: '<span style="color: #444, text-align: center">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+//         }
+//     }
+// };
+// var users = [
+//     {
+//         name: "Hassen",
+//         age: "29",
+//     },
+//     {
+//         name: "Yassmine",
+//         age: "25",
+//     },
+//     {
+//         name: "Ashref",
+//         age: "23",
+//     },
+// ];
+// router.get('/finished/download', function (req, res) {
+//     console.log(req.query)
+//     var document = {
+//         html: req.query.html,
+//         data: {
+//             users: users,
+//         },
+//         path: "./generated-action.pdf",
+//         type: "",
+//     };
+//     console.log(req.body)
+//     pdf.create(document, options).then((result) => {
+//         var filename = path.basename(result.filename);
+//         var mimetype = mime.lookup(result.filename);
+//         res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+//         res.setHeader('Content-type', mimetype);
+//         res.download(result.filename, (error) => {
+//             if (error) {
+//                 console.log(error);
+//             } else {
+//                 console.log("File has been successfully downloaded");
+//             }
+//         });
+//     })
+//         .catch((error) => {
+//             console.error(error);
+//         });
+// });
 
 module.exports = router;

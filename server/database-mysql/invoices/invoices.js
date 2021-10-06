@@ -1,4 +1,3 @@
-const { connection } = require("../config/connect")
 const { sql } = require("../config/db")
 
 // Database function to insert new doctor  //
@@ -13,6 +12,18 @@ const addInvoice = async (req) => {
   }
 }
 
+// Database function to retrieve invoice by action_id  //
+const retrieveInvoice = async (action_id) => {
+  var query = `SELECT * FROM invoices WHERE action_id=${action_id}`;
+  try {
+    let invoice = await sql(query);
+    return invoice[0];
+  } catch (err) {
+    console.log(err)
+  }
+}
+
 module.exports = {
   addInvoice,
+  retrieveInvoice
 }

@@ -69,7 +69,7 @@ class ActionsReporting extends React.Component {
                                 pendingCDP++;
                                 pendingPercentageCDP = (pendingCDP / actions.length) * 100;
                             }
-                            if (actions[i].status === "Validé et en attente d'envoie BC") {
+                            if (actions[i].status === "Validée par CDP et en attente de retour agence") {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
@@ -127,7 +127,7 @@ class ActionsReporting extends React.Component {
                                 pendingDSM++;
                                 pendingPercentageDSM = Math.round((pendingDSM / actions.length) * 100);
                             }
-                            if (actions[i].status === "Validé et en attente d'envoie BC") {
+                            if (actions[i].status === "Validée par CDP et en attente de retour agence") {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
@@ -183,7 +183,7 @@ class ActionsReporting extends React.Component {
                                 pendingCDP++;
                                 pendingPercentageCDP = Math.round((pendingCDP / actions.length) * 100);
                             }
-                            if (actions[i].status === "Validé et en attente d'envoie BC") {
+                            if (actions[i].status === "Validée par CDP et en attente de retour agence") {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }
@@ -235,7 +235,7 @@ class ActionsReporting extends React.Component {
                                 pendingCDP++;
                                 pendingPercentageCDP = Math.round((pendingCDP / actions.length) * 100);
                             }
-                            if (actions[i].status === "Validé et en attente d'envoie BC") {
+                            if (actions[i].status === "Validée par CDP et en attente de retour agence") {
                                 validated++;
                                 validatedPercentage = Math.round((validated / actions.length) * 100);
                             }

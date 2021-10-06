@@ -13,4 +13,15 @@ router.post('/', function (req, res, next) {
     })
 });
 
+// Api to post new invoice to database
+router.get('/', function (req, res, next) {
+    Invoices.retrieveInvoice(req.query.action_id).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
 module.exports = router;

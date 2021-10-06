@@ -630,7 +630,11 @@ const DisplayAction = () => {
           .then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF({
+              orientation: 'p',
+              unit: 'mm',
               format: 'a2',
+              putOnlyUsedFonts: true,
+              precision : 2,
             });
             pdf.addImage(imgData, 'JPEG', 10, 10);
             pdf.save("Action-Reporting.pdf");
@@ -646,6 +650,21 @@ const DisplayAction = () => {
         dispatch(validateDSMActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email)); // Validate action by DSM
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor
         dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
+      } else if (action.status === "Finalisée") {
+        const input = document.getElementById('divToPrint');
+        html2canvas(input)
+          .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+              orientation: 'p',
+              unit: 'mm',
+              format: 'a2',
+              putOnlyUsedFonts: true,
+              precision : 2,
+            });
+            pdf.addImage(imgData, 'JPEG', 10, 10);
+            pdf.save("Action-Reporting.pdf");
+          });
       } else {
         dispatch(validateDSMSpeakerActionById(pathId, user.user_email, user.CDP_supervisor, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
@@ -660,8 +679,25 @@ const DisplayAction = () => {
         dispatch(validateCDPFirstActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
         dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
-      } else if (action.status === "Validé et en attente d'envoie BC") {
+      } else if (action.status === "Finalisée") {
+        const input = document.getElementById('divToPrint');
+        html2canvas(input)
+          .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+              orientation: 'p',
+              unit: 'mm',
+              format: 'a2',
+              putOnlyUsedFonts: true,
+              precision : 2,
+            });
+            pdf.addImage(imgData, 'JPEG', 10, 10);
+            pdf.save("Action-Reporting.pdf");
+          });
+      } else if (action.status === "Validée par CDP et en attente de retour agence") {
         history.push("/after-validation")
+      } else if (action.status === "Validée et en attente d'envoie BC") {
+        history.push("/invoice-finalization")
       }
       else {
         dispatch(validateCDPActionById(pathId, user.user_email, user.user_id, action.user_email));
@@ -678,6 +714,21 @@ const DisplayAction = () => {
         dispatch(validateMEDFirstActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor && MED supervisor 
         dispatch(messagingValidation(parseInt(user.user_phone_number), action)); // Send a message to all destinataires
+      } else if (action.status === "Finalisée") {
+        const input = document.getElementById('divToPrint');
+        html2canvas(input)
+          .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF({
+              orientation: 'p',
+              unit: 'mm',
+              format: 'a2',
+              putOnlyUsedFonts: true,
+              precision : 2,
+            });
+            pdf.addImage(imgData, 'JPEG', 10, 10);
+            pdf.save("Action-Reporting.pdf");
+          });
       } else {
         dispatch(validateMEDActionById(pathId, user.user_email, user.user_id, action.user_email));
         dispatch(pushNotification(values)); // Push notification to VM, CDP supervisor || MED supervisor 
@@ -713,7 +764,7 @@ const DisplayAction = () => {
       dispatch(pushNotification(values)); // Push notification to VM, DSM supervisor, CDP supervisor or MED
       dispatch(messagingRejection(parseInt(user.user_phone_number), action)); // Send a rejection message to all destinataires
     } else if (user.user_position === "CDP") { // User type CDP
-      if (action.status === "Validé et en attente d'envoie BC") {
+      if (action.status === "Validée par CDP et en attente de retour agence") {
         history.goBack()
       } else {
         values.VM_supervisor = action.VM_validation;
@@ -819,9 +870,9 @@ const DisplayAction = () => {
               color="primary"
               onClick={handleValidate}
               data-html2canvas-ignore="true"
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "VM" && action.status === "Finalisée") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé et en attente d'envoie BC") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || ((user.user_position === "VM" || "DSM" || "CDP" || "MED") && action.status === "Finalisée") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence") || (user.user_position === "CDP" && action.status === "Validée et en attente d'envoie BC") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Envoyer" : user.user_position === "VM" && action.status === "Terminée et non archivée" ? "Archiver" : user.user_position === "VM" && action.status === "Finalisée" ? "Exporter en spreadsheet" : "Valider"}
+              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Envoyer" : user.user_position === "VM" && action.status === "Terminée et non archivée" ? "Archiver" : (user.user_position === "VM" || "DSM" || "CDP" || "MED") && action.status === "Finalisée" ? "Exporter en spreadsheet" : "Valider"}
             </Button>
             <Button
               variant="contained"
@@ -835,9 +886,9 @@ const DisplayAction = () => {
               variant="contained"
               color="secondary"
               onClick={handleDelete}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validé et en attente d'envoie BC") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validé et en attente d'envoie BC" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Refuser" : null}
+              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Refuser" : null}
             </Button>
           </Grid>
         </Grid>

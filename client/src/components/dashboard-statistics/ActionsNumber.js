@@ -88,7 +88,6 @@ class ActionsNumber extends React.Component {
     }
     render() {
         const { title } = this.props;
-        console.log(this.state.time)
         return (
             <Card small className="h-100">
                 <CardHeader className="border-bottom">

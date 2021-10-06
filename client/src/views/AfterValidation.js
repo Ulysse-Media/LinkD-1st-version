@@ -41,7 +41,6 @@ const AfterValidation = () => {
         values.comments = Comments;
         if (user.user_position === "CDP") {
             dispatch(validateservices(values, action));
-            history.push("/invoice-finalization");
         }
     };
     const handleBack = () => {

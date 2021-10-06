@@ -195,8 +195,8 @@ router.post('/reset/:token', function (req, res) {
                     to: user.user_email,
                     from: 'yknaizia@gmail.com',
                     subject: 'Votre mot de passe a été changé avec succès',
-                    text: "Bonjour,\n\n" +
-                        "- Ceci est une confirmation que le mot de passe de votre compte ' + user.user_email + ' vient d'étre changé.\n"
+                    text: `Bonjour,\n\n` +
+                    `- Ceci est une confirmation que le mot de passe de votre compte ${user.user_email} vient d'étre changé avec success.\n`
                 };
                 smtpTrans.sendMail(mailOptions, function (err) {
                     done(err);

@@ -234,7 +234,7 @@ const validateFirstMEDActionById = async (action_id, user_email, user_id) => {
 
 // Database function to validate from CDP action by ID  //
 const validateCDPActionById = async (action_id, user_email, user_id) => {
-  var query = `UPDATE actions SET status='Validé', CDP_validation='${user_id}' WHERE action_id='${action_id}'`;
+  var query = `UPDATE actions SET status='Validée par CDP et en attente de retour agence', CDP_validation='${user_id}' WHERE action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -245,7 +245,18 @@ const validateCDPActionById = async (action_id, user_email, user_id) => {
 
 // Database function to validate from Med action by ID  //
 const validateMEDActionById = async (action_id, user_email, user_id) => {
-  var query = `UPDATE actions SET status='Validé', MED_validation='${user_id}' WHERE action_id='${action_id}'`;
+  var query = `UPDATE actions SET status='Validée par CDP et en attente de retour agence', MED_validation='${user_id}' WHERE action_id='${action_id}'`;
+  try {
+    let action = await sql(query);
+    return action;
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Database function to validate from Med action by ID  //
+const validateAgencyActionById = async (action_id) => {
+  var query = `UPDATE actions SET status="Validée et en attente d'envoie BC" WHERE action_id='${action_id}'`;
   try {
     let action = await sql(query);
     return action;
@@ -355,6 +366,7 @@ module.exports = {
   validateFirstCDPActionById,
   validateCDPActionById,
   validateMEDActionById,
+  validateAgencyActionById,
   denyDSMActionById,
   denyCDPActionById,
   deleteActionById,
