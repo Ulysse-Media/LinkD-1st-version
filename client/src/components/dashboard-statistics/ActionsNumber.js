@@ -44,23 +44,23 @@ class ActionsNumber extends React.Component {
                             if(new Date().getTime() - new Date(actions[i].start_action).getTime() === 7884000) {
                                 counter++;
                             } else {
-                                console.log(false);
+                                console.log("Not yet reached");
                             }
                             total = actions.length;
                         }
                         time = Math.round(counter / total);
-                        this.setState({ time })
+                        this.setState({ time });
                     })
                 } else if (this.props.user[0].user_position === "DSM") {
                     axiosInstance.get(`http://localhost:3000/api/actions/user/VM/actions/:${this.props.user[0].user_id}`, {
                         params: {
-                            user_id: this.props.user[0].user_id
+                            user_id: this.props.user[0].user_id,
                         }
                     }).then(response => {
                         let actions = response.data;
                         for (var i = 0; i < actions.length; i++) {
                         }
-                        this.setState({})
+                        this.setState({});
                     })
                 } else if (this.props.user[0].user_position === "CDP") {
                     axiosInstance.get(`http://localhost:3000/api/actions/user/VM/validated/actions/:${this.props.user[0].user_id}`, {
@@ -71,7 +71,7 @@ class ActionsNumber extends React.Component {
                         let actions = response.data;
                         for (var i = 0; i < actions.length; i++) {
                         }
-                        this.setState({})
+                        this.setState({});
                     })
                 } else if (this.props.user[0].user_position === "MED") {
                     axiosInstance.get(`http://localhost:3000/api/actions/user/validation/DSMvalidated/speaker`).then(response => {
@@ -79,7 +79,7 @@ class ActionsNumber extends React.Component {
                         for (var i = 0; i < actions.length; i++) {
                             
                         }
-                        this.setState({})
+                        this.setState({});
                     })
                 }
             }

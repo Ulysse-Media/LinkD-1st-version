@@ -276,7 +276,7 @@ const DisplayArchivingAction = () => {
       size: 3,
       field: (
         <Typography className={"typography"} style={{ marginTop: "18px" }}>
-          {action.other_stuff}
+          {action.other_staff}
         </Typography>
       ),
     },
@@ -467,7 +467,7 @@ const DisplayArchivingAction = () => {
             return (
               <div>
                 <ul>
-                  <li style={{ marginTop: "8px" }} key={key}>{element}</li>
+                  <li key={key}>{element}</li>
                 </ul>
               </div>
             )

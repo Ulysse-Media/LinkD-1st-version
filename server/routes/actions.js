@@ -80,7 +80,7 @@ router.post('/:id', async function (req, res, next) {
             body.meeting_agenda = imgURL;
             var query = `UPDATE actions SET 
                 action_type='${body.action_type}', 
-                other_stuff='${body.other_stuff}', 
+                other_staff='${body.other_staff}', 
                 start_action='${body.start_action}', 
                 end_action='${body.end_action}',
                 schedule='${body.schedule}', 
@@ -105,7 +105,7 @@ router.post('/:id', async function (req, res, next) {
         body.meeting_agenda = imgURL;
         var query = `UPDATE actions SET 
         action_type='${body.action_type}', 
-        other_stuff='${body.other_stuff}', 
+        other_staff='${body.other_staff}', 
         start_action='${body.start_action}', 
         end_action='${body.end_action}',
         schedule='${body.schedule}', 
@@ -143,7 +143,5 @@ router.delete('/:id', function (req, res, next) {
         }
     })
 });
-
-
 
 module.exports = router;

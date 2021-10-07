@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addAction, modifyActionById } from "../actions/actions-initiation-actions/actions";
 import { getLocalisations } from "../actions/localisations-actions/actions";
 import { getDoctors } from "../actions/doctors-actions/actions";
+import { getClientWithDSMSupervisor } from "../actions/auth-actions/actions";
 import DateFnsUtils from '@date-io/date-fns';
 import MomentUtils from '@date-io/moment';
 import { Hint } from 'react-autocomplete-hint';
@@ -48,6 +49,10 @@ const ActionsInitiation = () => {
   // User state from redux store
   const user = useSelector(
     (state) => state.authReducer.user[0]
+  );
+  // Other staff state from redux store
+  const other_staff = useSelector(
+    (state) => state.authReducer.other_staff
   );
   // Action state from redux store
   const action = useSelector(
@@ -268,51 +273,36 @@ const ActionsInitiation = () => {
 
   // Submit Form Group inputs
   const onSubmit = async (values) => {
-    const formData = new FormData(); // Create an instance of FormData
-    values.user_id = user.user_id;
-    values.user_email = user.user_email;
-    values.DSM_supervisor = user.DSM_supervisor;
-    values.user_position = user.user_position;
-    values.user_email = user.user_email;
-    values.speaker = parseInt(Speaker); // Parse string type to integer
-    values.speaker_transfer = parseInt(SpeakerTransfer); // Parse string type to integer
-    values.speaker_accommodation = parseInt(SpeakerAccommodation); // Parse string type to integer
-    if (!values.end_action) {
-      values.end_action = '2021-12-31'
-    }
-    if (!values.comments) {
-      values.comments = 'Non spécifié';
-    }
-    if (!values.other_location) {
-      values.other_location = 'Non spécifié';
-    }
-    if (!values.other_doctors) {
-      values.other_doctors = 'Non spécifié';
-    }
-    if (Speaker === "0") {
-      if (!values.speaker_suggestion) {
-        values.speaker_suggestion = 'Non spécifié';
+    if(user.user_position === "VM") {
+      const formData = new FormData(); // Create an instance of FormData
+      if (!values.end_action) {
+        values.end_action = '2021-12-31'
       }
-    }
-    if (!values.other_stuff) {
-      values.other_stuff = 'Non spécifié';
-      if (File.name) {
-        formData.append("file", File, File.name); // Append file to formData
-        formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
-      } else {
-        formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
+      if (!values.comments) {
+        values.comments = 'Non spécifié';
       }
-      if (action.action_id) {
-        dispatch(modifyActionById(action.action_id, formData));
-        history.push(`/display-action/${action.action_id}`); // Redirect user after update of form
-      } else {
-        const insertedActionId = await dispatch(addAction(formData)); // Dispatch post action
-        if (insertedActionId) {
-          history.push(`/display-action/${insertedActionId}`); // Redirect user after submition of form
+      if (!values.other_location) {
+        values.other_location = 'Non spécifié';
+      }
+      if (!values.other_doctors) {
+        values.other_doctors = 'Non spécifié';
+      }
+      if (!values.other_staff) {
+        values.other_staff = 'Non spécifié';
+      }
+      if (Speaker === "0") {
+        if (!values.speaker_suggestion) {
+          values.speaker_suggestion = 'Non spécifié';
         }
       }
-    } else {
-      values.status = "En attente de validation d'autre staff";
+      values.user_id = user.user_id;
+      values.user_email = user.user_email;
+      values.DSM_supervisor = user.DSM_supervisor;
+      values.user_position = user.user_position;
+      values.user_email = user.user_email;
+      values.speaker = parseInt(Speaker); // Parse string type to integer
+      values.speaker_transfer = parseInt(SpeakerTransfer); // Parse string type to integer
+      values.speaker_accommodation = parseInt(SpeakerAccommodation); // Parse string type to integer
       if (File.name) {
         formData.append("file", File, File.name); // Append file to formData
         formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
@@ -335,6 +325,7 @@ const ActionsInitiation = () => {
   useEffect(() => {
     dispatch(getDoctors()); // Dispatch get action of all doctors 
     dispatch(getLocalisations()); // Dispatch get action of localisations
+    dispatch(getClientWithDSMSupervisor(user.DSM_supervisor)); // Dispatch get clients with the same DSM supervisor as user
   }, [dispatch])
   useEffect(() => {
     let startAction = "";
@@ -369,6 +360,22 @@ const ActionsInitiation = () => {
 
   // All displayed fields form //
   const formFields = [
+    {
+      size: 3,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          Initiateur d'action :
+        </Typography>
+      ),
+    },
+    {
+      size: 9,
+      field: (
+        <Typography className={"typography"} style={{ marginTop: "18px" }}>
+          {action.user_email && action.user_email.split("@")[0]}
+        </Typography>
+      ),
+    },
     {
       size: 3,
       field: (
@@ -411,19 +418,22 @@ const ActionsInitiation = () => {
     {
       size: 9,
       field: (
-        <Field name="other_stuff" initialValue={action.other_stuff}>
+        <Field name="other_staff" initialValue={action.other_staff}>
           {props => (
             <div>
               <Select
-                name="other_stuff"
+                name="other_staff"
                 label="Selectionner"
                 formControlProps={{ margin: 'none' }}
                 type="select"
               >
-                <MenuItem value="Staff">Staff</MenuItem>
-                <MenuItem value="TR">TR</MenuItem>
-                <MenuItem value="EPU">EPU</MenuItem>
-                <MenuItem value="Atelier">Atelier</MenuItem>
+                {other_staff.filter((element) => element.user_email !== user.user_email).map((element, key) => {
+                  return (
+                    <option key={key} value={element.user_email}>
+                      {element.user_email}
+                    </option>
+                  )
+                })}
               </Select>
             </div>
           )}

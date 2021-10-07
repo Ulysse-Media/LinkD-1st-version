@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Row } from "shards-react";
 import PageTitle from "../components/common/PageTitle";
-import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId, getSpeakerActions } from "../actions/actions-initiation-actions/actions";
+import { getActionByUserId, getVMActionsByUserId, getVMValidatedActionsByUserId, getSpeakerActions, getActionByOtherStaff } from "../actions/actions-initiation-actions/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -37,6 +37,10 @@ const ActionsMonitoring = () => {
     const actionsUser = useSelector(
         (state) => state.actionsReducer.actionsUser
     );
+    // Actions of added staff Sanofi state from redux store
+    const actionsOtherStaff = useSelector(
+        (state) => state.actionsReducer.actionsOtherStaff
+    );
     // Actions state from redux store
     const VMActions = useSelector(
         (state) => state.actionsReducer.VMActions
@@ -71,6 +75,7 @@ const ActionsMonitoring = () => {
             }
             else {
                 dispatch(getActionByUserId(user.user_id));
+                dispatch(getActionByOtherStaff(user.user_email));
             }
         }
         return () => (isCancelled = true);
@@ -94,6 +99,7 @@ const ActionsMonitoring = () => {
                                 <Table className={classes.table} aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
+                                            <TableCell>Initiateur d'action</TableCell>
                                             <TableCell>Type d'action</TableCell>
                                             <TableCell>Thématique</TableCell>
                                             <TableCell>Date</TableCell>
@@ -104,8 +110,21 @@ const ActionsMonitoring = () => {
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {actionsUser.filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée" && element.status !== "Finalisée").map((row) => (
+                                        {actionsUser.filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée" && element.status !== "Finalisée" && element.user_id === user.user_id).map((row) => (
                                             <TableRow key={row.action_id}>
+                                                <TableCell>{row.user_email.split("@").shift()}</TableCell>
+                                                <TableCell>{row.action_type}</TableCell>
+                                                <TableCell>{row.meeting_theme}</TableCell>
+                                                <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>
+                                                <TableCell>{row.action_location}</TableCell>
+                                                <TableCell className={classes.tableCell}>{row.pax_number}</TableCell>
+                                                <TableCell className={classes.tableCell}><button className="overview-action" id={row.action_id} onClick={handleClick}>Voir</button></TableCell>
+                                                <TableCell className={"status" + (row.status === "Validée par CDP et en attente de retour agence" ? 'validated' : row.status === "Refusé" ? 'denied' : row.status === "Terminée et non archivée" ? 'finished' : row.status === "Terminée et archivée" ? 'archieved' : 'pending')}>{row.status}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                        {actionsOtherStaff.sort((a, b) => a.action_id - b.action_id).filter((element, key) => element.status !== "Terminée et archivée" && element.status !== "Terminée et non archivée" && element.status !== "Finalisée" && element.other_staff === user.user_email).map((row) => (
+                                            <TableRow key={row.action_id}>
+                                                <TableCell>{row.user_email.split("@").shift()}</TableCell>
                                                 <TableCell>{row.action_type}</TableCell>
                                                 <TableCell>{row.meeting_theme}</TableCell>
                                                 <TableCell>{(new Date(row.start_action)).toLocaleDateString()}</TableCell>

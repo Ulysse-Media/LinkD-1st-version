@@ -13,7 +13,7 @@ function addActionRequest(body) {
 }
 
 // Fetch all actions //
-function fetchActions() {
+function fetchActionsRequest() {
   return axiosInstance({
     method: "get",
     url: "/api/actions",
@@ -22,7 +22,7 @@ function fetchActions() {
 }
 
 // Fetch action by Id //
-function fetchActionById(action_id) {
+function fetchActionByIdRequest(action_id) {
   return axiosInstance.get(`/api/actions/:${action_id}`, {
     params: {
       action_id: action_id
@@ -31,7 +31,7 @@ function fetchActionById(action_id) {
 }
 
 // Fetch action by user Id //
-function fetchActionByUserId(user_id) {
+function fetchActionByUserIdRequest(user_id) {
   return axiosInstance.get(`/api/actions/user/:${user_id}`, {
     params: {
       user_id: user_id
@@ -39,8 +39,17 @@ function fetchActionByUserId(user_id) {
   })
 }
 
+// Fetch action by other staff //
+function fetchActionByOtherStaffRequest(other_staff) {
+  return axiosInstance.get(`/api/actions/user/VMvalidated/:${other_staff}`, {
+    params: {
+      other_staff: other_staff
+    },
+  })
+}
+
 // Fetch VM actions by user id //
-function fetchVMActionByUserId(user_id) {
+function fetchVMActionByUserIdRequest(user_id) {
   return axiosInstance.get(`/api/actions/user/VM/actions/:${user_id}`, {
     params: {
       user_id: user_id
@@ -48,7 +57,7 @@ function fetchVMActionByUserId(user_id) {
   })
 }
 // Fetch VM actions by user id //
-function fetchVMValidatedActionByUserId(user_id) {
+function fetchVMValidatedActionByUserIdRequest(user_id) {
   return axiosInstance.get(`/api/actions/user/VM/validated/actions/:${user_id}`, {
     params: {
       user_id: user_id
@@ -57,7 +66,7 @@ function fetchVMValidatedActionByUserId(user_id) {
 }
 
 // Fetch DSM validated actions by user id //
-function fetchDSMValidatedActionByUserId(user_id) {
+function fetchDSMValidatedActionByUserIdRequest(user_id) {
   return axiosInstance.get(`/api/actions/user/validation/DSMvalidated/:${user_id}`, {
     params: {
       user_id: user_id
@@ -66,7 +75,7 @@ function fetchDSMValidatedActionByUserId(user_id) {
 }
 
 // Fetch CDP validated actions by user id //
-function fetchCDPValidatedActionByUserId(user_id) {
+function fetchCDPValidatedActionByUserIdRequest(user_id) {
   return axiosInstance.get(`/api/actions/user/validation/CDPvalidated/:${user_id}`, {
     params: {
       user_id: user_id
@@ -75,7 +84,7 @@ function fetchCDPValidatedActionByUserId(user_id) {
 }
 
 // Fetch DSM rejected actions by user id //
-function fetchDSMRejectedActionByUserId(user_id) {
+function fetchDSMRejectedActionByUserIdRequest(user_id) {
   return axiosInstance.get(`/api/actions/user/rejection/DSMrejected/:${user_id}`, {
     params: {
       user_id: user_id
@@ -84,7 +93,7 @@ function fetchDSMRejectedActionByUserId(user_id) {
 }
 
 // Fetch CDP rejected actions by user id //
-function fetchCDPRejectedActionByUserId(user_id) {
+function fetchCDPRejectedActionByUserIdRequest(user_id) {
   return axiosInstance.get(`/api/actions/user/rejection/CDPrejected/:${user_id}`, {
     params: {
       user_id: user_id
@@ -93,13 +102,13 @@ function fetchCDPRejectedActionByUserId(user_id) {
 }
 
 // Fetch Speaker actions by user id //
-function fetchSpeakerAction() {
+function fetchSpeakerActionRequest() {
   return axiosInstance.get(`/api/actions/user/validation/DSMvalidated/speaker`)
 }
 
 
 // Update action by Id //
-function updateActionById(action_id, body) {
+function updateActionByIdRequest(action_id, body) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/:${action_id}`,
@@ -111,7 +120,7 @@ function updateActionById(action_id, body) {
 }
 
 // Validate VM action by Id //
-function validateVMStatusActionById(action_id, user_email, user_id, action_sender, DSM_supervisor, CDP_supervisor) {
+function validateVMStatusActionByIdRequest(action_id, user_email, user_id, action_sender, DSM_supervisor, CDP_supervisor) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/VMvalidated`,
@@ -126,8 +135,24 @@ function validateVMStatusActionById(action_id, user_email, user_id, action_sende
   })
 }
 
+// Validate VM pending staff action by Id //
+function validateVMStaffStatusActionByIdRequest(action_id, user_email, user_id, action_sender, DSM_supervisor, CDP_supervisor) {
+  return axiosInstance({
+    method: "post",
+    url: `/api/actions/user/VMvalidated/pending/staff`,
+    params: {
+      action_id: action_id,
+      user_email: user_email,
+      user_id: user_id,
+      action_sender: action_sender,
+      DSM_supervisor: DSM_supervisor,
+      CDP_supervisor: CDP_supervisor,
+    }
+  })
+}
+
 // Validate DSM action by Id //
-function validateDSMStatusActionById(action_id, user_email, user_id, action_sender) {
+function validateDSMStatusActionByIdRequest(action_id, user_email, user_id, action_sender) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/DSMvalidated`,
@@ -141,7 +166,7 @@ function validateDSMStatusActionById(action_id, user_email, user_id, action_send
 }
 
 // Validate DSM action by Id //
-function validateDSMSpeakerStatusActionById(action_id, user_email, user_id, action_sender) {
+function validateDSMSpeakerStatusActionByIdRequest(action_id, user_email, user_id, action_sender) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/DSMSpeakervalidated`,
@@ -156,7 +181,7 @@ function validateDSMSpeakerStatusActionById(action_id, user_email, user_id, acti
 
 
 // Validate VM action by Id //
-function validateCDPFirstStatusActionById(action_id, user_email, user_id, action_sender) {
+function validateCDPFirstStatusActionByIdRequest(action_id, user_email, user_id, action_sender) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/CDPvalidated/first`,
@@ -170,7 +195,7 @@ function validateCDPFirstStatusActionById(action_id, user_email, user_id, action
 }
 
 // Validate VM action by Id //
-function validateCDPStatusActionById(action_id, user_email, user_id, action_sender) {
+function validateCDPStatusActionByIdRequest(action_id, user_email, user_id, action_sender) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/CDPvalidated`,
@@ -184,7 +209,7 @@ function validateCDPStatusActionById(action_id, user_email, user_id, action_send
 }
 
 // Validate VM action by Id //
-function validateMEDFirstStatusActionById(action_id, user_email, user_id, action_sender) {
+function validateMEDFirstStatusActionByIdRequest(action_id, user_email, user_id, action_sender) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/MEDvalidated/first`,
@@ -198,7 +223,7 @@ function validateMEDFirstStatusActionById(action_id, user_email, user_id, action
 }
 
 // Validate VM action by Id //
-function validateMEDStatusActionById(action_id, user_email, user_id, action_sender) {
+function validateMEDStatusActionByIdRequest(action_id, user_email, user_id, action_sender) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/MEDvalidated`,
@@ -212,7 +237,7 @@ function validateMEDStatusActionById(action_id, user_email, user_id, action_send
 }
 
 // Reject DSM action by Id //
-function denyDSMStatusActionById(action_id, user_id) {
+function denyDSMStatusActionByIdRequest(action_id, user_id) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/DSMdenied`,
@@ -224,7 +249,7 @@ function denyDSMStatusActionById(action_id, user_id) {
 }
 
 // Reject CDP action by Id //
-function denyCDPStatusActionById(action_id, user_id) {
+function denyCDPStatusActionByIdRequest(action_id, user_id) {
   return axiosInstance({
     method: "post",
     url: `/api/actions/user/CDPdenied`,
@@ -236,7 +261,7 @@ function denyCDPStatusActionById(action_id, user_id) {
 }
 
 // Remove VM action by Id //
-function deleteActionById(action_id) {
+function deleteActionByIdRequest(action_id) {
   return axiosInstance.delete(`/api/actions/:${action_id}`, {
     params: {
       action_id: action_id
@@ -341,28 +366,30 @@ function downloadFileRequest(html) {
 }
 
 const ActionsServices = {
-  fetchActions,
+  fetchActionsRequest,
   addActionRequest,
-  fetchActionById,
-  fetchActionByUserId,
-  fetchVMActionByUserId,
-  fetchVMValidatedActionByUserId,
-  fetchDSMValidatedActionByUserId,
-  validateDSMSpeakerStatusActionById,
-  fetchCDPValidatedActionByUserId,
-  fetchDSMRejectedActionByUserId,
-  fetchCDPRejectedActionByUserId,
-  fetchSpeakerAction,
-  updateActionById,
-  validateDSMStatusActionById,
-  validateVMStatusActionById,
-  validateCDPStatusActionById,
-  validateMEDFirstStatusActionById,
-  validateMEDStatusActionById,
-  denyDSMStatusActionById,
-  denyCDPStatusActionById,
-  validateCDPFirstStatusActionById,
-  deleteActionById,
+  fetchActionByIdRequest,
+  fetchActionByUserIdRequest,
+  fetchActionByOtherStaffRequest,
+  fetchVMActionByUserIdRequest,
+  fetchVMValidatedActionByUserIdRequest,
+  fetchDSMValidatedActionByUserIdRequest,
+  validateDSMSpeakerStatusActionByIdRequest,
+  fetchCDPValidatedActionByUserIdRequest,
+  fetchDSMRejectedActionByUserIdRequest,
+  fetchCDPRejectedActionByUserIdRequest,
+  fetchSpeakerActionRequest,
+  updateActionByIdRequest,
+  validateVMStatusActionByIdRequest,
+  validateVMStaffStatusActionByIdRequest,
+  validateDSMStatusActionByIdRequest,
+  validateCDPStatusActionByIdRequest,
+  validateMEDFirstStatusActionByIdRequest,
+  validateMEDStatusActionByIdRequest,
+  denyDSMStatusActionByIdRequest,
+  denyCDPStatusActionByIdRequest,
+  validateCDPFirstStatusActionByIdRequest,
+  deleteActionByIdRequest,
   returnActionByIdRequest,
   disarchiveActionByIdRequest,
   archiveActionByIdRequest,

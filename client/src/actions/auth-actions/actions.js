@@ -1,4 +1,4 @@
-import { REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE, LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, CONNECT_USER_REQUEST, CONNECT_USER_SUCCESS, CONNECT_USER_FAILURE, GET_AUTH_REQUEST, GET_AUTH_SUCCESS, GET_AUTH_FAILURE, LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE } from "./types";
+import { REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAILURE, LOGIN_USER_REQUEST, LOGIN_USER_SUCCESS, LOGIN_USER_FAILURE, CONNECT_USER_REQUEST, CONNECT_USER_SUCCESS, CONNECT_USER_FAILURE, GET_AUTH_REQUEST, GET_AUTH_SUCCESS, GET_AUTH_FAILURE, LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS, LOGOUT_USER_FAILURE, UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAILURE, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILURE, RESET_PASSWORD_REQUEST, RESET_PASSWORD_SUCCESS, RESET_PASSWORD_FAILURE, GET_CLIENT_SAME_DSM_SUPERVISOR_REQUEST, GET_CLIENT_SAME_DSM_SUPERVISOR_SUCCESS, GET_CLIENT_SAME_DSM_SUPERVISOR_FAILURE, GET_DSM_SUPERVISOR_REQUEST, GET_DSM_SUPERVISOR_SUCCESS, GET_DSM_SUPERVISOR_FAILURE, GET_CDP_SUPERVISOR_REQUEST, GET_CDP_SUPERVISOR_SUCCESS, GET_CDP_SUPERVISOR_FAILURE } from "./types";
 import AuthServices from "./services";
 import { toast } from 'react-toastify';
 toast.configure();
@@ -82,6 +82,63 @@ export function getAuthUser(user_id) {
     } catch (e) {
       dispatch({
         type: GET_AUTH_FAILURE,
+      });
+    }
+  };
+}
+
+export function getDSMSupervisor(DSM_supervisor) {
+  return async (dispatch) => {
+    await dispatch({
+      type: GET_DSM_SUPERVISOR_REQUEST,
+    });
+    try {
+      const response = await AuthServices.getDSMSupervisorRequest(DSM_supervisor);
+      await dispatch({
+        type: GET_DSM_SUPERVISOR_SUCCESS,
+        payload: response.data
+      });
+    } catch (e) {
+      dispatch({
+        type: GET_DSM_SUPERVISOR_FAILURE,
+      });
+    }
+  };
+}
+
+export function getCDPSupervisor(CDP_supervisor) {
+  return async (dispatch) => {
+    await dispatch({
+      type: GET_CDP_SUPERVISOR_REQUEST,
+    });
+    try {
+      const response = await AuthServices.getCDPSupervisorRequest(CDP_supervisor);
+      await dispatch({
+        type: GET_CDP_SUPERVISOR_SUCCESS,
+        payload: response.data
+      });
+    } catch (e) {
+      dispatch({
+        type: GET_CDP_SUPERVISOR_FAILURE,
+      });
+    }
+  };
+}
+
+export function getClientWithDSMSupervisor(user_id) {
+  return async (dispatch) => {
+    await dispatch({
+      type: GET_CLIENT_SAME_DSM_SUPERVISOR_REQUEST,
+    });
+    try {
+      const response = await AuthServices.getClientWithDSMSupervisorRequest(user_id);
+      await dispatch({
+        type: GET_CLIENT_SAME_DSM_SUPERVISOR_SUCCESS,
+        payload: response.data
+      });
+    } catch (e) {
+      dispatch({
+        type: GET_CLIENT_SAME_DSM_SUPERVISOR_FAILURE,
       });
     }
   };

@@ -29,6 +29,39 @@ function getAuthUserRequest(user_id) {
     });
 }
 
+// Get other staff with DSM supervisor  //
+function getClientWithDSMSupervisorRequest(user_id) {
+    return axiosInstance({
+        method: "post",
+        url: `/auth/DSM_supervisor/:${user_id}`,
+        params: {
+            user_id: user_id
+        },
+    });
+}
+
+// Get DSM supervisor by ID  //
+function getDSMSupervisorRequest(DSM_supervisor) {
+    return axiosInstance({
+        method: "post",
+        url: `/auth/superior/:${DSM_supervisor}`,
+        params: {
+            DSM_supervisor: DSM_supervisor
+        },
+    });
+}
+
+// Get CDP supervisor by ID  //
+function getCDPSupervisorRequest(CDP_supervisor) {
+    return axiosInstance({
+        method: "post",
+        url: `/auth/superior/supervisor/:${CDP_supervisor}`,
+        params: {
+            CDP_supervisor: CDP_supervisor
+        },
+    });
+}
+
 // Logout user //
 function logoutUser() {
     return axiosInstance({
@@ -76,6 +109,9 @@ const AuthServices = {
     registerUser,
     loginUser,
     getAuthUserRequest,
+    getDSMSupervisorRequest,
+    getCDPSupervisorRequest,
+    getClientWithDSMSupervisorRequest,
     logoutUser,
     updateUserProfileRequest,
     forgotPassword,

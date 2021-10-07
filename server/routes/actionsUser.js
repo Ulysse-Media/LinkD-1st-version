@@ -18,6 +18,17 @@ router.get('/:user_id', function (req, res, next) {
     })
 });
 
+// Api to retrieve action by user ID
+router.get('/VMvalidated/:other_staff', function (req, res, next) {
+    Actions.getOtherStaffActions(req.query.other_staff).then(result => {
+        try {
+            return res.json(result);
+        } catch (err) {
+            console.log(err)
+        }
+    })
+});
+
 // Api to retrieve action by status 
 router.get('/validation/DSMvalidated/speaker', function (req, res, next) {
     Actions.getSpeakerActions().then(result => {
@@ -146,6 +157,47 @@ router.post('/VMvalidated', function (req, res, next) {
     })
 });
 
+// Api to validate VM action waiting for other staff validation
+router.post('/VMvalidated/pending/staff', function (req, res, next) {
+    console.log(req.query)
+    Actions.validateVMStaffActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
+        Actions.getActionById(req.query.action_id).then((action, error) => {
+            Users.getClient(req.query.DSM_supervisor).then(DSMResult => {
+                Users.getClient(req.query.CDP_supervisor).then(CDPResult => {
+                    let DSM_email = DSMResult[0].user_email;
+                    let CDP_email = CDPResult[0].user_email;
+                    if (result) {
+                        var smtpTrans = nodemailer.createTransport({
+                            service: 'Gmail',
+                            auth: {
+                                user: 'yknaizia@gmail.com',
+                                pass: 'yassine94683607'
+                            }
+                        });
+                        var mailOptions = {
+                            to: [req.query.action_sender, DSM_email, CDP_email],
+                            from: 'yknaizia@gmail.com',
+                            subject: "Validation d'action",
+                            text: `Votre action a été envoyée de la part du ${req.query.user_email} et en attente de validation DSM! \nDescription détaillée sur l'action portante ID: ${action.action_id} sous username: ${req.query.user_email.split("@").shift()} \n- Produit: ${action.product} \n- Orateur: ${action.speaker} \n- Proposition d'orateur: ${action.speaker_suggestion} \n- Type d’action: ${action.action_type} \n- Transfert: ${action.speaker_transfer} \n- Hébergement: ${action.speaker_accommodation} \n- Autre staff sanofi: ${action.other_staff} \n- Agenda de la réunion: ${action.meeting_agenda} \n- Date début de l’action: ${action.start_action} \n- Date fin de l’action: ${action.end_action} \n- Théme de la réunion: ${action.meeting_theme} \n- Nombre de Pax: ${action.pax_number} \n- Horaire: ${action.schedule} \n- Liste Médecins invités: ${action.invited_doctors} \n- Ville: ${action.action_town} \n- Lieu: ${action.action_location} \n- Autre lieu: ${action.other_location} \n- Autres médecins: ${action.other_doctors} \n- Commentaires: ${action.comments}`,
+                        };
+                        smtpTrans.sendMail(mailOptions, function (err, info) {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                req.flash('success', 'An e-mail has been sent to ' + req.query.user_email + ' with further instructions.');
+                                res.redirect('/monitoring-action');
+                            }
+                        });
+                        return res.json(result);
+                    } else {
+                        console.log("error", error)
+                    }
+                })
+            })
+        })
+    })
+});
+
 // Api to validate DSM action by ID
 router.post('/DSMvalidated', function (req, res, next) {
     Actions.validateDSMActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
@@ -217,7 +269,6 @@ router.post('/DSMSpeakervalidated', function (req, res, next) {
 
 // Api to validate CDP action by ID
 router.post('/CDPvalidated/first', function (req, res, next) {
-    console.log(req.query)
     Actions.validateFirstCDPActionById(req.query.action_id, req.query.user_email, req.query.user_id).then((result, error) => {
         Actions.getActionById(req.query.action_id).then((action, error) => {
             if (result) {

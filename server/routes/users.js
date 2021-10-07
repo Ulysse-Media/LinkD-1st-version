@@ -49,6 +49,36 @@ router.post('/:user_id', function (req, res, next) {
     })
 });
 
+// Api to retrive user by it's ID
+router.post('/DSM_supervisor/:user_id', function (req, res, next) {
+    Users.getClientSameDSM(req.query.user_id).then((result, error) => {
+        if (result) {
+            return res.json(result)
+        }
+        console.log("error", error)
+    })
+});
+
+// Api to retrive DSM supervisor by it's ID
+router.post('/superior/:DSM_supervisor', function (req, res, next) {
+    Users.getDSMSupervisor(req.query.DSM_supervisor).then((result, error) => {
+        if (result) {
+            return res.json(result)
+        }
+        console.log("error", error)
+    })
+});
+
+// Api to retrive CDP supervisor by it's ID
+router.post('/superior/supervisor/:CDP_supervisor', function (req, res, next) {
+    Users.getCDPSupervisor(req.query.CDP_supervisor).then((result, error) => {
+        if (result) {
+            return res.json(result)
+        }
+        console.log("error", error)
+    })
+});
+
 // Api to modify user profile 
 router.post('/editProfile/:user_id', function (req, res, next) {
     var body = JSON.parse(req.body.values);

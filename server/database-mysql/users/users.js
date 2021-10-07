@@ -66,6 +66,39 @@ const getClient = async (user_id) => {
     }
 }
 
+// Database function to retrieve client by it's ID  //
+const getClientSameDSM = async (user_id) => {
+    var query = `Select * from users where DSM_supervisor='${user_id}'`;
+    try {
+        let user = await sql(query);
+        return user;
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+// Database function to retrieve DSM client by it's ID  //
+const getDSMSupervisor = async (DSM_supervisor) => {
+    var query = `Select * from users where user_id='${DSM_supervisor}'`;
+    try {
+        let user = await sql(query);
+        return user[0];
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+// Database function to retrieve CDP client by it's ID  //
+const getCDPSupervisor = async (CDP_supervisor) => {
+    var query = `Select * from users where user_id='${CDP_supervisor}'`;
+    try {
+        let user = await sql(query);
+        return user[0];
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 // Database function to retrieve client by it's Email adress  //
 const getClientByEmail = async (user_email) => {
     var query = `Select * from users where user_email='${user_email}'`;
@@ -143,7 +176,10 @@ module.exports = {
     loginClient,
     getClients,
     getClient,
+    getClientSameDSM,
     getClientByEmail,
+    getDSMSupervisor,
+    getCDPSupervisor,
     getClientByResetPasswordToken,
     saveClientResetCredentials,
     updateClientProfile,

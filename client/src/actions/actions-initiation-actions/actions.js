@@ -1,4 +1,4 @@
-import { FETCH_ACTIONS_REQUEST, FETCH_ACTIONS_SUCCESS, FETCH_ACTIONS_FAILURE, ADD_ACTION_REQUEST, ADD_ACTION_SUCCESS, ADD_ACTION_FAILURE, FETCH_ACTION_BY_ID_REQUEST, FETCH_ACTION_BY_ID_SUCCESS, FETCH_ACTION_BY_ID_FAILURE, FETCH_ACTION_BY_USER_ID_REQUEST, FETCH_ACTION_BY_USER_ID_SUCCESS, FETCH_ACTION_BY_USER_ID_FAILURE, FETCH_VM_ACTIONS_BY_USER_ID_REQUEST, FETCH_VM_ACTIONS_BY_USER_ID_SUCCESS, FETCH_VM_ACTIONS_BY_USER_ID_FAILURE, FETCH_VM_VALIDATED_ACTIONS_BY_USER_ID_REQUEST, FETCH_VM_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_VM_VALIDATED_ACTIONS_BY_USER_ID_FAILURE, FETCH_DSM_VALIDATED_ACTIONS_BY_USER_ID_REQUEST, FETCH_DSM_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_DSM_VALIDATED_ACTIONS_BY_USER_ID_FAILURE, FETCH_CDP_VALIDATED_ACTIONS_BY_USER_ID_REQUEST, FETCH_CDP_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_CDP_VALIDATED_ACTIONS_BY_USER_ID_FAILURE, FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_REQUEST, FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_FAILURE, FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_REQUEST, FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_FAILURE, FETCH_SPEAKER_ACTIONS_BY_USER_ID_REQUEST, FETCH_SPEAKER_ACTIONS_BY_USER_ID_SUCCESS, FETCH_SPEAKER_ACTIONS_BY_USER_ID_FAILURE, UPDATE_ACTION_BY_ID_REQUEST, UPDATE_ACTION_BY_ID_SUCCESS, UPDATE_ACTION_BY_ID_FAILURE, VALIDATE_DSM_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_DSM_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_DSM_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_DSM_SPEAKER_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_DSM_SPEAKER_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_DSM_SPEAKER_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_VM_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_VM_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_VM_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_CDP_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_CDP_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_CDP_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_MED_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_MED_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_MED_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_CDP_FIRST_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_CDP_FIRST_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_CDP_FIRST_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_MED_FIRST_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_MED_FIRST_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_MED_FIRST_STATUS_ACTION_BY_ID_FAILURE, DENY_STATUS_DSM_ACTION_BY_ID_REQUEST, DENY_STATUS_DSM_ACTION_BY_ID_SUCCESS, DENY_STATUS_DSM_ACTION_BY_ID_FAILURE, DENY_STATUS_CDP_ACTION_BY_ID_REQUEST, DENY_STATUS_CDP_ACTION_BY_ID_SUCCESS, DENY_STATUS_CDP_ACTION_BY_ID_FAILURE, DELETE_ACTION_BY_ID_REQUEST, DELETE_ACTION_BY_ID_SUCCESS, DELETE_ACTION_BY_ID_FAILURE, RETURN_ACTION_BY_ID_REQUEST, RETURN_ACTION_BY_ID_SUCCESS, RETURN_ACTION_BY_ID_FAILURE, MESSAGING_VALIDATION_REQUEST, MESSAGING_VALIDATION_SUCCESS, MESSAGING_VALIDATION_FAILURE, MESSAGING_REJECTION_REQUEST, MESSAGING_REJECTION_SUCCESS, MESSAGING_REJECTION_FAILURE, SERVICES_REQUEST, SERVICES_SUCCESS, SERVICES_FAILURE, ARCHIVAGE_ACTION_BY_ID_REQUEST, ARCHIVAGE_ACTION_BY_ID_SUCCESS, ARCHIVAGE_ACTION_BY_ID_FAILURE, DISARCHIVAGE_ACTION_BY_ID_REQUEST, DISARCHIVAGE_ACTION_BY_ID_SUCCESS, DISARCHIVAGE_ACTION_BY_ID_FAILURE, FINISH_ACTION_BY_ID_REQUEST, FINISH_ACTION_BY_ID_SUCCESS, FINISH_ACTION_BY_ID_FAILURE, DOWNLOAD_FILE_REQUEST, DOWNLOAD_FILE_SUCCESS, DOWNLOAD_FILE_FAILURE } from "./types";
+import { FETCH_ACTIONS_REQUEST, FETCH_ACTIONS_SUCCESS, FETCH_ACTIONS_FAILURE, ADD_ACTION_REQUEST, ADD_ACTION_SUCCESS, ADD_ACTION_FAILURE, FETCH_ACTION_BY_ID_REQUEST, FETCH_ACTION_BY_ID_SUCCESS, FETCH_ACTION_BY_ID_FAILURE, FETCH_ACTION_BY_USER_ID_REQUEST, FETCH_ACTION_BY_USER_ID_SUCCESS, FETCH_ACTION_BY_USER_ID_FAILURE, FETCH_ACTION_BY_OTHER_STAFF_REQUEST, FETCH_ACTION_BY_OTHER_STAFF_SUCCESS, FETCH_ACTION_BY_OTHER_STAFF_FAILURE, FETCH_VM_ACTIONS_BY_USER_ID_REQUEST, FETCH_VM_ACTIONS_BY_USER_ID_SUCCESS, FETCH_VM_ACTIONS_BY_USER_ID_FAILURE, FETCH_VM_VALIDATED_ACTIONS_BY_USER_ID_REQUEST, FETCH_VM_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_VM_VALIDATED_ACTIONS_BY_USER_ID_FAILURE, FETCH_DSM_VALIDATED_ACTIONS_BY_USER_ID_REQUEST, FETCH_DSM_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_DSM_VALIDATED_ACTIONS_BY_USER_ID_FAILURE, FETCH_CDP_VALIDATED_ACTIONS_BY_USER_ID_REQUEST, FETCH_CDP_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_CDP_VALIDATED_ACTIONS_BY_USER_ID_FAILURE, FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_REQUEST, FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_FAILURE, FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_REQUEST, FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_FAILURE, FETCH_SPEAKER_ACTIONS_BY_USER_ID_REQUEST, FETCH_SPEAKER_ACTIONS_BY_USER_ID_SUCCESS, FETCH_SPEAKER_ACTIONS_BY_USER_ID_FAILURE, UPDATE_ACTION_BY_ID_REQUEST, UPDATE_ACTION_BY_ID_SUCCESS, UPDATE_ACTION_BY_ID_FAILURE, VALIDATE_DSM_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_DSM_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_DSM_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_DSM_SPEAKER_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_DSM_SPEAKER_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_DSM_SPEAKER_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_VM_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_VM_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_VM_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_VM_PENDING_STAFF_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_VM_PENDING_STAFF_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_VM_PENDING_STAFF_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_CDP_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_CDP_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_CDP_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_MED_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_MED_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_MED_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_CDP_FIRST_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_CDP_FIRST_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_CDP_FIRST_STATUS_ACTION_BY_ID_FAILURE, VALIDATE_MED_FIRST_STATUS_ACTION_BY_ID_REQUEST, VALIDATE_MED_FIRST_STATUS_ACTION_BY_ID_SUCCESS, VALIDATE_MED_FIRST_STATUS_ACTION_BY_ID_FAILURE, DENY_STATUS_DSM_ACTION_BY_ID_REQUEST, DENY_STATUS_DSM_ACTION_BY_ID_SUCCESS, DENY_STATUS_DSM_ACTION_BY_ID_FAILURE, DENY_STATUS_CDP_ACTION_BY_ID_REQUEST, DENY_STATUS_CDP_ACTION_BY_ID_SUCCESS, DENY_STATUS_CDP_ACTION_BY_ID_FAILURE, DELETE_ACTION_BY_ID_REQUEST, DELETE_ACTION_BY_ID_SUCCESS, DELETE_ACTION_BY_ID_FAILURE, RETURN_ACTION_BY_ID_REQUEST, RETURN_ACTION_BY_ID_SUCCESS, RETURN_ACTION_BY_ID_FAILURE, MESSAGING_VALIDATION_REQUEST, MESSAGING_VALIDATION_SUCCESS, MESSAGING_VALIDATION_FAILURE, MESSAGING_REJECTION_REQUEST, MESSAGING_REJECTION_SUCCESS, MESSAGING_REJECTION_FAILURE, SERVICES_REQUEST, SERVICES_SUCCESS, SERVICES_FAILURE, ARCHIVAGE_ACTION_BY_ID_REQUEST, ARCHIVAGE_ACTION_BY_ID_SUCCESS, ARCHIVAGE_ACTION_BY_ID_FAILURE, DISARCHIVAGE_ACTION_BY_ID_REQUEST, DISARCHIVAGE_ACTION_BY_ID_SUCCESS, DISARCHIVAGE_ACTION_BY_ID_FAILURE, FINISH_ACTION_BY_ID_REQUEST, FINISH_ACTION_BY_ID_SUCCESS, FINISH_ACTION_BY_ID_FAILURE, DOWNLOAD_FILE_REQUEST, DOWNLOAD_FILE_SUCCESS, DOWNLOAD_FILE_FAILURE } from "./types";
 import ActionsServices from "./services";
 import { toast } from 'react-toastify';
 toast.configure();
@@ -8,7 +8,7 @@ export function getActions() {
   return async (dispatch) => {
     dispatch({ type: FETCH_ACTIONS_REQUEST });
     try {
-      const response = await ActionsServices.fetchActions();
+      const response = await ActionsServices.fetchActionsRequest();
       dispatch({ type: FETCH_ACTIONS_SUCCESS, payload: response.data });
     } catch (e) {
       dispatch({
@@ -41,7 +41,7 @@ export function getActionById(action_id) {
   return async (dispatch) => {
     dispatch({ type: FETCH_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchActionById(action_id);
+      const response = await ActionsServices.fetchActionByIdRequest(action_id);
       dispatch({ type: FETCH_ACTION_BY_ID_SUCCESS, payload: response.data });
     } catch (e) {
       dispatch({
@@ -56,11 +56,26 @@ export function getActionByUserId(user_id) {
   return async (dispatch) => {
     dispatch({ type: FETCH_ACTION_BY_USER_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchActionByUserId(user_id);
+      const response = await ActionsServices.fetchActionByUserIdRequest(user_id);
       dispatch({ type: FETCH_ACTION_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
         type: FETCH_ACTION_BY_USER_ID_FAILURE,
+      })
+    }
+  };
+}
+
+// Retrieve action by other staff
+export function getActionByOtherStaff(other_staff) {
+  return async (dispatch) => {
+    dispatch({ type: FETCH_ACTION_BY_OTHER_STAFF_REQUEST });
+    try {
+      const response = await ActionsServices.fetchActionByOtherStaffRequest(other_staff);
+      dispatch({ type: FETCH_ACTION_BY_OTHER_STAFF_SUCCESS, payload: response.data.reverse() });
+    } catch (e) {
+      dispatch({
+        type: FETCH_ACTION_BY_OTHER_STAFF_FAILURE,
       })
     }
   };
@@ -71,7 +86,7 @@ export function getVMActionsByUserId(user_id) {
   return async (dispatch) => {
     dispatch({ type: FETCH_VM_ACTIONS_BY_USER_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchVMActionByUserId(user_id);
+      const response = await ActionsServices.fetchVMActionByUserIdRequest(user_id);
       dispatch({ type: FETCH_VM_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
@@ -86,7 +101,7 @@ export function getVMValidatedActionsByUserId(user_id) {
   return async (dispatch) => {
     dispatch({ type: FETCH_VM_VALIDATED_ACTIONS_BY_USER_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchVMValidatedActionByUserId(user_id);
+      const response = await ActionsServices.fetchVMValidatedActionByUserIdRequest(user_id);
       dispatch({ type: FETCH_VM_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
@@ -101,7 +116,7 @@ export function getDSMValidatedActionsByUserId(user_id) {
   return async (dispatch) => {
     dispatch({ type: FETCH_DSM_VALIDATED_ACTIONS_BY_USER_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchDSMValidatedActionByUserId(user_id);
+      const response = await ActionsServices.fetchDSMValidatedActionByUserIdRequest(user_id);
       dispatch({ type: FETCH_DSM_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
@@ -115,7 +130,7 @@ export function getCDPValidatedActionsByUserId(user_id) {
   return async (dispatch) => {
     dispatch({ type: FETCH_CDP_VALIDATED_ACTIONS_BY_USER_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchCDPValidatedActionByUserId(user_id);
+      const response = await ActionsServices.fetchCDPValidatedActionByUserIdRequest(user_id);
       dispatch({ type: FETCH_CDP_VALIDATED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
@@ -130,7 +145,7 @@ export function getDSMRejectedActionsByUserId(user_id) {
   return async (dispatch) => {
     dispatch({ type: FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchDSMRejectedActionByUserId(user_id);
+      const response = await ActionsServices.fetchDSMRejectedActionByUserIdRequest(user_id);
       dispatch({ type: FETCH_DSM_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
@@ -144,7 +159,7 @@ export function getCDPRejectedActionsByUserId(user_id) {
   return async (dispatch) => {
     dispatch({ type: FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchCDPRejectedActionByUserId(user_id);
+      const response = await ActionsServices.fetchCDPRejectedActionByUserIdRequest(user_id);
       dispatch({ type: FETCH_CDP_REJECTED_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
@@ -159,7 +174,7 @@ export function getSpeakerActions() {
   return async (dispatch) => {
     dispatch({ type: FETCH_SPEAKER_ACTIONS_BY_USER_ID_REQUEST });
     try {
-      const response = await ActionsServices.fetchSpeakerAction();
+      const response = await ActionsServices.fetchSpeakerActionRequest();
       dispatch({ type: FETCH_SPEAKER_ACTIONS_BY_USER_ID_SUCCESS, payload: response.data.reverse() });
     } catch (e) {
       dispatch({
@@ -174,7 +189,7 @@ export function modifyActionById(action_id, values) {
   return async (dispatch) => {
     dispatch({ type: UPDATE_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.updateActionById(action_id, values);
+      const response = await ActionsServices.updateActionByIdRequest(action_id, values);
       dispatch({ type: UPDATE_ACTION_BY_ID_SUCCESS, payload: response.data });
     } catch (e) {
       dispatch({
@@ -189,7 +204,7 @@ export function validateVMActionById(action_id, user_email, user_id, action_send
   return async (dispatch) => {
     dispatch({ type: VALIDATE_VM_STATUS_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.validateVMStatusActionById(action_id, user_email, user_id, action_sender, DSM_supervisor, CDP_supervisor);
+      const response = await ActionsServices.validateVMStatusActionByIdRequest(action_id, user_email, user_id, action_sender, DSM_supervisor, CDP_supervisor);
       dispatch({ type: VALIDATE_VM_STATUS_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.success(`Votre action a été validée avec success et en attente de validation DSM , Veuillez vérifier votre boite email ${action_sender} SVP...`, {
         position: toast.POSITION.TOP_LEFT
@@ -205,12 +220,33 @@ export function validateVMActionById(action_id, user_email, user_id, action_send
   };
 }
 
+// Validate VM action by Id pending staff
+export function validateVMStaffActionById(action_id, user_email, user_id, action_sender, DSM_supervisor, CDP_supervisor) {
+  return async (dispatch) => {
+    dispatch({ type: VALIDATE_VM_PENDING_STAFF_STATUS_ACTION_BY_ID_REQUEST });
+    try {
+      const response = await ActionsServices.validateVMStaffStatusActionByIdRequest(action_id, user_email, user_id, action_sender, DSM_supervisor, CDP_supervisor);
+      dispatch({ type: VALIDATE_VM_PENDING_STAFF_STATUS_ACTION_BY_ID_SUCCESS, payload: response.data });
+      toast.success(`Votre action a été validée avec success et en attente de validation de staff sanofi , Veuillez vérifier votre boite email ${action_sender} SVP...`, {
+        position: toast.POSITION.TOP_LEFT
+      });
+      setInterval(() => {
+        window.location.reload();
+      }, 3000)
+    } catch (e) {
+      dispatch({
+        type: VALIDATE_VM_PENDING_STAFF_STATUS_ACTION_BY_ID_FAILURE,
+      })
+    }
+  };
+}
+
 // Validate pending DSM action by Id
 export function validateDSMActionById(action_id, user_email, user_id, action_sender) {
   return async (dispatch) => {
     dispatch({ type: VALIDATE_DSM_STATUS_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.validateDSMStatusActionById(action_id, user_email, user_id, action_sender);
+      const response = await ActionsServices.validateDSMStatusActionByIdRequest(action_id, user_email, user_id, action_sender);
       dispatch({ type: VALIDATE_DSM_STATUS_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.success(`Action validée avec success et en attente de validation CDP, Un email a été envoyée au demandeur d'action sur l'adresse e-mail ${action_sender}`, {
         position: toast.POSITION.TOP_LEFT
@@ -231,7 +267,7 @@ export function validateDSMSpeakerActionById(action_id, user_email, user_id, act
   return async (dispatch) => {
     dispatch({ type: VALIDATE_DSM_SPEAKER_STATUS_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.validateDSMSpeakerStatusActionById(action_id, user_email, user_id, action_sender);
+      const response = await ActionsServices.validateDSMSpeakerStatusActionByIdRequest(action_id, user_email, user_id, action_sender);
       dispatch({ type: VALIDATE_DSM_SPEAKER_STATUS_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.success(`Action validée avec success et en attente de validation CDP et MED, Un email a été envoyée au demandeur d'action sur l'adresse e-mail ${action_sender}`, {
         position: toast.POSITION.TOP_LEFT
@@ -252,7 +288,7 @@ export function validateCDPFirstActionById(action_id, user_email, user_id, actio
   return async (dispatch) => {
     dispatch({ type: VALIDATE_CDP_FIRST_STATUS_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.validateCDPFirstStatusActionById(action_id, user_email, user_id, action_sender);
+      const response = await ActionsServices.validateCDPFirstStatusActionByIdRequest(action_id, user_email, user_id, action_sender);
       dispatch({ type: VALIDATE_CDP_FIRST_STATUS_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.success(`Action validée avec success, Un email a été envoyée au demandeur d'action sur l'adresse e-mail ${action_sender}`, {
         position: toast.POSITION.TOP_LEFT
@@ -273,7 +309,7 @@ export function validateCDPActionById(action_id, user_email, user_id, action_sen
   return async (dispatch) => {
     dispatch({ type: VALIDATE_CDP_STATUS_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.validateCDPStatusActionById(action_id, user_email, user_id, action_sender);
+      const response = await ActionsServices.validateCDPStatusActionByIdRequest(action_id, user_email, user_id, action_sender);
       dispatch({ type: VALIDATE_CDP_STATUS_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.success(`Action validée avec success, Un email a été envoyée au demandeur d'action sur l'adresse e-mail ${action_sender}`, {
         position: toast.POSITION.TOP_LEFT
@@ -294,7 +330,7 @@ export function validateMEDFirstActionById(action_id, user_email, user_id, actio
   return async (dispatch) => {
     dispatch({ type: VALIDATE_MED_FIRST_STATUS_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.validateMEDFirstStatusActionById(action_id, user_email, user_id, action_sender);
+      const response = await ActionsServices.validateMEDFirstStatusActionByIdRequest(action_id, user_email, user_id, action_sender);
       dispatch({ type: VALIDATE_MED_FIRST_STATUS_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.success(`Action validée avec success, Un email a été envoyée au demandeur d'action sur l'adresse e-mail ${action_sender}`, {
         position: toast.POSITION.TOP_LEFT
@@ -315,7 +351,7 @@ export function validateMEDActionById(action_id, user_email, user_id, action_sen
   return async (dispatch) => {
     dispatch({ type: VALIDATE_MED_STATUS_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.validateMEDStatusActionById(action_id, user_email, user_id, action_sender);
+      const response = await ActionsServices.validateMEDStatusActionByIdRequest(action_id, user_email, user_id, action_sender);
       dispatch({ type: VALIDATE_MED_STATUS_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.success(`Action validée avec success, Un email a été envoyée au demandeur d'action sur l'adresse e-mail ${action_sender}`, {
         position: toast.POSITION.TOP_LEFT
@@ -336,7 +372,7 @@ export function denyDSMActionById(action_id, user_id) {
   return async (dispatch) => {
     dispatch({ type: DENY_STATUS_DSM_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.denyDSMStatusActionById(action_id, user_id);
+      const response = await ActionsServices.denyDSMStatusActionByIdRequest(action_id, user_id);
       dispatch({ type: DENY_STATUS_DSM_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.error("Action rejetée avec success!", {
         position: toast.POSITION.TOP_LEFT
@@ -357,7 +393,7 @@ export function denyCDPActionById(action_id, user_id) {
   return async (dispatch) => {
     dispatch({ type: DENY_STATUS_CDP_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.denyCDPStatusActionById(action_id, user_id);
+      const response = await ActionsServices.denyCDPStatusActionByIdRequest(action_id, user_id);
       dispatch({ type: DENY_STATUS_CDP_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.error("Action rejetée avec success!", {
         position: toast.POSITION.TOP_LEFT
@@ -378,7 +414,7 @@ export function removeActionById(action_id) {
   return async (dispatch) => {
     dispatch({ type: DELETE_ACTION_BY_ID_REQUEST });
     try {
-      const response = await ActionsServices.deleteActionById(action_id);
+      const response = await ActionsServices.deleteActionByIdRequest(action_id);
       dispatch({ type: DELETE_ACTION_BY_ID_SUCCESS, payload: response.data });
       toast.error("Votre action a été retirée avec success!", {
         position: toast.POSITION.TOP_LEFT
@@ -401,8 +437,13 @@ export function returnActionById(action_id) {
     dispatch({ type: RETURN_ACTION_BY_ID_REQUEST });
     try {
       const response = await ActionsServices.returnActionByIdRequest(action_id);
-      window.location.reload();
       dispatch({ type: RETURN_ACTION_BY_ID_SUCCESS });
+      toast.error("Votre action a été en retour à la modification!", {
+        position: toast.POSITION.TOP_LEFT
+      });
+      setInterval(() => {
+        window.location.reload();
+      }, 1000)
     } catch (e) {
       dispatch({
         type: RETURN_ACTION_BY_ID_FAILURE,
@@ -433,7 +474,12 @@ export function archiveActionById(action_id, present_doctors) {
     try {
       const response = await ActionsServices.archiveActionByIdRequest(action_id, present_doctors);
       dispatch({ type: ARCHIVAGE_ACTION_BY_ID_SUCCESS });
-      window.location.reload();
+      toast.success("Votre action a été archivée avec success!", {
+        position: toast.POSITION.TOP_LEFT
+      });
+      setInterval(() => {
+        window.location.reload();
+      }, 1000)
     } catch (e) {
       dispatch({
         type: ARCHIVAGE_ACTION_BY_ID_FAILURE,
@@ -449,6 +495,12 @@ export function finishActionById(action_id) {
     try {
       const response = await ActionsServices.finishActionByIdRequest(action_id);
       dispatch({ type: FINISH_ACTION_BY_ID_SUCCESS });
+      toast.success("Action a été finalisée avec success!", {
+        position: toast.POSITION.TOP_LEFT
+      });
+      setInterval(() => {
+        window.location.reload();
+      }, 1000)
     } catch (e) {
       dispatch({
         type: FINISH_ACTION_BY_ID_FAILURE,
@@ -497,7 +549,9 @@ export function validateservices(values, action) {
       toast.success(`Veuillez vérifier votre adresse email SVP ..`, {
         position: toast.POSITION.TOP_LEFT
       });
-      window.location.reload();
+      setInterval(() => {
+        window.location.reload();
+      }, 1000)
     } catch (e) {
       dispatch({
         type: SERVICES_FAILURE,
