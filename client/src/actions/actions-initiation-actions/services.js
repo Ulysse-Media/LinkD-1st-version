@@ -1,7 +1,7 @@
 import axiosInstance from "../../config/axios-instance";
 
 // Add new action //
-function addAction(body) {
+function addActionRequest(body) {
   return axiosInstance({
     method: "post",
     url: "/api/actions",
@@ -342,7 +342,7 @@ function downloadFileRequest(html) {
 
 const ActionsServices = {
   fetchActions,
-  addAction,
+  addActionRequest,
   fetchActionById,
   fetchActionByUserId,
   fetchVMActionByUserId,

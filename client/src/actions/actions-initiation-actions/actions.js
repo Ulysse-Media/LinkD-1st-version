@@ -24,7 +24,7 @@ export function addAction(values) {
   return async (dispatch) => {
     dispatch({ type: ADD_ACTION_REQUEST });
     try {
-      const response = await ActionsServices.addAction(values);
+      const response = await ActionsServices.addActionRequest(values);
       dispatch({ type: ADD_ACTION_SUCCESS, payload: { message: "Action added successfully!", id: response.data.insertId } });
       return response.data.insertId;
     } catch (e) {

@@ -411,7 +411,7 @@ router.post('/twilio/messaging/validation', function (req, res, nest) {
     client.messages
         .create({
             body: 'Action validée avec success',
-            from: process.env.MY_OLD_PHONE_NUMBER,
+            from: process.env.MY_VERIFIED_PHONE_NUMBER,
             to: req.body.to
         }).then(message => {
             res.json(message);
@@ -425,7 +425,7 @@ router.post('/twilio/messaging/rejection', function (req, res, nest) {
     client.messages
         .create({
             body: 'Action rejetée',
-            from: process.env.MY_OLD_PHONE_NUMBER,
+            from: process.env.MY_VERIFIED_PHONE_NUMBER,
             to: req.body.to
         }).then(message => {
             res.json(message);

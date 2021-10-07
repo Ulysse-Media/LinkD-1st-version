@@ -614,7 +614,7 @@ const DisplayAction = () => {
     values.notification_sender = user.user_id;
     values.recieved_since = new Date();
     if (user.user_position === "VM") {
-      if (action.status === "En attente d'envoie VM") { // User type VM
+      if (action.status === "En attente d'envoie VM" || "En attente de validation de staff") { // User type VM
         values.VM_supervisor = user.user_id;
         values.DSM_supervisor = user.DSM_supervisor;
         values.CDP_supervisor = user.CDP_supervisor;
@@ -697,7 +697,7 @@ const DisplayAction = () => {
       } else if (action.status === "Validée par CDP et en attente de retour agence") {
         history.push("/after-validation")
       } else if (action.status === "Validée et en attente d'envoie BC") {
-        history.push("/invoice-finalization")
+        history.push("/invoice-finalisation")
       }
       else {
         dispatch(validateCDPActionById(pathId, user.user_email, user.user_id, action.user_email));
@@ -789,12 +789,8 @@ const DisplayAction = () => {
   // Component on mount //
   useEffect(() => {
     dispatch(getActionById(pathId)); // Dispatch get action of all action 
-    if(action.status === "Terminée et archivée") {
       dispatch(retrieveFile(pathId)); // Dispatch get action of all action 
-    }
-    if(action.status === "Finalisée") {
       dispatch(retrieveInvoice(pathId)); // Dispatch get action of all action 
-    }
   }, [dispatch, pathId])
   useEffect(() => {
     let startDate = new Date(LastAction.start_action); // Create an instance of start date
@@ -858,11 +854,11 @@ const DisplayAction = () => {
           <Grid container alignItems="flex-start" style={{ marginTop: 16 }}>
             <Grid item xs={6} style={{ marginBottom: 16 }}>
               <Typography component="p" className="bold-title">
-                {invoice ? 'Factures' : null}
+                {invoice.invoice_id ? 'Factures' : null}
               </Typography>
             </Grid>
           </Grid>
-          {invoice ? invoiceFields.map((item, index) => (
+          {invoice.invoice_id ? invoiceFields.map((item, index) => (
             <Grid item xs={item.size} key={index}>
               {item.field}
             </Grid>
@@ -873,25 +869,25 @@ const DisplayAction = () => {
               color="primary"
               onClick={handleValidate}
               data-html2canvas-ignore="true"
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || ((user.user_position === "VM" || "DSM" || "CDP" || "MED") && action.status === "Finalisée") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence") || (user.user_position === "CDP" && action.status === "Validée et en attente d'envoie BC") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "VM" && action.status === "En attente de validation de staff") || ((user.user_position === "VM" || "DSM" || "CDP" || "MED") && action.status === "Finalisée") || (user.user_position === "VM" && action.status === "Terminée et non archivée") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence") || (user.user_position === "CDP" && action.status === "Validée et en attente d'envoie BC") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Envoyer" : user.user_position === "VM" && action.status === "Terminée et non archivée" ? "Archiver" : (user.user_position === "VM" || "DSM" || "CDP" || "MED") && action.status === "Finalisée" ? "Exporter en spreadsheet" : "Valider"}
+              {user.user_position === "VM" && action.status === "En attente d'envoie VM" || action.status === "En attente de validation de staff" ? "Envoyer" : user.user_position === "VM" && action.status === "Terminée et non archivée" ? "Archiver" : (user.user_position === "VM" || "DSM" || "CDP" || "MED") && action.status === "Finalisée" ? "Exporter en spreadsheet" : "Valider"}
             </Button>
             <Button
               variant="contained"
               onClick={user.user_position === "VM" ? handleModifyActionById : handleDialogOpen}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "VM" && action.status === "En attente de validation de staff") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Modifier" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Retour à la modification" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : null}
+              {user.user_position === "VM" && action.status === "En attente d'envoie VM" || action.status === "En attente de validation de staff" ? "Modifier" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Retour à la modification" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Retour à la modification" : null}
 
             </Button>
             <Button
               variant="contained"
               color="secondary"
               onClick={handleDelete}
-              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
+              style={{ marginRight: '25px', display: ((user.user_position === "VM" && action.status === "En attente d'envoie VM") || (user.user_position === "VM" && action.status === "En attente de validation de staff") || (user.user_position === "DSM" && action.status === "En attente de validation DSM") || (user.user_position === "CDP" && action.status === "En attente de validation CDP") || (user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence") || (user.user_position === "CDP" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation CDP et MED") || (user.user_position === "MED" && action.status === "En attente de validation MED") ? 'block' : 'none') }}
             >
-              {user.user_position === "VM" && action.status === "En attente d'envoie VM" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Refuser" : null}
+              {user.user_position === "VM" && action.status === "En attente d'envoie VM" || action.status === "En attente de validation de staff" ? "Supprimer" : user.user_position === "CDP" && action.status === "Validée par CDP et en attente de retour agence" ? "Retour" : user.user_position === "DSM" && action.status === "En attente de validation DSM" ? "Refuser" : user.user_position === "CDP" && action.status === "En attente de validation CDP" || action.status === "En attente de validation CDP et MED" ? "Refuser" : user.user_position === "MED" && action.status === "En attente de validation MED" || action.status === "En attente de validation CDP et MED" ? "Refuser" : null}
             </Button>
           </Grid>
         </Grid>

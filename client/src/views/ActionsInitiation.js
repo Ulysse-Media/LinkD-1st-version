@@ -269,6 +269,14 @@ const ActionsInitiation = () => {
   // Submit Form Group inputs
   const onSubmit = async (values) => {
     const formData = new FormData(); // Create an instance of FormData
+    values.user_id = user.user_id;
+    values.user_email = user.user_email;
+    values.DSM_supervisor = user.DSM_supervisor;
+    values.user_position = user.user_position;
+    values.user_email = user.user_email;
+    values.speaker = parseInt(Speaker); // Parse string type to integer
+    values.speaker_transfer = parseInt(SpeakerTransfer); // Parse string type to integer
+    values.speaker_accommodation = parseInt(SpeakerAccommodation); // Parse string type to integer
     if (!values.end_action) {
       values.end_action = '2021-12-31'
     }
@@ -281,38 +289,44 @@ const ActionsInitiation = () => {
     if (!values.other_doctors) {
       values.other_doctors = 'Non spécifié';
     }
-    if (!values.other_stuff) {
-      values.other_stuff = 'Non spécifié';
-    }
     if (Speaker === "0") {
       if (!values.speaker_suggestion) {
         values.speaker_suggestion = 'Non spécifié';
       }
     }
-    values.user_id = user.user_id;
-    values.user_email = user.user_email;
-    values.DSM_supervisor = user.DSM_supervisor;
-    values.user_position = user.user_position;
-    values.user_email = user.user_email;
-    values.speaker = parseInt(Speaker); // Parse string type to integer
-    values.speaker_transfer = parseInt(SpeakerTransfer); // Parse string type to integer
-    values.speaker_accommodation = parseInt(SpeakerAccommodation); // Parse string type to integer
-    if(!values.other_stuff) {
-
-    }
-    if (File.name) {
-      formData.append("file", File, File.name); // Append file to formData
-      formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
+    if (!values.other_stuff) {
+      values.other_stuff = 'Non spécifié';
+      if (File.name) {
+        formData.append("file", File, File.name); // Append file to formData
+        formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
+      } else {
+        formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
+      }
+      if (action.action_id) {
+        dispatch(modifyActionById(action.action_id, formData));
+        history.push(`/display-action/${action.action_id}`); // Redirect user after update of form
+      } else {
+        const insertedActionId = await dispatch(addAction(formData)); // Dispatch post action
+        if (insertedActionId) {
+          history.push(`/display-action/${insertedActionId}`); // Redirect user after submition of form
+        }
+      }
     } else {
-      formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
-    }
-    if (action.action_id) {
-      dispatch(modifyActionById(action.action_id, formData));
-      history.push(`/display-action/${action.action_id}`); // Redirect user after update of form
-    } else {
-      const insertedActionId = await dispatch(addAction(formData)); // Dispatch post action
-      if (insertedActionId) {
-        history.push(`/display-action/${insertedActionId}`); // Redirect user after submition of form
+      values.status = "En attente de validation d'autre staff";
+      if (File.name) {
+        formData.append("file", File, File.name); // Append file to formData
+        formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
+      } else {
+        formData.append("values", JSON.stringify(values)); // Append all data except file upload to formData
+      }
+      if (action.action_id) {
+        dispatch(modifyActionById(action.action_id, formData));
+        history.push(`/display-action/${action.action_id}`); // Redirect user after update of form
+      } else {
+        const insertedActionId = await dispatch(addAction(formData)); // Dispatch post action
+        if (insertedActionId) {
+          history.push(`/display-action/${insertedActionId}`); // Redirect user after submition of form
+        }
       }
     }
   };

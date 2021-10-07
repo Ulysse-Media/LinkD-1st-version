@@ -1,7 +1,7 @@
 import { RETRIEVE_INVOICE_REQUEST, RETRIEVE_INVOICE_SUCCESS, RETRIEVE_INVOICE_FAILURE } from "../actions/invoices-actions/types";
 
 const INITIAL_STATE = {
-  invoice: [],
+  invoice: {},
 };
 
 export const invoicesReducer = (

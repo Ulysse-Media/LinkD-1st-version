@@ -19,7 +19,7 @@ import { addInvoice } from "../actions/invoices-actions/actions";
 import { finishActionById } from "../actions/actions-initiation-actions/actions";
 import PageTitle from "../components/common/PageTitle";
 
-const InvoiceFinalization = () => {
+const InvoiceFinalisation = () => {
     const history = useHistory();
     const dispatch = useDispatch();
     const [LocaleCurrency] = useState("TND");
@@ -456,4 +456,4 @@ const InvoiceFinalization = () => {
     );
 }
 
-export default InvoiceFinalization;
+export default InvoiceFinalisation;
