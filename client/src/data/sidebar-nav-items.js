@@ -30,6 +30,12 @@ const getSidebarNavItems  = () => {
       htmlBefore: '<i class="material-icons">archive</i>',
       to: "/action-archiving",
     },
+    {
+      title: "Sectorielles",
+      subtitle: "ANALYSES",
+      htmlBefore: '<i class="material-icons">edit</i>',
+      to: "/action-sector",
+    },
   ];
 }
 
